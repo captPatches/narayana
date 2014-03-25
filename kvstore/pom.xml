@@ -1,0 +1,193 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <!--
+        JBoss, Home of Professional Open Source
+        Copyright 2014, Red Hat, Inc. and/or its affiliates,
+        and individual contributors as indicated by the @author tags.
+        See the copyright.txt in the distribution for a
+        full listing of individual contributors.
+        This copyrighted material is made available to anyone wishing to use,
+        modify, copy, or redistribute it subject to the terms and conditions
+        of the GNU Lesser General Public License, v. 2.1.
+        This program is distributed in the hope that it will be useful, but WITHOUT A
+        WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+        PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
+        You should have received a copy of the GNU Lesser General Public License,
+        v.2.1 along with this distribution; if not, write to the Free Software
+        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+        MA  02110-1301, USA.
+
+        (C) 2014
+        @author JBoss, by Red Hat.
+        @author Jonathan Halliday (jonathan.halliday@redhat.com)
+        @since 2014-03
+    -->
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.jboss.narayana.kvstore</groupId>
+    <artifactId>kvstorecore</artifactId>
+    <packaging>jar</packaging>
+    <version>0.1-SNAPSHOT</version>
+
+    <name>kvstore</name>
+
+    <description>Prototype code for Key/Value ObjectStore</description>
+
+    <url>http://www.jboss.org/jbosstm/</url>
+
+    <properties>
+    </properties>
+
+    <developers>
+
+        <developer>
+            <id>jhalliday</id>
+            <name>Jonathan Halliday</name>
+            <email>jonathan.halliday@redhat.com</email>
+            <organization>JBoss</organization>
+            <organizationUrl>http://www.redhat.com/</organizationUrl>
+            <roles>
+                <role>hacker</role>
+            </roles>
+            <timezone>0</timezone>
+        </developer>
+
+    </developers>
+
+    <licenses>
+        <license>
+            <name>LGPL 2.1</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+        </license>
+    </licenses>
+
+    <build>
+
+        <pluginManagement>
+            <plugins>
+                <!-- http://maven.apache.org/surefire/maven-surefire-plugin/ -->
+                <!-- **/Test*.java  **/*Test.java  **/*TestCase.java -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.15</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+
+        <plugins>
+
+            <!-- http://maven.apache.org/plugins/maven-resources-plugin/ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- http://maven.apache.org/plugins/maven-dependency-plugin/ -->
+            <!-- mvn dependency:tree -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+                <configuration>
+                    <overWriteIfNewer>true</overWriteIfNewer>
+                </configuration>
+            </plugin>
+
+            <!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <fork>true</fork>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- http://maven.apache.org/plugins/maven-source-plugin/ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- http://maven.apache.org/surefire/maven-failsafe-plugin/ -->
+            <!-- **/IT*.java **/*IT.java **/*ITCase.java -->
+            <!-- mvn verify -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.15</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+    <dependencies>
+
+        <!-- unit test framework http://junit.org/ -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- memcached client. https://code.google.com/p/spymemcached/ -->
+        <dependency>
+            <groupId>net.spy</groupId>
+            <artifactId>spymemcached</artifactId>
+            <version>2.10.6</version>
+        </dependency>
+
+        <!-- javax.transaction API -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.transaction</groupId>
+            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.narayana.jta</groupId>
+            <artifactId>narayana-jta</artifactId>
+            <version>5.0.2.Final-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jgroups</groupId>
+            <artifactId>jgroups</artifactId>
+            <version>3.5.0.Beta1</version>
+        </dependency>
+
+    </dependencies>
+
+</project>
