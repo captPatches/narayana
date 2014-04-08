@@ -2291,6 +2291,7 @@ public class BasicAction extends StateManager
                 }
                 catch (ObjectStoreException e)
                 {
+                	e.printStackTrace();
                     criticalEnd();
 
                     return TwoPhaseOutcome.PREPARE_NOTOK;

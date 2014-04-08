@@ -38,7 +38,7 @@ public class KVTest {
                 "com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 
         System.setProperty("KVStoreEnvironmentBean.storeImplementationClassName",
-                "org.jboss.jbossts.MemcachedKVStoreT");
+                "org.jboss.narayana.kvstore.MemcachedKVStore");
 
         TransactionManager transactionManager = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
