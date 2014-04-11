@@ -1,24 +1,3 @@
-/*
- * JBoss, Home of Professional Open Source
- * Copyright 2014, Red Hat, Inc. and/or its affiliates,
- * and individual contributors as indicated by the @author tags.
- * See the copyright.txt in the distribution for a
- * full listing of individual contributors.
- * This copyrighted material is made available to anyone wishing to use,
- * modify, copy, or redistribute it subject to the terms and conditions
- * of the GNU Lesser General Public License, v. 2.1.
- * This program is distributed in the hope that it will be useful, but WITHOUT A
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
- * You should have received a copy of the GNU Lesser General Public License,
- * v.2.1 along with this distribution; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA  02110-1301, USA.
- *
- * (C) 2014
- * @author JBoss, by Red Hat.
- */
-
 package org.jboss.narayana.infinispankvstore;
 
 import java.util.LinkedList;
@@ -35,15 +14,8 @@ import org.infinispan.manager.EmbeddedCacheManager;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
-/**
- * 
- * Prototype Infinispan KVStore
- * @author James Brealey
- *
- */
-public class SimpleReplInfinispanKVStore implements KVStore {
+public class NoReplInfinispanKVStore implements KVStore {
 
-	
 	String scopePrefix = "test_";
 	// Setup an Infinispan cache
 	private Cache<String, byte[]> c;
@@ -61,17 +33,8 @@ public class SimpleReplInfinispanKVStore implements KVStore {
 	@Override
 	public void start() throws Exception {
 
-		// Currently creating one cache per transaction
-		// Default cache lives on local node in main memory
-		EmbeddedCacheManager manager = new DefaultCacheManager(GlobalConfigurationBuilder.defaultClusteredBuilder()
-				   .transport().defaultTransport() //.addProperty("configurationFile", "jgroups.xml")
-				   .build()
-				);
-		manager.defineConfiguration("cluster-cache", new ConfigurationBuilder()
-			.clustering().cacheMode(CacheMode.REPL_SYNC)
-			.build());
-		
-		c = manager.getCache("cluster-cache");
+	
+		c = new DefaultCacheManager().getCache();
 
 		// Set all slots to "unused"
 		for(int i = 0; i < slotAllocation.length; i++) {
