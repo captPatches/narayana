@@ -162,6 +162,16 @@
             <scope>test</scope>
         </dependency>
 
+
+		<!-- Performance Testing Classes -->
+	<!-- 	<dependency>
+			<groupId>org.jboss.narayana</groupId>
+			<artifactId>test-utils</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency> -->
+
+
         <!-- memcached client. https://code.google.com/p/spymemcached/ -->
         <dependency>
             <groupId>net.spy</groupId>
@@ -214,11 +224,22 @@
             <version>3.5.0.Beta1</version>
         </dependency>
         
+        <!-- Infinispan API -->
         <dependency>
         	<groupId>org.infinispan</groupId>
         	<artifactId>infinispan-core</artifactId>
         	<version>6.0.2.Final</version>
 		</dependency>
+
+
+	<!--  HotRod Client -->
+	<dependency>
+		<groupId>org.infinispan</groupId>
+		<artifactId>infinispan-client-hotrod</artifactId>
+		<version>6.0.2.Final</version>
+	</dependency>
+	
+	
 
     </dependencies>
 
