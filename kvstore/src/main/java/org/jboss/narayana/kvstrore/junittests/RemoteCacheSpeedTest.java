@@ -46,3 +46,9 @@ public class RemoteCacheSpeedTest {
 		assertEquals(endReached, true);
 	}
 }
+
+
+/*
+ * Requires JBoss Datagrid to be running
+ * JDG_HOME/bin/standalone.sh -Djboss.socket.binding.port-offset=100
+*/
