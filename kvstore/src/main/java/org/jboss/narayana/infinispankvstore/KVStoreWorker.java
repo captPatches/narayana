@@ -8,6 +8,7 @@ import javax.transaction.xa.XAResource;
 import org.jboss.narayana.kvstore.XAResourceImpl;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
+
 import javax.transaction.TransactionManager;
 
 import io.narayana.perf.*;
@@ -19,6 +20,7 @@ public class KVStoreWorker implements Worker {
 	private long workTimeMillis = -1;
 	
 	private String storeType = "infinispankvstore.HotrodRemoteKVStore";	
+	private TransactionManager tm;
 	
 	/**
 	 * Provide a constructor that set's the storeType
@@ -30,22 +32,34 @@ public class KVStoreWorker implements Worker {
 		setStoreType(storeType);
 	}
 	
+	
+	
+	//100000 txs/ 20 threads
 	@Override
-	public void doWork() {
+	public Object doWork(Object context, int niters, Result opts) {
 		
-		TransactionManager tm = getXtsManager();
 		
-		tm.begin();
+		for(int i=0;i<niters;i++) {
+			TransactionManager tm = getXtsManager();
 
-        XAResource xaResource1 = new XAResourceImpl(true);
-        XAResource xaResource2 = new XAResourceImpl(false);
+			
+			try {
+			tm.begin();
 
-        tm.getTransaction().enlistResource(xaResource1);
-        tm.getTransaction().enlistResource(xaResource2);
+			XAResource xaResource1 = new XAResourceImpl(true);
+			XAResource xaResource2 = new XAResourceImpl(false);
 
-        tm.commit();
+			tm.getTransaction().enlistResource(xaResource1);
+			tm.getTransaction().enlistResource(xaResource2);
 
-        StoreManager.shutdown();		
+			tm.commit();
+			} catch(Exception e) {
+				System.err.println("Moo!!");
+			}
+		}
+		
+		return null;
+	
 	}
 	
 	@Override
@@ -84,5 +98,4 @@ public class KVStoreWorker implements Worker {
           
           return (TransactionManager) com.arjuna.ats.jta.TransactionManager.transactionManager();
     }
-    
 }
