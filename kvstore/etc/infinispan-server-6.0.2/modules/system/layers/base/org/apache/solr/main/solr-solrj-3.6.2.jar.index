@@ -1,0 +1,17 @@
+
+org/apache/solr/client/solrj/request
+org/apache/solr/client/solrj/response
+org/apache/solr
+org/apache/solr/client/solrj
+org/apache/solr/client/solrj/beans
+org/apache/solr/common/luke
+org/apache/solr/common
+org
+META-INF
+org/apache/solr/client
+org/apache
+org/apache/noggit
+org/apache/solr/client/solrj/util
+org/apache/solr/client/solrj/impl
+org/apache/solr/common/util
+org/apache/solr/common/params
