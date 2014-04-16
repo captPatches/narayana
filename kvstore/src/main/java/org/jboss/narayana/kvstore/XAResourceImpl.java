@@ -101,15 +101,15 @@ public class XAResourceImpl implements XAResource
     {
         networkCall(0);
 
-        long nanos = System.nanoTime() - lockNanos;
+//        long nanos = System.nanoTime() - lockNanos;
 //
-        if(isResourceA) {
-            accumulatedLockNanosA.addAndGet(nanos);
-        } else {
-            accumulatedLockNanosB.addAndGet(nanos);
-        }
+//        if(isResourceA) {
+//            accumulatedLockNanosA.addAndGet(nanos);
+//        } else {
+//            accumulatedLockNanosB.addAndGet(nanos);
+ //       }
 
-        System.out.println("XAResourceImpl.commit(Xid="+xid+", b="+b+")");
+ //       System.out.println("XAResourceImpl.commit(Xid="+xid+", b="+b+")");
         if(!xid.equals(currentXid)) {
             System.out.println("XAResourceImpl.commit - wrong Xid!");
         }

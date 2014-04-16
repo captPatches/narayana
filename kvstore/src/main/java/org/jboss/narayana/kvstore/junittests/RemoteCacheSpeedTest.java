@@ -1,4 +1,4 @@
-package org.jboss.narayana.kvstrore.junittests;
+package org.jboss.narayana.kvstore.junittests;
 
 import static org.junit.Assert.*;
 

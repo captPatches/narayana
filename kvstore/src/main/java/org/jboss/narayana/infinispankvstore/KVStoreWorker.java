@@ -1,19 +1,14 @@
 package org.jboss.narayana.infinispankvstore;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.transaction.xa.XAResource;
 
 import org.jboss.narayana.kvstore.XAResourceImpl;
-
-import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
 import javax.transaction.TransactionManager;
 
 import io.narayana.perf.*;
 
-public class KVStoreWorker implements Worker {
+public class KVStoreWorker implements Worker<Boolean> {
 	
 	private long initTimeMillis = -1;
 	private long finiTimeMillis = -1;
@@ -36,7 +31,7 @@ public class KVStoreWorker implements Worker {
 	
 	//100000 txs/ 20 threads
 	@Override
-	public Object doWork(Object context, int niters, Result opts) {
+	public Boolean doWork(Boolean context, int niters, Result opts) {
 		
 		
 		for(int i=0;i<niters;i++) {
@@ -98,4 +93,5 @@ public class KVStoreWorker implements Worker {
           
           return (TransactionManager) com.arjuna.ats.jta.TransactionManager.transactionManager();
     }
+
 }
