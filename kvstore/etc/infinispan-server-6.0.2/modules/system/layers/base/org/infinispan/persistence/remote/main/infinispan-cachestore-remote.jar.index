@@ -1,0 +1,15 @@
+
+META-INF/maven/org.infinispan
+org/infinispan/persistence/remote/configuration
+META-INF/maven
+org/infinispan/persistence
+org
+META-INF
+org/infinispan/persistence/remote/logging
+schema
+org/infinispan/persistence/remote
+META-INF/services
+org/infinispan
+org/infinispan/persistence/remote/wrapper
+org/infinispan/persistence/remote/upgrade
+META-INF/maven/org.infinispan/infinispan-cachestore-remote

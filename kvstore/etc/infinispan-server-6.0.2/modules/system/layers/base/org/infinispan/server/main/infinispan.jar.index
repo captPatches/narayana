@@ -1,0 +1,13 @@
+
+org/infinispan/server/core/configuration
+META-INF/maven/org.infinispan
+META-INF/maven
+org/infinispan/server/core/logging
+org/infinispan/server
+META-INF/services
+META-INF/maven/org.infinispan/infinispan-server-core
+org/infinispan
+org/infinispan/server/core
+org
+META-INF
+org/infinispan/server/core/transport

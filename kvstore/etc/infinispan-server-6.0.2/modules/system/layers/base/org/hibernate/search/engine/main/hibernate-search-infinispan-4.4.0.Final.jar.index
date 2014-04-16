@@ -1,0 +1,13 @@
+
+org/hibernate
+org/hibernate/search/infinispan/logging/impl
+org/hibernate/search/infinispan
+META-INF/maven/org.hibernate
+META-INF/maven
+META-INF/maven/org.hibernate/hibernate-search-infinispan
+org/hibernate/search/infinispan/impl
+org
+META-INF
+org/hibernate/search
+org/hibernate/search/infinispan/logging
+META-INF/services

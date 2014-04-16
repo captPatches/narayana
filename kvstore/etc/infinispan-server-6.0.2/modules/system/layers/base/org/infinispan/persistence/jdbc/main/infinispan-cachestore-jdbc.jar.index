@@ -1,0 +1,17 @@
+
+META-INF/maven/org.infinispan
+org/infinispan/persistence/jdbc/logging
+META-INF/maven
+org/infinispan/persistence/jdbc/mixed
+org/infinispan/persistence/jdbc
+org/infinispan/persistence
+org
+META-INF
+schema
+META-INF/maven/org.infinispan/infinispan-cachestore-jdbc
+org/infinispan/persistence/jdbc/binary
+META-INF/services
+org/infinispan/persistence/jdbc/stringbased
+org/infinispan
+org/infinispan/persistence/jdbc/configuration
+org/infinispan/persistence/jdbc/connectionfactory

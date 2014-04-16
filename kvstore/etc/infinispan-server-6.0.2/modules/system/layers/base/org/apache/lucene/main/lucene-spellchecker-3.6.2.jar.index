@@ -1,0 +1,11 @@
+org/apache/lucene/search/suggest/tst
+org/apache/lucene/search/suggest
+
+org/apache/lucene/search/suggest/jaspell
+org/apache
+org/apache/lucene/search/suggest/fst
+org/apache/lucene
+org/apache/lucene/search/spell
+org
+META-INF
+org/apache/lucene/search

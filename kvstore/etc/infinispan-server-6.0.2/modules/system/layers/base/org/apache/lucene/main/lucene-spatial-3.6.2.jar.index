@@ -1,0 +1,11 @@
+org/apache/lucene/spatial/geometry
+org/apache/lucene/spatial
+
+org/apache
+org/apache/lucene/spatial/geohash
+org/apache/lucene
+org/apache/lucene/spatial/tier/projections
+org/apache/lucene/spatial/tier
+org
+META-INF
+org/apache/lucene/spatial/geometry/shape

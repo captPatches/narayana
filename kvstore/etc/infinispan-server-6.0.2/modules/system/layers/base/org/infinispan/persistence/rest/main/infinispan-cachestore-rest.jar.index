@@ -1,0 +1,15 @@
+
+META-INF/maven/org.infinispan
+org/infinispan/persistence/rest/upgrade
+META-INF/maven
+org/infinispan/persistence
+org
+org/infinispan/persistence/rest/configuration
+META-INF
+org/infinispan/persistence/rest/metadata
+META-INF/maven/org.infinispan/infinispan-cachestore-rest
+schema
+org/infinispan/persistence/rest
+META-INF/services
+org/infinispan
+org/infinispan/persistence/rest/logging
