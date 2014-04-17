@@ -64,6 +64,17 @@
 		</license>
 	</licenses>
 
+	
+	<!--  Chasing down transaction-spi -->
+	<repositories>
+
+		<repository>
+			<id>jboss-releases</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+		</repository>
+
+	</repositories>
+
 	<build>
 
 		<pluginManagement>
@@ -207,18 +218,18 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.jboss</groupId>
 			<artifactId>jboss-transaction-spi</artifactId>
 			<version>7.1.0.Final</version>
-			<scope>provided</scope>
+		    <scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>org.jboss.logging</groupId>
 					<artifactId>jboss-logging-spi</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency> -->
+		</dependency> 
 
 		<dependency>
 			<groupId>org.jgroups</groupId>
