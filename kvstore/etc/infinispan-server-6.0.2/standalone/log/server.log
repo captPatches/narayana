@@ -9204,3 +9204,523 @@ JBAS014777:   Services which failed to start:      service jboss.web.connector.a
 16:32:47,652 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015961: Http management interface listening on http://127.0.0.1:9990/management
 16:32:47,654 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015951: Admin console listening on http://127.0.0.1:9990
 16:32:47,655 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015874: JBoss Infinispan Server 6.0.2.Final (AS 7.2.0.Final) started in 5314ms - Started 89 of 127 services (38 services are passive or on-demand)
+14:48:48,302 INFO  [org.jboss.modules] (main) JBoss Modules version 1.2.0.CR1
+14:48:48,494 INFO  [org.jboss.msc] (main) JBoss MSC version 1.0.4.GA
+14:48:48,589 INFO  [org.jboss.as] (MSC service thread 1-5) JBAS015899: JBoss Infinispan Server 6.0.2.Final (AS 7.2.0.Final) starting
+14:48:48,598 DEBUG [org.jboss.as.config] (MSC service thread 1-5) Configured system properties:
+	[Standalone] = 
+	awt.toolkit = sun.awt.X11.XToolkit
+	file.encoding = UTF-8
+	file.encoding.pkg = sun.io
+	file.separator = /
+	java.awt.graphicsenv = sun.awt.X11GraphicsEnvironment
+	java.awt.headless = true
+	java.awt.printerjob = sun.print.PSPrinterJob
+	java.class.path = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/jboss-modules.jar
+	java.class.version = 51.0
+	java.endorsed.dirs = /usr/java/jdk1.7.0_45/jre/lib/endorsed
+	java.ext.dirs = /usr/java/jdk1.7.0_45/jre/lib/ext:/usr/java/packages/lib/ext
+	java.home = /usr/java/jdk1.7.0_45/jre
+	java.io.tmpdir = /tmp
+	java.library.path = /usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+	java.net.preferIPv4Stack = true
+	java.runtime.name = Java(TM) SE Runtime Environment
+	java.runtime.version = 1.7.0_45-b18
+	java.specification.name = Java Platform API Specification
+	java.specification.vendor = Oracle Corporation
+	java.specification.version = 1.7
+	java.util.logging.manager = org.jboss.logmanager.LogManager
+	java.vendor = Oracle Corporation
+	java.vendor.url = http://java.oracle.com/
+	java.vendor.url.bug = http://bugreport.sun.com/bugreport/
+	java.version = 1.7.0_45
+	java.vm.info = mixed mode
+	java.vm.name = Java HotSpot(TM) 64-Bit Server VM
+	java.vm.specification.name = Java Virtual Machine Specification
+	java.vm.specification.vendor = Oracle Corporation
+	java.vm.specification.version = 1.7
+	java.vm.vendor = Oracle Corporation
+	java.vm.version = 24.45-b08
+	javax.management.builder.initial = org.jboss.as.jmx.PluggableMBeanServerBuilder
+	javax.xml.datatype.DatatypeFactory = __redirected.__DatatypeFactory
+	javax.xml.parsers.DocumentBuilderFactory = __redirected.__DocumentBuilderFactory
+	javax.xml.parsers.SAXParserFactory = __redirected.__SAXParserFactory
+	javax.xml.stream.XMLEventFactory = __redirected.__XMLEventFactory
+	javax.xml.stream.XMLInputFactory = __redirected.__XMLInputFactory
+	javax.xml.stream.XMLOutputFactory = __redirected.__XMLOutputFactory
+	javax.xml.transform.TransformerFactory = __redirected.__TransformerFactory
+	javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema = __redirected.__SchemaFactory
+	javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom = __redirected.__XPathFactory
+	jboss.home.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2
+	jboss.host.name = localhost
+	jboss.modules.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/modules
+	jboss.modules.system.pkgs = org.jboss.byteman
+	jboss.node.name = localhost
+	jboss.qualified.host.name = localhost.localdomain
+	jboss.server.base.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone
+	jboss.server.config.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/configuration
+	jboss.server.data.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/data
+	jboss.server.deploy.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/data/content
+	jboss.server.log.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/log
+	jboss.server.name = localhost
+	jboss.server.persist.config = true
+	jboss.server.temp.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/tmp
+	line.separator = 
+
+	logging.configuration = file:/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/configuration/logging.properties
+	module.path = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/modules
+	org.jboss.boot.log.file = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/log/server.log
+	org.jboss.resolver.warning = true
+	org.xml.sax.driver = __redirected.__XMLReaderFactory
+	os.arch = amd64
+	os.name = Linux
+	os.version = 3.11.6-201.fc19.x86_64
+	path.separator = :
+	sun.arch.data.model = 64
+	sun.boot.class.path = /usr/java/jdk1.7.0_45/jre/lib/resources.jar:/usr/java/jdk1.7.0_45/jre/lib/rt.jar:/usr/java/jdk1.7.0_45/jre/lib/sunrsasign.jar:/usr/java/jdk1.7.0_45/jre/lib/jsse.jar:/usr/java/jdk1.7.0_45/jre/lib/jce.jar:/usr/java/jdk1.7.0_45/jre/lib/charsets.jar:/usr/java/jdk1.7.0_45/jre/lib/jfr.jar:/usr/java/jdk1.7.0_45/jre/classes
+	sun.boot.library.path = /usr/java/jdk1.7.0_45/jre/lib/amd64
+	sun.cpu.endian = little
+	sun.cpu.isalist = 
+	sun.io.unicode.encoding = UnicodeLittle
+	sun.java.command = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/jboss-modules.jar -mp /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/modules -jaxpmodule javax.xml.jaxp-provider org.jboss.as.standalone -Djboss.home.dir=/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2 -Djboss.server.base.dir=/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone
+	sun.java.launcher = SUN_STANDARD
+	sun.jnu.encoding = UTF-8
+	sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+	sun.os.patch.level = unknown
+	user.country = GB
+	user.dir = /home/patches/workspace/narayana
+	user.home = /home/patches
+	user.language = en
+	user.name = patches
+	user.timezone = Europe/London
+14:48:48,603 DEBUG [org.jboss.as.config] (MSC service thread 1-5) VM Arguments: -D[Standalone] -XX:+UseCompressedOops -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true -Dorg.jboss.boot.log.file=/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/log/server.log -Dlogging.configuration=file:/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/configuration/logging.properties 
+14:48:49,678 INFO  [org.xnio] (MSC service thread 1-3) XNIO Version 3.0.7.GA
+14:48:49,681 INFO  [org.jboss.as.server] (Controller Boot Thread) JBAS015888: Creating http management service using socket-binding (management-http)
+14:48:49,690 INFO  [org.xnio.nio] (MSC service thread 1-3) XNIO NIO Implementation Version 3.0.7.GA
+14:48:49,704 INFO  [org.jboss.remoting] (MSC service thread 1-3) JBoss Remoting version 3.2.14.GA
+14:48:49,753 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 17) JBAS010280: Activating Infinispan subsystem.
+14:48:49,792 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 21) JBAS011800: Activating Naming Subsystem
+14:48:49,798 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 23) JBAS013171: Activating Security Subsystem
+14:48:49,817 INFO  [org.jboss.as.connector.logging] (MSC service thread 1-3) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.15.Final)
+14:48:49,855 INFO  [org.jboss.as.security] (MSC service thread 1-6) JBAS013170: Current PicketBox version=4.0.15.Final
+14:48:49,871 INFO  [org.jboss.as.jsf] (ServerService Thread Pool -- 27) JBAS012605: Activated the following JSF Implementations: [main, 1.2]
+14:48:49,910 INFO  [org.jboss.as.naming] (MSC service thread 1-5) JBAS011802: Starting Naming Service
+14:48:50,236 INFO  [org.apache.coyote.http11] (MSC service thread 1-3) JBWEB003001: Coyote HTTP/1.1 initializing on : http-/127.0.0.1:8080
+14:48:50,283 INFO  [org.apache.coyote.ajp] (MSC service thread 1-1) JBWEB003046: Starting Coyote AJP/1.3 on ajp-/127.0.0.1:8009
+14:48:50,302 INFO  [org.apache.coyote.http11] (MSC service thread 1-3) JBWEB003000: Coyote HTTP/1.1 starting on: http-/127.0.0.1:8080
+14:48:50,655 INFO  [org.infinispan.server.endpoint] (MSC service thread 1-3) JDGS010000: HotRodServer starting
+14:48:50,660 INFO  [org.infinispan.server.endpoint] (MSC service thread 1-3) JDGS010001: HotRodServer listening on 127.0.0.1:11222
+14:48:50,821 INFO  [org.jboss.as.remoting] (MSC service thread 1-6) JBAS017100: Listening on 127.0.0.1:9999
+14:48:50,825 INFO  [org.jboss.as.remoting] (MSC service thread 1-6) JBAS017100: Listening on 127.0.0.1:4447
+14:48:50,955 INFO  [org.infinispan.factories.GlobalComponentRegistry] (MSC service thread 1-5) ISPN000128: Infinispan version: Infinispan 'Infinium' 6.0.2.Final
+14:48:50,955 INFO  [org.infinispan.factories.GlobalComponentRegistry] (MSC service thread 1-8) ISPN000128: Infinispan version: Infinispan 'Infinium' 6.0.2.Final
+14:48:51,448 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-2) ISPN000031: MBeans were successfully registered to the platform MBean server.
+14:48:51,451 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-5) ISPN000031: MBeans were successfully registered to the platform MBean server.
+14:48:51,450 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-7) ISPN000031: MBeans were successfully registered to the platform MBean server.
+14:48:51,448 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-4) ISPN000031: MBeans were successfully registered to the platform MBean server.
+14:48:51,456 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-7) JBAS010281: Started other cache from security container
+14:48:51,457 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-8) ISPN000031: MBeans were successfully registered to the platform MBean server.
+14:48:51,457 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-8) JBAS010281: Started default cache from local container
+14:48:51,458 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-2) JBAS010281: Started memcachedCache cache from local container
+14:48:51,462 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-4) JBAS010281: Started namedCache cache from local container
+14:48:51,463 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-5) JBAS010281: Started jboss-web-policy cache from security container
+14:48:51,745 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015961: Http management interface listening on http://127.0.0.1:9990/management
+14:48:51,746 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015951: Admin console listening on http://127.0.0.1:9990
+14:48:51,746 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015874: JBoss Infinispan Server 6.0.2.Final (AS 7.2.0.Final) started in 4162ms - Started 89 of 127 services (38 services are passive or on-demand)
+15:52:53,110 INFO  [org.apache.coyote.http11] (MSC service thread 1-7) JBWEB003075: Coyote HTTP/1.1 pausing on: http-/127.0.0.1:8080
+15:52:53,111 INFO  [org.apache.coyote.http11] (MSC service thread 1-7) JBWEB003077: Coyote HTTP/1.1 stopping on : http-/127.0.0.1:8080
+15:52:53,199 INFO  [org.apache.coyote.ajp] (MSC service thread 1-3) JBWEB003048: Pausing Coyote AJP/1.3 on ajp-/127.0.0.1:8009
+15:52:53,199 INFO  [org.apache.coyote.ajp] (MSC service thread 1-3) JBWEB003051: Stopping Coyote AJP/1.3 on ajp-/127.0.0.1:8009
+15:52:53,206 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-4) JBAS010282: Stopped default cache from local container
+15:52:53,211 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-5) JBAS010282: Stopped memcachedCache cache from local container
+15:52:53,213 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-3) JBAS010282: Stopped namedCache cache from local container
+15:52:53,253 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-7) JBAS010282: Stopped other cache from security container
+15:52:53,257 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-7) JBAS010282: Stopped jboss-web-policy cache from security container
+15:52:53,300 INFO  [org.jboss.as] (MSC service thread 1-3) JBAS015950: JBoss Infinispan Server 6.0.2.Final (AS 7.2.0.Final) stopped in 103ms
+15:53:06,583 INFO  [org.jboss.modules] (main) JBoss Modules version 1.2.0.CR1
+15:53:06,786 INFO  [org.jboss.msc] (main) JBoss MSC version 1.0.4.GA
+15:53:06,880 INFO  [org.jboss.as] (MSC service thread 1-5) JBAS015899: JBoss Infinispan Server 6.0.2.Final (AS 7.2.0.Final) starting
+15:53:06,891 DEBUG [org.jboss.as.config] (MSC service thread 1-5) Configured system properties:
+	[Standalone] = 
+	awt.toolkit = sun.awt.X11.XToolkit
+	file.encoding = UTF-8
+	file.encoding.pkg = sun.io
+	file.separator = /
+	java.awt.graphicsenv = sun.awt.X11GraphicsEnvironment
+	java.awt.headless = true
+	java.awt.printerjob = sun.print.PSPrinterJob
+	java.class.path = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/jboss-modules.jar
+	java.class.version = 51.0
+	java.endorsed.dirs = /usr/java/jdk1.7.0_45/jre/lib/endorsed
+	java.ext.dirs = /usr/java/jdk1.7.0_45/jre/lib/ext:/usr/java/packages/lib/ext
+	java.home = /usr/java/jdk1.7.0_45/jre
+	java.io.tmpdir = /tmp
+	java.library.path = /usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+	java.net.preferIPv4Stack = true
+	java.runtime.name = Java(TM) SE Runtime Environment
+	java.runtime.version = 1.7.0_45-b18
+	java.specification.name = Java Platform API Specification
+	java.specification.vendor = Oracle Corporation
+	java.specification.version = 1.7
+	java.util.logging.manager = org.jboss.logmanager.LogManager
+	java.vendor = Oracle Corporation
+	java.vendor.url = http://java.oracle.com/
+	java.vendor.url.bug = http://bugreport.sun.com/bugreport/
+	java.version = 1.7.0_45
+	java.vm.info = mixed mode
+	java.vm.name = Java HotSpot(TM) 64-Bit Server VM
+	java.vm.specification.name = Java Virtual Machine Specification
+	java.vm.specification.vendor = Oracle Corporation
+	java.vm.specification.version = 1.7
+	java.vm.vendor = Oracle Corporation
+	java.vm.version = 24.45-b08
+	javax.management.builder.initial = org.jboss.as.jmx.PluggableMBeanServerBuilder
+	javax.xml.datatype.DatatypeFactory = __redirected.__DatatypeFactory
+	javax.xml.parsers.DocumentBuilderFactory = __redirected.__DocumentBuilderFactory
+	javax.xml.parsers.SAXParserFactory = __redirected.__SAXParserFactory
+	javax.xml.stream.XMLEventFactory = __redirected.__XMLEventFactory
+	javax.xml.stream.XMLInputFactory = __redirected.__XMLInputFactory
+	javax.xml.stream.XMLOutputFactory = __redirected.__XMLOutputFactory
+	javax.xml.transform.TransformerFactory = __redirected.__TransformerFactory
+	javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema = __redirected.__SchemaFactory
+	javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom = __redirected.__XPathFactory
+	jboss.home.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2
+	jboss.host.name = localhost
+	jboss.modules.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/modules
+	jboss.modules.system.pkgs = org.jboss.byteman
+	jboss.node.name = localhost
+	jboss.qualified.host.name = localhost.localdomain
+	jboss.server.base.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone
+	jboss.server.config.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/configuration
+	jboss.server.data.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/data
+	jboss.server.deploy.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/data/content
+	jboss.server.log.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/log
+	jboss.server.name = localhost
+	jboss.server.persist.config = true
+	jboss.server.temp.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/tmp
+	line.separator = 
+
+	logging.configuration = file:/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/configuration/logging.properties
+	module.path = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/modules
+	org.jboss.boot.log.file = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/log/server.log
+	org.jboss.resolver.warning = true
+	org.xml.sax.driver = __redirected.__XMLReaderFactory
+	os.arch = amd64
+	os.name = Linux
+	os.version = 3.11.6-201.fc19.x86_64
+	path.separator = :
+	sun.arch.data.model = 64
+	sun.boot.class.path = /usr/java/jdk1.7.0_45/jre/lib/resources.jar:/usr/java/jdk1.7.0_45/jre/lib/rt.jar:/usr/java/jdk1.7.0_45/jre/lib/sunrsasign.jar:/usr/java/jdk1.7.0_45/jre/lib/jsse.jar:/usr/java/jdk1.7.0_45/jre/lib/jce.jar:/usr/java/jdk1.7.0_45/jre/lib/charsets.jar:/usr/java/jdk1.7.0_45/jre/lib/jfr.jar:/usr/java/jdk1.7.0_45/jre/classes
+	sun.boot.library.path = /usr/java/jdk1.7.0_45/jre/lib/amd64
+	sun.cpu.endian = little
+	sun.cpu.isalist = 
+	sun.io.unicode.encoding = UnicodeLittle
+	sun.java.command = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/jboss-modules.jar -mp /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/modules -jaxpmodule javax.xml.jaxp-provider org.jboss.as.standalone -Djboss.home.dir=/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2 -Djboss.server.base.dir=/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone
+	sun.java.launcher = SUN_STANDARD
+	sun.jnu.encoding = UTF-8
+	sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+	sun.os.patch.level = unknown
+	user.country = GB
+	user.dir = /home/patches/workspace/narayana
+	user.home = /home/patches
+	user.language = en
+	user.name = patches
+	user.timezone = Europe/London
+15:53:06,896 DEBUG [org.jboss.as.config] (MSC service thread 1-5) VM Arguments: -D[Standalone] -XX:+UseCompressedOops -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true -Dorg.jboss.boot.log.file=/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/log/server.log -Dlogging.configuration=file:/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/configuration/logging.properties 
+15:53:07,943 INFO  [org.xnio] (MSC service thread 1-3) XNIO Version 3.0.7.GA
+15:53:07,948 INFO  [org.jboss.as.server] (Controller Boot Thread) JBAS015888: Creating http management service using socket-binding (management-http)
+15:53:07,951 INFO  [org.xnio.nio] (MSC service thread 1-3) XNIO NIO Implementation Version 3.0.7.GA
+15:53:07,965 INFO  [org.jboss.remoting] (MSC service thread 1-3) JBoss Remoting version 3.2.14.GA
+15:53:08,021 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 17) JBAS010280: Activating Infinispan subsystem.
+15:53:08,041 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 21) JBAS011800: Activating Naming Subsystem
+15:53:08,085 INFO  [org.jboss.as.jsf] (ServerService Thread Pool -- 27) JBAS012605: Activated the following JSF Implementations: [main, 1.2]
+15:53:08,085 INFO  [org.jboss.as.connector.logging] (MSC service thread 1-8) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.15.Final)
+15:53:08,117 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 23) JBAS013171: Activating Security Subsystem
+15:53:08,136 INFO  [org.jboss.as.security] (MSC service thread 1-8) JBAS013170: Current PicketBox version=4.0.15.Final
+15:53:08,137 INFO  [org.jboss.as.naming] (MSC service thread 1-4) JBAS011802: Starting Naming Service
+15:53:08,501 INFO  [org.apache.coyote.http11] (MSC service thread 1-6) JBWEB003001: Coyote HTTP/1.1 initializing on : http-/127.0.0.1:8080
+15:53:08,502 INFO  [org.apache.coyote.ajp] (MSC service thread 1-8) JBWEB003046: Starting Coyote AJP/1.3 on ajp-/127.0.0.1:8009
+15:53:08,540 INFO  [org.apache.coyote.http11] (MSC service thread 1-6) JBWEB003000: Coyote HTTP/1.1 starting on: http-/127.0.0.1:8080
+15:53:08,920 INFO  [org.infinispan.server.endpoint] (MSC service thread 1-3) JDGS010000: HotRodServer starting
+15:53:08,923 INFO  [org.infinispan.server.endpoint] (MSC service thread 1-3) JDGS010001: HotRodServer listening on 127.0.0.1:11222
+15:53:09,044 INFO  [org.jboss.as.remoting] (MSC service thread 1-5) JBAS017100: Listening on 127.0.0.1:9999
+15:53:09,062 INFO  [org.jboss.as.remoting] (MSC service thread 1-5) JBAS017100: Listening on 127.0.0.1:4447
+15:53:09,221 INFO  [org.infinispan.factories.GlobalComponentRegistry] (MSC service thread 1-7) ISPN000128: Infinispan version: Infinispan 'Infinium' 6.0.2.Final
+15:53:09,221 INFO  [org.infinispan.factories.GlobalComponentRegistry] (MSC service thread 1-2) ISPN000128: Infinispan version: Infinispan 'Infinium' 6.0.2.Final
+15:53:09,690 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-7) ISPN000031: MBeans were successfully registered to the platform MBean server.
+15:53:09,690 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-8) ISPN000031: MBeans were successfully registered to the platform MBean server.
+15:53:09,690 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-1) ISPN000031: MBeans were successfully registered to the platform MBean server.
+15:53:09,693 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-6) ISPN000031: MBeans were successfully registered to the platform MBean server.
+15:53:09,692 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-2) ISPN000031: MBeans were successfully registered to the platform MBean server.
+15:53:09,695 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-8) JBAS010281: Started namedCache cache from local container
+15:53:09,695 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-7) JBAS010281: Started other cache from security container
+15:53:09,695 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-6) JBAS010281: Started default cache from local container
+15:53:09,695 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-1) JBAS010281: Started jboss-web-policy cache from security container
+15:53:09,695 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-2) JBAS010281: Started memcachedCache cache from local container
+15:53:10,248 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015961: Http management interface listening on http://127.0.0.1:9990/management
+15:53:10,249 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015951: Admin console listening on http://127.0.0.1:9990
+15:53:10,249 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015874: JBoss Infinispan Server 6.0.2.Final (AS 7.2.0.Final) started in 4053ms - Started 89 of 127 services (38 services are passive or on-demand)
+16:55:59,594 INFO  [org.jboss.modules] (main) JBoss Modules version 1.2.0.CR1
+16:55:59,843 INFO  [org.jboss.msc] (main) JBoss MSC version 1.0.4.GA
+16:55:59,978 INFO  [org.jboss.as] (MSC service thread 1-8) JBAS015899: JBoss Infinispan Server 6.0.2.Final (AS 7.2.0.Final) starting
+16:55:59,989 DEBUG [org.jboss.as.config] (MSC service thread 1-8) Configured system properties:
+	[Standalone] = 
+	awt.toolkit = sun.awt.X11.XToolkit
+	file.encoding = UTF-8
+	file.encoding.pkg = sun.io
+	file.separator = /
+	java.awt.graphicsenv = sun.awt.X11GraphicsEnvironment
+	java.awt.headless = true
+	java.awt.printerjob = sun.print.PSPrinterJob
+	java.class.path = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/jboss-modules.jar
+	java.class.version = 51.0
+	java.endorsed.dirs = /usr/java/jdk1.7.0_45/jre/lib/endorsed
+	java.ext.dirs = /usr/java/jdk1.7.0_45/jre/lib/ext:/usr/java/packages/lib/ext
+	java.home = /usr/java/jdk1.7.0_45/jre
+	java.io.tmpdir = /tmp
+	java.library.path = /usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+	java.net.preferIPv4Stack = true
+	java.runtime.name = Java(TM) SE Runtime Environment
+	java.runtime.version = 1.7.0_45-b18
+	java.specification.name = Java Platform API Specification
+	java.specification.vendor = Oracle Corporation
+	java.specification.version = 1.7
+	java.util.logging.manager = org.jboss.logmanager.LogManager
+	java.vendor = Oracle Corporation
+	java.vendor.url = http://java.oracle.com/
+	java.vendor.url.bug = http://bugreport.sun.com/bugreport/
+	java.version = 1.7.0_45
+	java.vm.info = mixed mode
+	java.vm.name = Java HotSpot(TM) 64-Bit Server VM
+	java.vm.specification.name = Java Virtual Machine Specification
+	java.vm.specification.vendor = Oracle Corporation
+	java.vm.specification.version = 1.7
+	java.vm.vendor = Oracle Corporation
+	java.vm.version = 24.45-b08
+	javax.management.builder.initial = org.jboss.as.jmx.PluggableMBeanServerBuilder
+	javax.xml.datatype.DatatypeFactory = __redirected.__DatatypeFactory
+	javax.xml.parsers.DocumentBuilderFactory = __redirected.__DocumentBuilderFactory
+	javax.xml.parsers.SAXParserFactory = __redirected.__SAXParserFactory
+	javax.xml.stream.XMLEventFactory = __redirected.__XMLEventFactory
+	javax.xml.stream.XMLInputFactory = __redirected.__XMLInputFactory
+	javax.xml.stream.XMLOutputFactory = __redirected.__XMLOutputFactory
+	javax.xml.transform.TransformerFactory = __redirected.__TransformerFactory
+	javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema = __redirected.__SchemaFactory
+	javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom = __redirected.__XPathFactory
+	jboss.home.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2
+	jboss.host.name = localhost
+	jboss.modules.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/modules
+	jboss.modules.system.pkgs = org.jboss.byteman
+	jboss.node.name = localhost
+	jboss.qualified.host.name = localhost.localdomain
+	jboss.server.base.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone
+	jboss.server.config.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/configuration
+	jboss.server.data.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/data
+	jboss.server.deploy.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/data/content
+	jboss.server.log.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/log
+	jboss.server.name = localhost
+	jboss.server.persist.config = true
+	jboss.server.temp.dir = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/tmp
+	line.separator = 
+
+	logging.configuration = file:/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/configuration/logging.properties
+	module.path = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/modules
+	org.jboss.boot.log.file = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/log/server.log
+	org.jboss.resolver.warning = true
+	org.xml.sax.driver = __redirected.__XMLReaderFactory
+	os.arch = amd64
+	os.name = Linux
+	os.version = 3.11.6-201.fc19.x86_64
+	path.separator = :
+	sun.arch.data.model = 64
+	sun.boot.class.path = /usr/java/jdk1.7.0_45/jre/lib/resources.jar:/usr/java/jdk1.7.0_45/jre/lib/rt.jar:/usr/java/jdk1.7.0_45/jre/lib/sunrsasign.jar:/usr/java/jdk1.7.0_45/jre/lib/jsse.jar:/usr/java/jdk1.7.0_45/jre/lib/jce.jar:/usr/java/jdk1.7.0_45/jre/lib/charsets.jar:/usr/java/jdk1.7.0_45/jre/lib/jfr.jar:/usr/java/jdk1.7.0_45/jre/classes
+	sun.boot.library.path = /usr/java/jdk1.7.0_45/jre/lib/amd64
+	sun.cpu.endian = little
+	sun.cpu.isalist = 
+	sun.io.unicode.encoding = UnicodeLittle
+	sun.java.command = /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/jboss-modules.jar -mp /home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/modules -jaxpmodule javax.xml.jaxp-provider org.jboss.as.standalone -Djboss.home.dir=/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2 -Djboss.server.base.dir=/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone
+	sun.java.launcher = SUN_STANDARD
+	sun.jnu.encoding = UTF-8
+	sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+	sun.os.patch.level = unknown
+	user.country = GB
+	user.dir = /home/patches/workspace/narayana
+	user.home = /home/patches
+	user.language = en
+	user.name = patches
+	user.timezone = Europe/London
+16:55:59,994 DEBUG [org.jboss.as.config] (MSC service thread 1-8) VM Arguments: -D[Standalone] -XX:+UseCompressedOops -Xms64m -Xmx512m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true -Dorg.jboss.boot.log.file=/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/log/server.log -Dlogging.configuration=file:/home/patches/workspace/narayana/kvstore/etc/infinispan-server-6.0.2/standalone/configuration/logging.properties 
+16:56:01,409 INFO  [org.xnio] (MSC service thread 1-2) XNIO Version 3.0.7.GA
+16:56:01,415 INFO  [org.jboss.as.server] (Controller Boot Thread) JBAS015888: Creating http management service using socket-binding (management-http)
+16:56:01,418 INFO  [org.xnio.nio] (MSC service thread 1-2) XNIO NIO Implementation Version 3.0.7.GA
+16:56:01,448 INFO  [org.jboss.remoting] (MSC service thread 1-2) JBoss Remoting version 3.2.14.GA
+16:56:01,509 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 17) JBAS010280: Activating Infinispan subsystem.
+16:56:01,548 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 21) JBAS011800: Activating Naming Subsystem
+16:56:01,585 INFO  [org.jboss.as.connector.logging] (MSC service thread 1-4) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.15.Final)
+16:56:01,593 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 23) JBAS013171: Activating Security Subsystem
+16:56:01,609 INFO  [org.jboss.as.naming] (MSC service thread 1-8) JBAS011802: Starting Naming Service
+16:56:01,612 INFO  [org.jboss.as.security] (MSC service thread 1-8) JBAS013170: Current PicketBox version=4.0.15.Final
+16:56:01,720 INFO  [org.jboss.as.jsf] (ServerService Thread Pool -- 27) JBAS012605: Activated the following JSF Implementations: [main, 1.2]
+16:56:02,073 ERROR [org.apache.coyote.http11] (MSC service thread 1-4) JBWEB003043: Error initializing endpoint: java.net.BindException: Address already in use /127.0.0.1:8080
+	at org.apache.tomcat.util.net.JIoEndpoint.init(JIoEndpoint.java:973) [jbossweb-7.2.0.Final.jar:7.2.0.Final]
+	at org.apache.coyote.http11.Http11Protocol.init(Http11Protocol.java:174) [jbossweb-7.2.0.Final.jar:7.2.0.Final]
+	at org.apache.catalina.connector.Connector.init(Connector.java:982) [jbossweb-7.2.0.Final.jar:7.2.0.Final]
+	at org.jboss.as.web.WebConnectorService.start(WebConnectorService.java:273) [jboss-as-web-7.2.0.Final.jar:7.2.0.Final]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.startService(ServiceControllerImpl.java:1811) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.run(ServiceControllerImpl.java:1746) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [rt.jar:1.7.0_45]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [rt.jar:1.7.0_45]
+	at java.lang.Thread.run(Thread.java:744) [rt.jar:1.7.0_45]
+
+16:56:02,148 ERROR [org.apache.coyote.ajp] (MSC service thread 1-8) JBWEB003043: Error initializing endpoint: java.net.BindException: Address already in use /127.0.0.1:8009
+	at org.apache.tomcat.util.net.JIoEndpoint.init(JIoEndpoint.java:973) [jbossweb-7.2.0.Final.jar:7.2.0.Final]
+	at org.apache.coyote.ajp.AjpProtocol.init(AjpProtocol.java:153) [jbossweb-7.2.0.Final.jar:7.2.0.Final]
+	at org.apache.catalina.connector.Connector.init(Connector.java:982) [jbossweb-7.2.0.Final.jar:7.2.0.Final]
+	at org.jboss.as.web.WebConnectorService.start(WebConnectorService.java:273) [jboss-as-web-7.2.0.Final.jar:7.2.0.Final]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.startService(ServiceControllerImpl.java:1811) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.run(ServiceControllerImpl.java:1746) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [rt.jar:1.7.0_45]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [rt.jar:1.7.0_45]
+	at java.lang.Thread.run(Thread.java:744) [rt.jar:1.7.0_45]
+
+16:56:02,229 ERROR [org.jboss.msc.service.fail] (MSC service thread 1-4) MSC00001: Failed to start service jboss.web.connector.http: org.jboss.msc.service.StartException in service jboss.web.connector.http: JBAS018007: Error starting web connector
+	at org.jboss.as.web.WebConnectorService.start(WebConnectorService.java:277)
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.startService(ServiceControllerImpl.java:1811) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.run(ServiceControllerImpl.java:1746) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [rt.jar:1.7.0_45]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [rt.jar:1.7.0_45]
+	at java.lang.Thread.run(Thread.java:744) [rt.jar:1.7.0_45]
+Caused by: LifecycleException:  JBWEB000023: Protocol handler initialization failed
+	at org.apache.catalina.connector.Connector.init(Connector.java:984)
+	at org.jboss.as.web.WebConnectorService.start(WebConnectorService.java:273)
+	... 5 more
+
+16:56:02,228 ERROR [org.jboss.msc.service.fail] (MSC service thread 1-8) MSC00001: Failed to start service jboss.web.connector.ajp: org.jboss.msc.service.StartException in service jboss.web.connector.ajp: JBAS018007: Error starting web connector
+	at org.jboss.as.web.WebConnectorService.start(WebConnectorService.java:277)
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.startService(ServiceControllerImpl.java:1811) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.run(ServiceControllerImpl.java:1746) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [rt.jar:1.7.0_45]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [rt.jar:1.7.0_45]
+	at java.lang.Thread.run(Thread.java:744) [rt.jar:1.7.0_45]
+Caused by: LifecycleException:  JBWEB000023: Protocol handler initialization failed
+	at org.apache.catalina.connector.Connector.init(Connector.java:984)
+	at org.jboss.as.web.WebConnectorService.start(WebConnectorService.java:273)
+	... 5 more
+
+16:56:02,688 INFO  [org.infinispan.server.endpoint] (MSC service thread 1-3) JDGS010000: HotRodServer starting
+16:56:02,691 INFO  [org.infinispan.server.endpoint] (MSC service thread 1-3) JDGS010001: HotRodServer listening on 127.0.0.1:11222
+16:56:03,082 ERROR [org.jboss.msc.service.fail] (MSC service thread 1-1) MSC00001: Failed to start service jboss.serverManagement.controller.management.http: org.jboss.msc.service.StartException in service jboss.serverManagement.controller.management.http: Address already in use /127.0.0.1:9990
+	at org.jboss.as.server.mgmt.HttpManagementService.start(HttpManagementService.java:224) [jboss-as-server-7.2.0.Final.jar:7.2.0.Final]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.startService(ServiceControllerImpl.java:1811) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.run(ServiceControllerImpl.java:1746) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [rt.jar:1.7.0_45]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [rt.jar:1.7.0_45]
+	at java.lang.Thread.run(Thread.java:744) [rt.jar:1.7.0_45]
+Caused by: java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method) [rt.jar:1.7.0_45]
+	at sun.nio.ch.Net.bind(Net.java:444) [rt.jar:1.7.0_45]
+	at sun.nio.ch.Net.bind(Net.java:436) [rt.jar:1.7.0_45]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:214) [rt.jar:1.7.0_45]
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74) [rt.jar:1.7.0_45]
+	at org.jboss.sun.net.httpserver.ServerImpl.<init>(ServerImpl.java:144)
+	at org.jboss.sun.net.httpserver.HttpServerImpl.<init>(HttpServerImpl.java:54)
+	at org.jboss.sun.net.httpserver.DefaultHttpServerProvider.createHttpServer(DefaultHttpServerProvider.java:38)
+	at org.jboss.com.sun.net.httpserver.HttpServer.create(HttpServer.java:147)
+	at org.jboss.as.domain.http.server.ManagementHttpServer.create(ManagementHttpServer.java:162)
+	at org.jboss.as.server.mgmt.HttpManagementService.start(HttpManagementService.java:190) [jboss-as-server-7.2.0.Final.jar:7.2.0.Final]
+	... 5 more
+
+16:56:03,105 ERROR [org.jboss.msc.service.fail] (MSC service thread 1-8) MSC00001: Failed to start service jboss.remoting.server.management: org.jboss.msc.service.StartException in service jboss.remoting.server.management: JBAS017112: Address already in use 127.0.0.1:9999
+	at org.jboss.as.remoting.AbstractStreamServerService.start(AbstractStreamServerService.java:110)
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.startService(ServiceControllerImpl.java:1811) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.run(ServiceControllerImpl.java:1746) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [rt.jar:1.7.0_45]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [rt.jar:1.7.0_45]
+	at java.lang.Thread.run(Thread.java:744) [rt.jar:1.7.0_45]
+Caused by: java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method) [rt.jar:1.7.0_45]
+	at sun.nio.ch.Net.bind(Net.java:444) [rt.jar:1.7.0_45]
+	at sun.nio.ch.Net.bind(Net.java:436) [rt.jar:1.7.0_45]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:214) [rt.jar:1.7.0_45]
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74) [rt.jar:1.7.0_45]
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:67) [rt.jar:1.7.0_45]
+	at org.xnio.nio.NioXnioWorker.createTcpServer(NioXnioWorker.java:287)
+	at org.xnio.XnioWorker.createStreamServer(XnioWorker.java:135)
+	at org.jboss.remoting3.remote.RemoteConnectionProvider$ProviderInterface.createServer(RemoteConnectionProvider.java:258)
+	at org.jboss.as.remoting.AbstractStreamServerService.start(AbstractStreamServerService.java:102)
+	... 5 more
+
+16:56:03,109 ERROR [org.jboss.msc.service.fail] (MSC service thread 1-1) MSC00001: Failed to start service jboss.remoting.server.remoting-connector: org.jboss.msc.service.StartException in service jboss.remoting.server.remoting-connector: JBAS017112: Address already in use 127.0.0.1:4447
+	at org.jboss.as.remoting.AbstractStreamServerService.start(AbstractStreamServerService.java:110)
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.startService(ServiceControllerImpl.java:1811) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.run(ServiceControllerImpl.java:1746) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [rt.jar:1.7.0_45]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [rt.jar:1.7.0_45]
+	at java.lang.Thread.run(Thread.java:744) [rt.jar:1.7.0_45]
+Caused by: java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method) [rt.jar:1.7.0_45]
+	at sun.nio.ch.Net.bind(Net.java:444) [rt.jar:1.7.0_45]
+	at sun.nio.ch.Net.bind(Net.java:436) [rt.jar:1.7.0_45]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:214) [rt.jar:1.7.0_45]
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74) [rt.jar:1.7.0_45]
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:67) [rt.jar:1.7.0_45]
+	at org.xnio.nio.NioXnioWorker.createTcpServer(NioXnioWorker.java:287)
+	at org.xnio.XnioWorker.createStreamServer(XnioWorker.java:135)
+	at org.jboss.remoting3.remote.RemoteConnectionProvider$ProviderInterface.createServer(RemoteConnectionProvider.java:258)
+	at org.jboss.as.remoting.AbstractStreamServerService.start(AbstractStreamServerService.java:102)
+	... 5 more
+
+16:56:03,170 INFO  [org.infinispan.factories.GlobalComponentRegistry] (MSC service thread 1-4) ISPN000128: Infinispan version: Infinispan 'Infinium' 6.0.2.Final
+16:56:03,171 INFO  [org.infinispan.factories.GlobalComponentRegistry] (MSC service thread 1-7) ISPN000128: Infinispan version: Infinispan 'Infinium' 6.0.2.Final
+16:56:03,908 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-6) ISPN000031: MBeans were successfully registered to the platform MBean server.
+16:56:03,920 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-4) ISPN000031: MBeans were successfully registered to the platform MBean server.
+16:56:03,911 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-7) ISPN000031: MBeans were successfully registered to the platform MBean server.
+16:56:03,914 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-5) ISPN000031: MBeans were successfully registered to the platform MBean server.
+16:56:03,924 INFO  [org.infinispan.jmx.CacheJmxRegistration] (MSC service thread 1-2) ISPN000031: MBeans were successfully registered to the platform MBean server.
+16:56:03,925 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-7) JBAS010281: Started other cache from security container
+16:56:03,926 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-5) JBAS010281: Started namedCache cache from local container
+16:56:03,926 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-2) JBAS010281: Started memcachedCache cache from local container
+16:56:03,926 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-4) JBAS010281: Started default cache from local container
+16:56:03,936 INFO  [org.jboss.as.clustering.infinispan] (MSC service thread 1-6) JBAS010281: Started jboss-web-policy cache from security container
+16:56:04,959 ERROR [org.jboss.msc.service.fail] (MSC service thread 1-3) MSC00001: Failed to start service jboss.endpoint.hotrod.hotrod-connector: org.jboss.msc.service.StartException in service jboss.endpoint.hotrod.hotrod-connector: JDGS010004: Failed to start HotRodServer
+	at org.infinispan.server.endpoint.subsystem.ProtocolServerService.start(ProtocolServerService.java:113)
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.startService(ServiceControllerImpl.java:1811) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at org.jboss.msc.service.ServiceControllerImpl$StartTask.run(ServiceControllerImpl.java:1746) [jboss-msc-1.0.4.GA.jar:1.0.4.GA]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [rt.jar:1.7.0_45]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [rt.jar:1.7.0_45]
+	at java.lang.Thread.run(Thread.java:744) [rt.jar:1.7.0_45]
+Caused by: org.jboss.netty.channel.ChannelException: Failed to bind to: /127.0.0.1:11222
+	at org.jboss.netty.bootstrap.ServerBootstrap.bind(ServerBootstrap.java:272)
+	at org.infinispan.server.core.transport.NettyTransport.start(NettyTransport.scala:83)
+	at org.infinispan.server.core.AbstractProtocolServer.startTransport(AbstractProtocolServer.scala:60)
+	at org.infinispan.server.hotrod.HotRodServer.startTransport(HotRodServer.scala:80)
+	at org.infinispan.server.core.AbstractProtocolServer.startInternal(AbstractProtocolServer.scala:39)
+	at org.infinispan.server.hotrod.HotRodServer.startInternal(HotRodServer.scala:59)
+	at org.infinispan.server.hotrod.HotRodServer.startInternal(HotRodServer.scala:28)
+	at org.infinispan.server.core.AbstractProtocolServer.start(AbstractProtocolServer.scala:44)
+	at org.infinispan.server.endpoint.subsystem.ProtocolServerService.startProtocolServer(ProtocolServerService.java:130)
+	at org.infinispan.server.endpoint.subsystem.ProtocolServerService.start(ProtocolServerService.java:107)
+	... 5 more
+Caused by: java.net.BindException: Address already in use
+	at sun.nio.ch.Net.bind0(Native Method) [rt.jar:1.7.0_45]
+	at sun.nio.ch.Net.bind(Net.java:444) [rt.jar:1.7.0_45]
+	at sun.nio.ch.Net.bind(Net.java:436) [rt.jar:1.7.0_45]
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:214) [rt.jar:1.7.0_45]
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74) [rt.jar:1.7.0_45]
+	at org.jboss.netty.channel.socket.nio.NioServerBoss$RegisterTask.run(NioServerBoss.java:193)
+	at org.jboss.netty.channel.socket.nio.AbstractNioSelector.processTaskQueue(AbstractNioSelector.java:366)
+	at org.jboss.netty.channel.socket.nio.AbstractNioSelector.run(AbstractNioSelector.java:290)
+	at org.jboss.netty.channel.socket.nio.NioServerBoss.run(NioServerBoss.java:42)
+	... 3 more
+
+16:56:05,031 INFO  [org.jboss.as.controller] (Controller Boot Thread) JBAS014774: Service status report
+JBAS014777:   Services which failed to start:      service jboss.endpoint.hotrod.hotrod-connector: org.jboss.msc.service.StartException in service jboss.endpoint.hotrod.hotrod-connector: JDGS010004: Failed to start HotRodServer
+      service jboss.remoting.server.remoting-connector: org.jboss.msc.service.StartException in service jboss.remoting.server.remoting-connector: JBAS017112: Address already in use 127.0.0.1:4447
+      service jboss.remoting.server.management: org.jboss.msc.service.StartException in service jboss.remoting.server.management: JBAS017112: Address already in use 127.0.0.1:9999
+      service jboss.serverManagement.controller.management.http: org.jboss.msc.service.StartException in service jboss.serverManagement.controller.management.http: Address already in use /127.0.0.1:9990
+      service jboss.web.connector.ajp: org.jboss.msc.service.StartException in service jboss.web.connector.ajp: JBAS018007: Error starting web connector
+      service jboss.web.connector.http: org.jboss.msc.service.StartException in service jboss.web.connector.http: JBAS018007: Error starting web connector
+
+16:56:05,260 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015964: Http management interface is not enabled
+16:56:05,261 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015954: Admin console is not enabled
+16:56:05,261 ERROR [org.jboss.as] (Controller Boot Thread) JBAS015875: JBoss Infinispan Server 6.0.2.Final (AS 7.2.0.Final) started (with errors) in 6140ms - Started 83 of 127 services (6 services failed or missing dependencies, 38 services are passive or on-demand)

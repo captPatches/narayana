@@ -85,6 +85,11 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.15</version>
+					<configuration>
+          				<skipTests>false</skipTests>
+        		        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+        			</configuration>
+        			
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -145,21 +150,22 @@
 			<!-- **/IT*.java **/*IT.java **/*ITCase.java -->
 			<!-- mvn verify -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.15</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-failsafe-plugin</artifactId>
+	<version>2.15</version>
+	<configuration>
+		<encoding>UTF-8</encoding>
+		<redirectTestOutputToFile>true</redirectTestOutputToFile>
+	</configuration>
+	<executions>
+		<execution>
+			<goals>
+				<goal>integration-test</goal>
+				<goal>verify</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
 
 		</plugins>
 	</build>
@@ -172,7 +178,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
-			<!-- <scope>test</scope> -->
+			<scope>test</scope>
 		</dependency>
 
 

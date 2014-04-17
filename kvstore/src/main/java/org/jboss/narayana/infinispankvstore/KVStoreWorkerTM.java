@@ -12,13 +12,13 @@ import io.narayana.perf.Worker;
 
 public class KVStoreWorkerTM implements Worker<BigInteger> {
 
-	private static TransactionManager tm;
+	private TransactionManager tm;
 	private long initTimeMillis = -1;
 	private long finiTimeMillis = -1;
 	private long workTimeMillis = -1;
 	
 	public KVStoreWorkerTM(TransactionManager tm) {
-		KVStoreWorkerTM.tm = tm;
+		this.tm = tm;
 	}
 
 	@Override
