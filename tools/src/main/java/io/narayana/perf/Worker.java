@@ -36,8 +36,10 @@ public interface Worker<T> {
      * @param niters the number of work iterations to perform in this batch
      * @param opts config parameters for the work that triggered this call
      * @return A thread specific instance that will be passed to subsequent calls to the doWork method by the thread
+     * @throws Exception 
      */
-    T doWork(T context, int niters, Result<T> opts);
+    // Added Exception - May need to take this out shortly
+	T doWork(T context, int niters, Result<T> opts) throws Exception;
 
     /**
      * notify the worker that the test is starting

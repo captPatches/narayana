@@ -22,24 +22,20 @@ public class KVStoreWorkerTM implements Worker<BigInteger> {
 	}
 
 	@Override
-	public BigInteger doWork(BigInteger context, int niters, Result opts) {
+	public BigInteger doWork(BigInteger context, int niters, Result opts) throws Exception {
 
 
 		for(int i=0;i<niters;i++) {
 
-			try {
 				tm.begin();
 
-				XAResource xaResource1 = new XAResourceImpl(true);
-				XAResource xaResource2 = new XAResourceImpl(false);
+				XAResource xaResource1 = new XAResourceImpl();
+				XAResource xaResource2 = new XAResourceImpl();
 
 				tm.getTransaction().enlistResource(xaResource1);
 				tm.getTransaction().enlistResource(xaResource2);
 
 				tm.commit();
-			} catch(Exception e) {
-				System.err.println(e.getMessage());
-			}
 		}
 
 		return null;

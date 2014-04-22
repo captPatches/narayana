@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import javax.transaction.TransactionManager;
 
 import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
+import org.junit.After;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
@@ -18,7 +19,7 @@ public class FileSystemStorePerfTest {
 	public void speedTest() {
 		
 		int threadsNum = 20;
-		int transCount = 10000;
+		int transCount = 1000000;
 		
 		// Set system to use  file locking store explicitly
 		System.setProperty("ObjectStoreEnvironmentBean.storeImplementationClassName",
@@ -35,7 +36,10 @@ public class FileSystemStorePerfTest {
 		System.out.printf("FileLockingStore: %d Txs / second (total time: %d)",
 														opts.getThroughput(), opts.getTotalMillis());
 		
-		// Move the store shutdown
+	}
+	
+	@After
+	public static void tearDown() {
 		StoreManager.shutdown();
      
 	}

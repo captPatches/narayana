@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import javax.transaction.TransactionManager;
 
 import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,44 +16,47 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
 public class InfinispanWithHotRodPerfTest {
 
-	
 	TransactionManager tm;
 
 	@Before
 	public void setup() {
 
-
 		// Set System properties to use infinispanKVStore
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 
-		System.setProperty("KVStoreEnvironmentBean.storeImplementationClassName",
+		System.setProperty(
+				"KVStoreEnvironmentBean.storeImplementationClassName",
 				"org.jboss.narayana.infinispankvstore.HotrodRemoteCacheKVStore");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
 	}
-	
+
 	@Test
 	public void speedTest() {
-		
+
 		int threadsNum = 20;
-		int transCount = 10000;
-        
-        PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
-        KVStoreWorkerTM worker = new KVStoreWorkerTM(tm);
-		
+		int transCount = 1000000;
+
+		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
+		KVStoreWorkerTM worker = new KVStoreWorkerTM(tm);
+
 		Result<BigInteger> opts = new Result<BigInteger>(threadsNum, transCount);
 		tester.measureThroughput(worker, opts);
-		
-		System.out.printf("Infinispan (hotrod) performance: %d Txs / second (total time: %d)",
-														opts.getThroughput(), opts.getTotalMillis());
-		
-		
-		// Move the store shutdown
-		StoreManager.shutdown();
-        
-	
+
+		if (opts.getErrorCount() > 0)
+			throw new RuntimeException("mehhh some errors");
+
+		System.out
+				.printf("Infinispan (hotrod) performance: %d Txs / second (total time: %d)",
+						opts.getThroughput(), opts.getTotalMillis());
+
 	}
-	
+
+	@After
+	public void tearDown() {
+		StoreManager.shutdown();
+	}
+
 }
