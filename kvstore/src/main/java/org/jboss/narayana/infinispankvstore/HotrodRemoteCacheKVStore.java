@@ -64,7 +64,7 @@ public class HotrodRemoteCacheKVStore implements KVStore {
 	@Override
 	public void delete(long id) throws Exception {
 		
-		rc.remove(id);
+		rc.remove(keys[(int)  id]);
 		slotAllocation[(int)  id].set(false);
 
 	}
