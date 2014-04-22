@@ -38,7 +38,7 @@ public class KVStoreWorkerTM implements Worker<BigInteger> {
 
 				tm.commit();
 			} catch(Exception e) {
-				System.err.println("Moo!!");
+				System.err.println(e.getMessage());
 			}
 		}
 
