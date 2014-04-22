@@ -20,8 +20,7 @@ public class FileSystemStorePerfTest {
 		int threadsNum = 20;
 		int transCount = 10000;
 		
-		// Set System property to use infinispanKVStore
-		// System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
+		// Set system to use  file locking store explicitly
 		System.setProperty("ObjectStoreEnvironmentBean.storeImplementationClassName",
                 "com.arjuna.ats.internal.arjuna.objectstore.FileLockingStore");
 	

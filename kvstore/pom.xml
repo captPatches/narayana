@@ -160,6 +160,24 @@
 					</execution>
 				</executions>
 			</plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-failsafe-plugin</artifactId>
+	<version>2.15</version>
+	<configuration>
+		<encoding>UTF-8</encoding>
+		<redirectTestOutputToFile>true</redirectTestOutputToFile>
+		
+	</configuration>
+	<executions>
+		<execution>
+			<goals>
+				<goal>integration-test</goal>
+				<goal>verify</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+>>>>>>> Test Forking
 
 		</plugins>
 	</build>

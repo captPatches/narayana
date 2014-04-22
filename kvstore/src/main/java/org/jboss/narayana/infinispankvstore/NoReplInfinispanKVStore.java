@@ -26,7 +26,7 @@ public class NoReplInfinispanKVStore implements KVStore {
 	private final String[] keys = new String[SIZE];
 	
 	//TODO
-	// Understand andd implement the lifetime
+	// Understand and implement the lifetime
 	//private final int lifetimeSeconds = 60*60*24;
 
 	
@@ -59,7 +59,7 @@ public class NoReplInfinispanKVStore implements KVStore {
 	@Override
 	public void delete(long id) throws Exception {
 		
-		c.remove(id);
+		c.remove(keys[(int)id]);
 		slotAllocation[(int) id].set(false);
 
 	}

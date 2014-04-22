@@ -20,7 +20,7 @@ public class HornetQJournelStorePerfTest {
 		int threadsNum = 20;
 		int transCount = 10000;
 		
-		// Set System properties to use infinispanKVStore
+		// Set System properties to use HornetQJournellingKVStore
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
                 "com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqObjectStoreAdaptor");
 
