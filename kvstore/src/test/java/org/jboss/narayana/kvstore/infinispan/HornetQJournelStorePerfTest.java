@@ -18,7 +18,7 @@ public class HornetQJournelStorePerfTest {
 	public void speedTest() {
 		
 		int threadsNum = 20;
-		int transCount = 10000;
+		int transCount = 1000000;
 		
 		// Set System properties to use HornetQJournellingKVStore
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",

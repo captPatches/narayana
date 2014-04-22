@@ -47,7 +47,6 @@ public class XAResourceImpl implements XAResource
     public static final AtomicLong accumulatedLockNanosA = new AtomicLong();
     public static final AtomicLong accumulatedLockNanosB = new AtomicLong();
 
-    private boolean isResourceA;
     private long lockNanos;
 
     protected void networkCall(int millis) {
@@ -68,11 +67,6 @@ public class XAResourceImpl implements XAResource
     }
 
     ///////////////////////////
-
-
-    public XAResourceImpl(boolean resourceA) {
-        isResourceA = resourceA;
-    }
 
     private final Uid uid = new Uid();
 
