@@ -18,7 +18,7 @@ public class HornetQJournelStorePerfTest {
 	public void speedTest() {
 		
 		int threadsNum = 20;
-		int transCount = 10000;
+		int transCount = 5000000;
 		
 		// Set System properties to use infinispanKVStore
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",

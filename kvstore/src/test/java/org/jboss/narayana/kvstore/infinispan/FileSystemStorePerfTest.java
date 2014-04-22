@@ -18,7 +18,7 @@ public class FileSystemStorePerfTest {
 	public void speedTest() {
 		
 		int threadsNum = 20;
-		int transCount = 10000;
+		int transCount = 500000;
 		
 		// Set System property to use infinispanKVStore
 		// System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
