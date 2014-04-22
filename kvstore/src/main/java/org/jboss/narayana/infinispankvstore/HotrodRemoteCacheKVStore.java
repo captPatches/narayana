@@ -38,7 +38,7 @@ public class HotrodRemoteCacheKVStore implements KVStore {
 		
 		//claim remote cache (Currently use the default)
 		RemoteCacheManager manager = new RemoteCacheManager(config, true);
-		//RemoteCacheManager manager = new RemoteCacheManager(true);
+	//	RemoteCacheManager manager = new RemoteCacheManager(true);
 		rc = manager.getCache();
 
 		// Set all slots to "unused"
@@ -89,7 +89,10 @@ public class HotrodRemoteCacheKVStore implements KVStore {
 	@Override
 	public long allocateId() throws Exception {
 
-		// Method stolen from MemCachedKVStore
+		/*
+		 * Key id allocated here, used to do stuff.
+		 */
+		
 		for(int i = 0; i < SIZE; i++) {
 			if(!slotAllocation[i].get()) {
 				if(slotAllocation[i].compareAndSet(false, true)) {

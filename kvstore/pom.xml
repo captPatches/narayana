@@ -88,6 +88,7 @@
 					<configuration>
           				<skipTests>false</skipTests>
         		        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+        		        <forkMode>perTest</forkMode>
         			</configuration>
         			
 				</plugin>
@@ -156,6 +157,7 @@
 	<configuration>
 		<encoding>UTF-8</encoding>
 		<redirectTestOutputToFile>true</redirectTestOutputToFile>
+		
 	</configuration>
 	<executions>
 		<execution>
