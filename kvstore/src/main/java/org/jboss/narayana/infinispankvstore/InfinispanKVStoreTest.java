@@ -21,8 +21,8 @@ public class InfinispanKVStoreTest {
 
         transactionManager.begin();
 
-        XAResource xaResource1 = new XAResourceImpl(true);
-        XAResource xaResource2 = new XAResourceImpl(false);
+        XAResource xaResource1 = new XAResourceImpl();
+        XAResource xaResource2 = new XAResourceImpl();
 
         transactionManager.getTransaction().enlistResource(xaResource1);
         transactionManager.getTransaction().enlistResource(xaResource2);

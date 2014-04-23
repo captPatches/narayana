@@ -2,6 +2,7 @@ package org.jboss.narayana.kvstore.infinispan;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
+import io.narayana.perf.Worker;
 
 import java.math.BigInteger;
 
@@ -17,31 +18,37 @@ public class FileSystemStorePerfTest {
 
 	@Test
 	public void speedTest() {
-		
+
 		int threadsNum = 20;
 		int transCount = 1000000;
-		
-		// Set system to use  file locking store explicitly
-		System.setProperty("ObjectStoreEnvironmentBean.storeImplementationClassName",
-                "com.arjuna.ats.internal.arjuna.objectstore.FileLockingStore");
-	
-        TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
-        
-        PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
-        KVStoreWorkerTM worker = new KVStoreWorkerTM(tm);
-		
+
+		// Set system to use file locking store explicitly
+		System.setProperty(
+				"ObjectStoreEnvironmentBean.storeImplementationClassName",
+				"com.arjuna.ats.internal.arjuna.objectstore.FileLockingStore");
+
+		TransactionManager tm = com.arjuna.ats.jta.TransactionManager
+				.transactionManager();
+
+		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
+		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
+
 		Result<BigInteger> opts = new Result<BigInteger>(threadsNum, transCount);
 		tester.measureThroughput(worker, opts);
-		
-		System.out.printf("FileLockingStore: %d Txs / second (total time: %d)",
-														opts.getThroughput(), opts.getTotalMillis());
-		
+
+		// discount any tests that contain an error
+		if (opts.getErrorCount() > 0)
+			throw new RuntimeException("There was error - Test Failed!!");
+
+		System.out.printf("\nRESULTS: FileLockingStore: %d Txs / second (total time: %d)\n",
+				opts.getThroughput(), opts.getTotalMillis());
+
 	}
-	
+
 	@After
-	public static void tearDown() {
+	public void tearDown() {
 		StoreManager.shutdown();
-     
+
 	}
-	
+
 }

@@ -87,7 +87,7 @@
 					<version>2.15</version>
 					<configuration>
           				<skipTests>false</skipTests>
-        		        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+        		        <!--  <redirectTestOutputToFile>true</redirectTestOutputToFile> -->
         		        <forkMode>perTest</forkMode>
         			</configuration>
         			

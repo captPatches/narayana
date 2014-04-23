@@ -41,8 +41,8 @@ public class KVStoreWorker implements Worker<Boolean> {
 			try {
 			tm.begin();
 
-			XAResource xaResource1 = new XAResourceImpl(true);
-			XAResource xaResource2 = new XAResourceImpl(false);
+			XAResource xaResource1 = new XAResourceImpl();
+			XAResource xaResource2 = new XAResourceImpl();
 
 			tm.getTransaction().enlistResource(xaResource1);
 			tm.getTransaction().enlistResource(xaResource2);
