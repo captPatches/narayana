@@ -38,7 +38,7 @@ public class InfinispanWithHotRodPerfTest {
 	public void speedTest() {
 
 		int threadsNum = 20;
-		int transCount = 1000000;
+		int transCount = 5000000;
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
 		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);

@@ -10,19 +10,19 @@ import javax.transaction.TransactionManager;
 
 import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
 public class HornetQJournelStorePerfTest {
 
-	@Test
-	public void speedTest() {
+	TransactionManager tm;
 
-		int threadsNum = 20;
-		int transCount = 1000000;
+	@Before
+	public void setup() {
 
-		// Set System properties to use HornetQJournellingKVStore
+		// Set System properties to use infinispanKVStore
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqObjectStoreAdaptor");
 
@@ -30,8 +30,15 @@ public class HornetQJournelStorePerfTest {
 				"HornetqJournalEnvironmentBean.storeImplementationClassName",
 				"com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalStore");
 
-		TransactionManager tm = com.arjuna.ats.jta.TransactionManager
-				.transactionManager();
+		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+
+	}
+
+	@Test
+	public void speedTest() {
+
+		int threadsNum = 20;
+		int transCount = 5000000;
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
 		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
