@@ -10,25 +10,32 @@ import javax.transaction.TransactionManager;
 
 import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
 public class FileSystemStorePerfTest {
 
-	@Test
-	public void speedTest() {
+	TransactionManager tm;
 
-		int threadsNum = 20;
-		int transCount = 1000000;
+	@Before
+	public void setup() {
 
-		// Set system to use file locking store explicitly
+		// Set System properties to use infinispanKVStore
 		System.setProperty(
 				"ObjectStoreEnvironmentBean.storeImplementationClassName",
 				"com.arjuna.ats.internal.arjuna.objectstore.FileLockingStore");
 
-		TransactionManager tm = com.arjuna.ats.jta.TransactionManager
-				.transactionManager();
+		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+
+	}
+
+	@Test
+	public void speedTest() {
+
+		int threadsNum = 20;
+		int transCount = 5000000;
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
 		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
@@ -40,8 +47,9 @@ public class FileSystemStorePerfTest {
 		if (opts.getErrorCount() > 0)
 			throw new RuntimeException("There was error - Test Failed!!");
 
-		System.out.printf("\nRESULTS: FileLockingStore: %d Txs / second (total time: %d)\n",
-				opts.getThroughput(), opts.getTotalMillis());
+		System.out
+				.printf("\nRESULTS: FileLockingStore: %d Txs / second (total time: %d)\n",
+						opts.getThroughput(), opts.getTotalMillis());
 
 	}
 
