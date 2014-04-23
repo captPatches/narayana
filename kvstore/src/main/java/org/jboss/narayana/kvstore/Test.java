@@ -191,10 +191,10 @@ class TestWorkerTask implements Runnable {
         tm.begin();
         Transaction t = tm.getTransaction();
 
-        XAResource xaResource1 = new XAResourceImpl(false);
+        XAResource xaResource1 = new XAResourceImpl();
         t.enlistResource(xaResource1);
 
-        XAResource xaResource2 = new XAResourceImpl(true);
+        XAResource xaResource2 = new XAResourceImpl();
         t.enlistResource(xaResource2);
 
         tm.commit();

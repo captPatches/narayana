@@ -1,14 +1,14 @@
 package org.jboss.narayana.infinispankvstore;
 
+import io.narayana.perf.Result;
+import io.narayana.perf.Worker;
+
 import java.math.BigInteger;
 
 import javax.transaction.TransactionManager;
 import javax.transaction.xa.XAResource;
 
 import org.jboss.narayana.kvstore.XAResourceImpl;
-
-import io.narayana.perf.Result;
-import io.narayana.perf.Worker;
 
 public class KVStoreWorkerTM implements Worker<BigInteger> {
 
@@ -22,11 +22,13 @@ public class KVStoreWorkerTM implements Worker<BigInteger> {
 	}
 
 	@Override
-	public BigInteger doWork(BigInteger context, int niters, Result opts) throws Exception {
+	public BigInteger doWork(BigInteger context, int niters, Result opts) throws RuntimeException {
 
 
 		for(int i=0;i<niters;i++) {
 
+				
+			try {
 				tm.begin();
 
 				XAResource xaResource1 = new XAResourceImpl();
@@ -36,6 +38,10 @@ public class KVStoreWorkerTM implements Worker<BigInteger> {
 				tm.getTransaction().enlistResource(xaResource2);
 
 				tm.commit();
+			}
+			catch(Exception e) {
+				throw new RuntimeException("ugh", e);
+			}
 		}
 
 		return null;

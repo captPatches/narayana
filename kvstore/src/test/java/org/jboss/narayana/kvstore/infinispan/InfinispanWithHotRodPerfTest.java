@@ -2,6 +2,7 @@ package org.jboss.narayana.kvstore.infinispan;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
+import io.narayana.perf.Worker;
 
 import java.math.BigInteger;
 
@@ -40,7 +41,7 @@ public class InfinispanWithHotRodPerfTest {
 		int transCount = 1000000;
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
-		KVStoreWorkerTM worker = new KVStoreWorkerTM(tm);
+		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
 
 		Result<BigInteger> opts = new Result<BigInteger>(threadsNum, transCount);
 		tester.measureThroughput(worker, opts);
@@ -49,7 +50,7 @@ public class InfinispanWithHotRodPerfTest {
 			throw new RuntimeException("mehhh some errors");
 
 		System.out
-				.printf("Infinispan (hotrod) performance: %d Txs / second (total time: %d)",
+				.printf("\nRESULTS: Infinispan (hotrod) performance: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
 
 	}
