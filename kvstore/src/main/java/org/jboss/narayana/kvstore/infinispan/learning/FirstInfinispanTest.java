@@ -1,4 +1,4 @@
-package org.jboss.narayana.infinispankvstore;
+package org.jboss.narayana.kvstore.infinispan.learning;
 
 import java.util.ArrayList;
 import java.util.List;
