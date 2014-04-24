@@ -9,19 +9,17 @@ import javax.transaction.TransactionManager;
 
 import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
 public class InfinispanEmbeddedCachePerfTest {
 
-	@Test
-	@Ignore
-	public void speedTest() {
+	TransactionManager tm;
 
-		int threadsNum = 20;
-		int transCount = 1000000;
+	@Before
+	public void setup() {
 
 		// Set System properties to use infinispanKVStore
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
@@ -31,8 +29,14 @@ public class InfinispanEmbeddedCachePerfTest {
 				"KVStoreEnvironmentBean.storeImplementationClassName",
 				"org.jboss.narayana.infinispankvstore.NoReplInfinispanKVStore");
 
-		TransactionManager tm = com.arjuna.ats.jta.TransactionManager
-				.transactionManager();
+		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+	}
+
+	@Test
+	public void speedTest() {
+
+		int threadsNum = 20;
+		int transCount = 5000000;
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
 		KVStoreWorkerTM worker = new KVStoreWorkerTM(tm);
@@ -41,7 +45,7 @@ public class InfinispanEmbeddedCachePerfTest {
 		tester.measureThroughput(worker, opts);
 
 		System.out
-				.printf("Infinispan (hotrod) performance: %d Txs / second (total time: %d)",
+				.printf("\nRESULTS: Infinispan Embedded performance: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
 	}
 
