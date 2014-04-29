@@ -13,5 +13,4 @@ public class TestControlBean {
 		System.out.println("TEST-ITERS: " + transCount);
 		return transCount;
 	}
-
 }
