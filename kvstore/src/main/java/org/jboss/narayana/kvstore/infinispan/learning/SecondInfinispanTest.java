@@ -29,7 +29,7 @@ public class SecondInfinispanTest {
 							.defaultClusteredBuilder()
 							.transport()
 							.defaultTransport()
-							.addProperty("configurationFile", "jgroups-udp.xml")
+	//						.addProperty("configurationFile", "jgroups-udp.xml")
 		//					.addProperty("clusterName", "clustered")
 							.build());
 	//		manager.addListener(new SimpleListener());
@@ -60,6 +60,8 @@ public class SecondInfinispanTest {
 					c.put(keys[i],  values[i]);
 				}
 			}
+			
+			c.put("jon", "Jon Snow");
 			Set<Entry<String, String>> entries = c.entrySet();
 			for (Entry<String, String> e : entries) {
 				System.out.println(e.getValue());

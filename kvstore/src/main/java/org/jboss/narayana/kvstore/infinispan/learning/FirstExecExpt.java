@@ -7,7 +7,7 @@ public class FirstExecExpt {
 
 	public static void main(String[] args) {
 
-		String command = "ls -l";  ///home/patches";
+		String command = "whoami";  ///home/patches";
 		System.out.println(command);
 		try {
 			Process p = Runtime.getRuntime().exec(command);

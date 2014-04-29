@@ -11,13 +11,17 @@ import javax.transaction.TransactionManager;
 import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
+@Ignore
 public class FileSystemStorePerfTest {
-
-	TransactionManager tm;
+	
+	private TransactionManager tm;
+	private int threadsNum;
+	private int transCount;
 
 	@Before
 	public void setup() {
@@ -28,14 +32,14 @@ public class FileSystemStorePerfTest {
 				"com.arjuna.ats.internal.arjuna.objectstore.FileLockingStore");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+		
+		threadsNum = TestControlBean.threadsNum();
+		transCount = TestControlBean.transCount();
 
 	}
 
 	@Test
 	public void speedTest() {
-
-		int threadsNum = 20;
-		int transCount = 5000000;
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
 		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
