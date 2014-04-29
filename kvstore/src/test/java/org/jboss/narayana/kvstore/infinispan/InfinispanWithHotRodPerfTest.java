@@ -11,10 +11,11 @@ import javax.transaction.TransactionManager;
 import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
-
+@Ignore
 public class InfinispanWithHotRodPerfTest {
 
 	TransactionManager tm;

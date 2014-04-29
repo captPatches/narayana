@@ -16,7 +16,9 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
 public class InfinispanEmbeddedCachePerfTest {
 
-	TransactionManager tm;
+	private TransactionManager tm;
+	private int threadsNum;
+	private int transCount;
 
 	@Before
 	public void setup() {
@@ -30,13 +32,13 @@ public class InfinispanEmbeddedCachePerfTest {
 				"org.jboss.narayana.infinispankvstore.NoReplInfinispanKVStore");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+
+		threadsNum = TestControlBean.threadsNum();
+		transCount = TestControlBean.transCount();
 	}
 
 	@Test
 	public void speedTest() {
-
-		int threadsNum = 20;
-		int transCount = 5000000;
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
 		KVStoreWorkerTM worker = new KVStoreWorkerTM(tm);
