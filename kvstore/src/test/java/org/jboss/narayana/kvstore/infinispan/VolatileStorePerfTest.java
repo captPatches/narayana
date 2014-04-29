@@ -11,12 +11,10 @@ import javax.transaction.TransactionManager;
 import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
-@Ignore
 public class VolatileStorePerfTest {
 
 	private TransactionManager tm;
@@ -28,7 +26,7 @@ public class VolatileStorePerfTest {
 
 		// Set System properties to use infinispanKVStore
 		System.setProperty(
-				"ObjectStoreEnvironmentBean.storeImplementationClassName",
+				"ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.VolatileStore");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();

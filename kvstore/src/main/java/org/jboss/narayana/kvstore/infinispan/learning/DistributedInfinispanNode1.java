@@ -9,7 +9,7 @@ public class DistributedInfinispanNode1 {
 
 		EmbeddedCacheManager manager = new DefaultCacheManager(
 				"infinispan-dist-cfg.xml");
-		manager.getCache("distributed-cache"); //.addListener(new SimpleListener());
+		manager.getCache("distributed-cache").addListener(new SimpleListener());
 
 	}
 
