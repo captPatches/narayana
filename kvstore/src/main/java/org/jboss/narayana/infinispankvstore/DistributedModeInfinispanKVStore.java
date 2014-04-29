@@ -1,14 +1,11 @@
 package org.jboss.narayana.infinispankvstore;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.infinispan.Cache;
-import org.infinispan.configuration.cache.CacheMode;
-import org.infinispan.configuration.cache.Configuration;
-import org.infinispan.configuration.cache.ConfigurationBuilder;
-import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.manager.EmbeddedCacheManager;
 
@@ -37,10 +34,13 @@ private final String CACHE_NAME = "distributed-cache";
 	@Override
 	public void start() throws Exception {
 		
+		try {
 		EmbeddedCacheManager manager = new DefaultCacheManager(CONFIG_FILE);
 
 		c = manager.getCache(CACHE_NAME);
-
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		// Set all slots to "unused"
 		for (int i = 0; i < slotAllocation.length; i++) {
 			slotAllocation[i] = new AtomicBoolean(false);
