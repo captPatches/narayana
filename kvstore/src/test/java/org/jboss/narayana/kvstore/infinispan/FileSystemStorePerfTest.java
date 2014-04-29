@@ -28,7 +28,7 @@ public class FileSystemStorePerfTest {
 
 		// Set System properties to use infinispanKVStore
 		System.setProperty(
-				"ObjectStoreEnvironmentBean.storeImplementationClassName",
+				"ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.FileLockingStore");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
