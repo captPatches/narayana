@@ -1,4 +1,4 @@
-package org.jboss.narayana.kvstore.infinispan;
+package org.jboss.narayana.kvstore.infinispan.learning;
 
 import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;

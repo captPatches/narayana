@@ -1,8 +1,7 @@
-package org.jboss.narayana.kvstore.infinispan;
+package org.jboss.narayana.infinispankvstore;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
-import io.narayana.perf.Worker;
 
 import java.math.BigInteger;
 
@@ -11,14 +10,15 @@ import javax.transaction.TransactionManager;
 import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
-@Ignore
-public class InfinispanWithHotRodPerfTest {
 
-	TransactionManager tm;
+public class InfinispanEmbeddedCachePerfTest {
+
+	private TransactionManager tm;
+	private int threadsNum;
+	private int transCount;
 
 	@Before
 	public void setup() {
@@ -29,31 +29,26 @@ public class InfinispanWithHotRodPerfTest {
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.infinispankvstore.HotrodRemoteCacheKVStore");
+				"org.jboss.narayana.infinispankvstore.NoReplInfinispanKVStore");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
+		threadsNum = TestControlBean.threadsNum();
+		transCount = TestControlBean.transCount();
 	}
 
 	@Test
 	public void speedTest() {
 
-		int threadsNum = 20;
-		int transCount = 5000000;
-
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
-		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
+		KVStoreWorkerTM worker = new KVStoreWorkerTM(tm);
 
 		Result<BigInteger> opts = new Result<BigInteger>(threadsNum, transCount);
 		tester.measureThroughput(worker, opts);
 
-		if (opts.getErrorCount() > 0)
-			throw new RuntimeException("mehhh some errors");
-
 		System.out
-				.printf("\nRESULTS: Infinispan (hotrod) performance: %d Txs / second (total time: %d)\n",
+				.printf("\nRESULTS: Infinispan Embedded performance: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
-
 	}
 
 	@After

@@ -1,4 +1,4 @@
-package org.jboss.narayana.kvstore.infinispan;
+package org.jboss.narayana.infinispankvstore;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
