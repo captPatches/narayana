@@ -1,4 +1,4 @@
-package org.jboss.narayana.kvstore.infinispan;
+package org.jboss.narayana.infinispankvstore;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
@@ -15,31 +15,31 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
-
 @Ignore
-public class FileSystemStorePerfTest {
-	
-	private TransactionManager tm;
-	private int threadsNum;
-	private int transCount;
+public class InfinispanWithHotRodPerfTest {
+
+	TransactionManager tm;
 
 	@Before
 	public void setup() {
 
 		// Set System properties to use infinispanKVStore
+		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
+				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
+
 		System.setProperty(
-				"ObjectStoreEnvironmentBean.objectStoreType",
-				"com.arjuna.ats.internal.arjuna.objectstore.FileLockingStore");
+				"KVStoreEnvironmentBean.storeImplementationClassName",
+				"org.jboss.narayana.infinispankvstore.HotrodRemoteCacheKVStore");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
-		
-		threadsNum = TestControlBean.threadsNum();
-		transCount = TestControlBean.transCount();
 
 	}
 
 	@Test
 	public void speedTest() {
+
+		int threadsNum = 20;
+		int transCount = 5000000;
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
 		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
@@ -47,12 +47,11 @@ public class FileSystemStorePerfTest {
 		Result<BigInteger> opts = new Result<BigInteger>(threadsNum, transCount);
 		tester.measureThroughput(worker, opts);
 
-		// discount any tests that contain an error
 		if (opts.getErrorCount() > 0)
-			throw new RuntimeException("There was error - Test Failed!!");
+			throw new RuntimeException("mehhh some errors");
 
 		System.out
-				.printf("\nRESULTS: FileLockingStore: %d Txs / second (total time: %d)\n",
+				.printf("\nRESULTS: Infinispan (hotrod) performance: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
 
 	}
@@ -60,7 +59,6 @@ public class FileSystemStorePerfTest {
 	@After
 	public void tearDown() {
 		StoreManager.shutdown();
-
 	}
 
 }

@@ -16,7 +16,7 @@ public class SimpleListener {
 			System.out.println("Going to add new Entry: " + event.getKey());
 		}
 		else {
-			System.out.println("added new entry: " + event.getKey());
+			System.out.println("added new entry: " + event.getValue());
 		}
 	}
 	

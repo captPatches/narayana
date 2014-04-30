@@ -1,4 +1,4 @@
-package org.jboss.narayana.kvstore.infinispan;
+package org.jboss.narayana.infinispankvstore;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
@@ -8,40 +8,37 @@ import java.math.BigInteger;
 
 import javax.transaction.TransactionManager;
 
-import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
-public class InfinispanWithEmbeddedReplicationPerfTest {
-
+public class FileSystemStorePerfTest {
+	
 	private TransactionManager tm;
 	private int threadsNum;
-
 	private int transCount;
 
 	@Before
 	public void setup() {
 
-		// Set System properties to use infinispanKVStore
-		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
-				"com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqObjectStoreAdaptor");
-
+		// Don't Set System properties to use infinispanKVStore
+		// Default Store
+		/*
 		System.setProperty(
-				"HornetqJournalEnvironmentBean.storeImplementationClassName",
-				"com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalStore");
-
+				"ObjectStoreEnvironmentBean.objectStoreType",
+				"com.arjuna.ats.internal.arjuna.objectstore.FileLockingStore");
+		*/
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
-
+		
 		threadsNum = TestControlBean.threadsNum();
 		transCount = TestControlBean.transCount();
 
 	}
 
 	@Test
-	public void perTest() {
+	public void speedTest() {
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
 		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
@@ -54,14 +51,15 @@ public class InfinispanWithEmbeddedReplicationPerfTest {
 			throw new RuntimeException("There was error - Test Failed!!");
 
 		System.out
-				.printf("\nRESULTS: Replicating InfinispanStore: %d Txs / second (total time: %d)\n",
+				.printf("\nRESULTS: Default File Store: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
 
 	}
 
 	@After
-	public void teardown() {
+	public void tearDown() {
 		StoreManager.shutdown();
+
 	}
 
 }

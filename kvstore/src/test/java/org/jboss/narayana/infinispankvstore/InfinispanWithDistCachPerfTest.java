@@ -1,4 +1,4 @@
-package org.jboss.narayana.kvstore.infinispan;
+package org.jboss.narayana.infinispankvstore;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
@@ -14,8 +14,7 @@ import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
-public class InfinispanEmbeddedCachePerfTest {
-
+public class InfinispanWithDistCachPerfTest {
 	private TransactionManager tm;
 	private int threadsNum;
 	private int transCount;
@@ -29,7 +28,7 @@ public class InfinispanEmbeddedCachePerfTest {
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.infinispankvstore.NoReplInfinispanKVStore");
+				"org.jboss.narayana.infinispankvstore.DistributedModeInfinispanKVStore");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
@@ -47,7 +46,7 @@ public class InfinispanEmbeddedCachePerfTest {
 		tester.measureThroughput(worker, opts);
 
 		System.out
-				.printf("\nRESULTS: Infinispan Embedded performance: %d Txs / second (total time: %d)\n",
+				.printf("\nRESULTS: Infinispan Distributed Mode: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
 	}
 

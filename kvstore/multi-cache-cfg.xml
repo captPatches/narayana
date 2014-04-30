@@ -1,8 +1,8 @@
-<infinispan
+<!-- <infinispan
 	xsi:schemaLocation="urn:infinispan:config:6.0 http://www.infinispan.org/schemas/infinispan-config-6.0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:infinispan:config:6.0">
-
-	<!-- <infinispan> -->
+-->
+	<infinispan>
 	<global>
 		<transport clusterName="testCluster">
 			<properties>
@@ -25,14 +25,14 @@
 			<sync />
 		</clustering>
 	</namedCache>
-	<namedCache name="cluster-cache">
-		<clusetering mode="replication">
+	<namedCache name="replication-cache">
+		<clustering mode="replication">
 			<stateTransfer chunkSize="0" fetchInMemoryState="true"
 				timeout="240000" />
 
 			<sync />
 
-		</clusetering>
+		</clustering>
 	</namedCache>
 
 

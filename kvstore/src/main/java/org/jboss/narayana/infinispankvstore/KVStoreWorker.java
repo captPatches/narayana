@@ -27,9 +27,6 @@ public class KVStoreWorker implements Worker<Boolean> {
 		setStoreType(storeType);
 	}
 	
-	
-	
-	//100000 txs/ 20 threads
 	@Override
 	public Boolean doWork(Boolean context, int niters, Result opts) {
 		
