@@ -1,4 +1,4 @@
-package org.jboss.narayana.kvstore.infinispan;
+package org.jboss.narayana.infinispankvstore;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
@@ -15,9 +15,12 @@ import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
-public class HornetQJournelStorePerfTest {
+public class InfinispanWithEmbeddedReplicationPerfTest {
 
-	TransactionManager tm;
+	private TransactionManager tm;
+	private int threadsNum;
+
+	private int transCount;
 
 	@Before
 	public void setup() {
@@ -32,13 +35,13 @@ public class HornetQJournelStorePerfTest {
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
+		threadsNum = TestControlBean.threadsNum();
+		transCount = TestControlBean.transCount();
+
 	}
 
 	@Test
-	public void speedTest() {
-
-		int threadsNum = 20;
-		int transCount = 5000000;
+	public void perTest() {
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
 		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
@@ -46,18 +49,18 @@ public class HornetQJournelStorePerfTest {
 		Result<BigInteger> opts = new Result<BigInteger>(threadsNum, transCount);
 		tester.measureThroughput(worker, opts);
 
+		// discount any tests that contain an error
 		if (opts.getErrorCount() > 0)
-			throw new RuntimeException("There was an error - Test Failed!");
+			throw new RuntimeException("There was error - Test Failed!!");
 
 		System.out
-				.printf("\nRESULTS: HornetQ Journal performance: %d Txs / second (total time: %d)\n",
+				.printf("\nRESULTS: Replicating InfinispanStore: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
 
 	}
 
 	@After
-	public void tearDown() {
-		// Move the store shutdown
+	public void teardown() {
 		StoreManager.shutdown();
 	}
 

@@ -1,4 +1,4 @@
-package org.jboss.narayana.kvstore.infinispan;
+package org.jboss.narayana.infinispankvstore;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
@@ -15,30 +15,32 @@ import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
-public class InfinispanWithHotRodPerfTest {
+public class HornetQJournelStorePerfTest {
 
-	TransactionManager tm;
+	private TransactionManager tm;
+	private int threadsNum;
+	private int transCount;
 
 	@Before
 	public void setup() {
 
 		// Set System properties to use infinispanKVStore
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
-				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
+				"com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqObjectStoreAdaptor");
 
 		System.setProperty(
-				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.infinispankvstore.HotrodRemoteCacheKVStore");
+				"HornetqJournalEnvironmentBean.storeImplementationClassName",
+				"com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalStore");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+
+		threadsNum = TestControlBean.threadsNum();
+		transCount = TestControlBean.transCount();
 
 	}
 
 	@Test
 	public void speedTest() {
-
-		int threadsNum = 20;
-		int transCount = 5000000;
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
 		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
@@ -47,16 +49,17 @@ public class InfinispanWithHotRodPerfTest {
 		tester.measureThroughput(worker, opts);
 
 		if (opts.getErrorCount() > 0)
-			throw new RuntimeException("mehhh some errors");
+			throw new RuntimeException("There was an error - Test Failed!");
 
 		System.out
-				.printf("\nRESULTS: Infinispan (hotrod) performance: %d Txs / second (total time: %d)\n",
+				.printf("\nRESULTS: HornetQ Journal performance: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
 
 	}
 
 	@After
 	public void tearDown() {
+		// Move the store shutdown
 		StoreManager.shutdown();
 	}
 

@@ -29,7 +29,24 @@
 	<url>http://www.jboss.org/jbosstm/</url>
 
 	<properties>
+		<exclude.tests>nothing-to-exclude</exclude.tests>
 	</properties>
+	
+	<profiles>
+		<profile>
+			<id>fast</id>
+			<properties>
+				<exclude.tests>**/*Store*.java</exclude.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>clusterTests</id>
+			<properties>
+				<exclude.tests>**/*Store*.java,**/*HotRod*.java,**/*Cache*.java</exclude.tests>
+			</properties>
+		</profile>	
+	</profiles>
+
 
 	<developers>
 
@@ -86,8 +103,11 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.15</version>
 					<configuration>
+          				 <excludes>
+        		          <exclude>${exclude.tests}</exclude>
+        		        </excludes>
           				<skipTests>false</skipTests>
-        		        <!--  <redirectTestOutputToFile>true</redirectTestOutputToFile> -->
+        		       <!--   <redirectTestOutputToFile>true</redirectTestOutputToFile> -->
         		        <forkMode>perTest</forkMode>
         			</configuration>
         			

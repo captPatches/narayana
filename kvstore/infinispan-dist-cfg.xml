@@ -16,8 +16,8 @@
 			<sync />
 		</clustering>
 	</default>
-	<namedCache name="replication-cache">
-	<clustering mode="replication">
+	<namedCache name="distributed-cache">
+	<clustering mode="distribution">
 		<stateTransfer chunkSize="0" fetchInMemoryState="true"
 			timeout="240000" />
 	

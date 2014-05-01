@@ -31,6 +31,8 @@ public class InfinispanNodev1 {
 		Cache<String, String> c = manager.getCache("cluster-cache");
 		
 		c.addListener(listener);
+		
+		System.out.println("Node Up and Running");
 
 	}
 
