@@ -5,7 +5,7 @@ import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.manager.EmbeddedCacheManager;
 
 /**
- * Testing the use (and hoepfully stopping of a multicached application
+ * Testing the use (and hopefully stopping of a multicached application
  * @author patches
  *
  */

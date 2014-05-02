@@ -5,10 +5,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.infinispan.Cache;
-import org.infinispan.configuration.cache.CacheMode;
-import org.infinispan.configuration.cache.Configuration;
-import org.infinispan.configuration.cache.ConfigurationBuilder;
-import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.manager.EmbeddedCacheManager;
 
@@ -17,7 +13,8 @@ import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
 public class InfinispanWithEmbeddedClusteredReplicationKVStore implements KVStore {
 
-	private final CacheMode MODE = CacheMode.REPL_SYNC;
+	private final String CONFIG_FILE = "multi-cache-cfg.xml";
+	private final String CACHE_NAME = "replication-cache";
 	
 	String scopePrefix = "test_";
 	// Setup an Infinispan cache
@@ -36,21 +33,9 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements KVStor
 	@Override
 	public void start() throws Exception {
 
+		EmbeddedCacheManager manager = new DefaultCacheManager(CONFIG_FILE);
 		
-		//Define Cache Configuration - use replicated Synchronous Cache, and fetch in memory state true
-		ConfigurationBuilder configBuilder = new ConfigurationBuilder();
-	//	configBuilder.clustering().stateTransfer().fetchInMemoryState(true);
-		configBuilder.clustering().cacheMode(MODE);
-		
-		Configuration cacheConfig = configBuilder.build();
-		
-		EmbeddedCacheManager manager = new DefaultCacheManager(
-				GlobalConfigurationBuilder.defaultClusteredBuilder()
-						.transport().defaultTransport().build());
-
-		manager.defineConfiguration("cluster-cache", cacheConfig);
-
-		c = manager.getCache();
+		c = manager.getCache(CACHE_NAME);
 
 		// Set all slots to "unused"
 		for (int i = 0; i < slotAllocation.length; i++) {
