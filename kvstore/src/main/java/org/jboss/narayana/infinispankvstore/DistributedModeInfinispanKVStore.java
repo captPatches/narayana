@@ -14,7 +14,7 @@ import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
 public class DistributedModeInfinispanKVStore implements KVStore {
 
-private final String CONFIG_FILE = "infinispan-dist-cfg.xml";
+private final String CONFIG_FILE = "multi-cache-cfg.xml";
 private final String CACHE_NAME = "distributed-cache";
 	
 	String scopePrefix = "test_";
