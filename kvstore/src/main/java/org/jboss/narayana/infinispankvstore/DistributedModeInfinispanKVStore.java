@@ -19,6 +19,7 @@ private final String CACHE_NAME = "distributed-cache";
 	
 	String scopePrefix = "test_";
 	// Setup an Infinispan cache
+	EmbeddedCacheManager manager;
 	private Cache<String, byte[]> c;
 
 	private static final int SIZE = 1024;
@@ -35,11 +36,12 @@ private final String CACHE_NAME = "distributed-cache";
 	public void start() throws Exception {
 		
 		try {
-		EmbeddedCacheManager manager = new DefaultCacheManager(CONFIG_FILE);
+		manager = new DefaultCacheManager(CONFIG_FILE);
 
 		c = manager.getCache(CACHE_NAME);
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new RuntimeException();
 		}
 		// Set all slots to "unused"
 		for (int i = 0; i < slotAllocation.length; i++) {
@@ -50,8 +52,8 @@ private final String CACHE_NAME = "distributed-cache";
 
 	@Override
 	public void stop() throws Exception {
-
 		c.stop();
+		manager.stop();
 	}
 
 	@Override

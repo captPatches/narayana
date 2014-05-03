@@ -25,13 +25,12 @@ public class InfinispanWithEmbeddedReplicationPerfTest {
 	@Before
 	public void setup() {
 
-		// Set System properties to use infinispanKVStore
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 
 		System.setProperty(
-				"HornetqJournalEnvironmentBean.storeImplementationClassName",
-				"com.arjuna.ats.internal.arjuna.objectstore.infinispankvstore.InfinispanWithEmbeddedClusteredReplication");
+				"KVStoreEnvironmentBean.storeImplementationClassName",
+				"org.jboss.narayana.infinispankvstore.InfinispanWithEmbeddedClusteredReplicationKVStore");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 

@@ -1,5 +1,6 @@
 package org.jboss.narayana.infinispankvstore;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,13 +12,16 @@ import org.infinispan.manager.EmbeddedCacheManager;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
-public class InfinispanWithEmbeddedClusteredReplicationKVStore implements KVStore {
+public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
+		KVStore {
 
 	private final String CONFIG_FILE = "multi-cache-cfg.xml";
-	private final String CACHE_NAME = "replication-cache";
+	private final String CACHE_NAME = "distributed-cache";
 	
+
 	String scopePrefix = "test_";
 	// Setup an Infinispan cache
+	private EmbeddedCacheManager manager;
 	private Cache<String, byte[]> c;
 
 	private static final int SIZE = 1024;
@@ -33,10 +37,14 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements KVStor
 	@Override
 	public void start() throws Exception {
 
-		EmbeddedCacheManager manager = new DefaultCacheManager(CONFIG_FILE);
-		
-		c = manager.getCache(CACHE_NAME);
+		try {
+			manager = new DefaultCacheManager(CONFIG_FILE);
 
+			c = manager.getCache(CACHE_NAME);
+			System.out.println("Hello I at least am getting called.  Moooooooooooooo!!!!!");
+		} catch (IOException e) {
+			throw new RuntimeException();
+		}
 		// Set all slots to "unused"
 		for (int i = 0; i < slotAllocation.length; i++) {
 			slotAllocation[i] = new AtomicBoolean(false);
@@ -47,7 +55,9 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements KVStor
 	@Override
 	public void stop() throws Exception {
 
+		manager.stop();
 		c.stop();
+		
 	}
 
 	@Override
