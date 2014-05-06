@@ -27,7 +27,6 @@ public class KVStoreWorkerTM implements Worker<BigInteger> {
 
 		for(int i=0;i<niters;i++) {
 
-				
 			try {
 				tm.begin();
 

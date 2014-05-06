@@ -16,7 +16,7 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 		KVStore {
 
 	private final String CONFIG_FILE = "multi-cache-cfg.xml";
-	private final String CACHE_NAME = "distributed-cache";
+	private final String CACHE_NAME = "replication-cache";
 	
 
 	String scopePrefix = "test_";

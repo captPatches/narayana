@@ -3,7 +3,7 @@ package org.jboss.narayana.infinispankvstore;
 public class TestControlBean {
 
 	private final static int threadsNum = 20;
-	private final static int transCount = 500000;
+	private final static int transCount = 800000;
 
 	public static int threadsNum() {
 		return threadsNum;
