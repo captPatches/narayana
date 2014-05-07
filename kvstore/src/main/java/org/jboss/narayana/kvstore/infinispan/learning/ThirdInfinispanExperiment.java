@@ -19,12 +19,12 @@ public class ThirdInfinispanExperiment {
 
 	public static void main(String[]args) {
 		
-		// Setup configuraation for talking to remote cache
-		// ConfigurationBuilder confBuilder = new ConfigurationBuilder();
-		// Configuration config = confBuilder.addServer().host("127.0.0.1").port(11222).build();
+		// Setup configuration for talking to remote cache
+		ConfigurationBuilder confBuilder = new ConfigurationBuilder();
+		Configuration config = confBuilder.addServer().host("localhost").port(11222).build();
 		
-//		RemoteCacheManager manager = new RemoteCacheManager(config, true);
-		RemoteCacheManager manager = new RemoteCacheManager(true);
+		RemoteCacheManager manager = new RemoteCacheManager(config, true);
+//		RemoteCacheManager manager = new RemoteCacheManager(true);
 		RemoteCache<String, String> rc = manager.getCache();
 		
 		// Attempt to put stuff in remote cache

@@ -39,9 +39,7 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 
 		try {
 			manager = new DefaultCacheManager(CONFIG_FILE);
-
 			c = manager.getCache(CACHE_NAME);
-			System.out.println("Hello I at least am getting called.  Moooooooooooooo!!!!!");
 		} catch (IOException e) {
 			throw new RuntimeException();
 		}
@@ -55,9 +53,9 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 	@Override
 	public void stop() throws Exception {
 
-		manager.stop();
 		c.stop();
-		
+		manager.stop();
+
 	}
 
 	@Override

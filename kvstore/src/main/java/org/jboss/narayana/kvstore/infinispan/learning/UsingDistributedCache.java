@@ -13,7 +13,7 @@ public class UsingDistributedCache {
 	public static void main(String[] args) throws Exception {
 
 		EmbeddedCacheManager manager = new DefaultCacheManager(
-				"infinispan-dist-cfg.xml");
+				"multi-cache-cfg.xml");
 		Cache<String, String> c = manager.getCache("distributed-cache");
 
 		if (c.isEmpty()) {
@@ -23,7 +23,7 @@ public class UsingDistributedCache {
 			}
 		} else {
 			for (String key : c.keySet()) {
-				System.out.println(c.get(key));
+				System.out.println(c.get(key) + " - Retrieved");
 			}
 		}
 		
