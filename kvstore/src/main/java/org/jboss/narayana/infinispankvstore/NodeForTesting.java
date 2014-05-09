@@ -7,7 +7,7 @@ import org.infinispan.manager.EmbeddedCacheManager;
 
 /**
  * Runs an infinispan node for testing purposes that has knowledge of a
- * replicated cache store and a distributed cach store
+ * replicated cache store and a distributed cache store
  * 
  * @author patches
  * 
@@ -15,6 +15,9 @@ import org.infinispan.manager.EmbeddedCacheManager;
 public class NodeForTesting {
 
 	public static void main(String[] args) {
+		
+		//System.setProperty("jgroups.bind_addr", "192.168.1.65");
+		
 		try {
 			EmbeddedCacheManager manager = new DefaultCacheManager("multi-cache-cfg.xml");
 			manager.getCache("distributed-cache");
