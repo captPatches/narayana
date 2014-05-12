@@ -19,7 +19,7 @@ public class NodeForTesting {
 		//System.setProperty("jgroups.bind_addr", "192.168.1.65");
 		
 		try {
-			EmbeddedCacheManager manager = new DefaultCacheManager("multi-cache-cfg.xml");
+			EmbeddedCacheManager manager = new DefaultCacheManager("/home/patches/workspace/narayana/kvstore/multi-cache-cfg.xml");
 			manager.getCache("distributed-cache");
 			manager.getCache("replication-cache");
 			
@@ -29,7 +29,6 @@ public class NodeForTesting {
 		} catch (Exception e) {
 			System.out.print("Node Failed:\n" + e.getMessage());
 		}
-
 	}
 //  iptables -I INPUT -s 192.168.0.0/24,172.17.130.0/22 -p udp -j ACCEPT
 }
