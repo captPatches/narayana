@@ -16,7 +16,7 @@ import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
 public class MillReplicatedCache implements KVStore {
 
-	private final String CONFIG_FILE = "jgroups-tcp-mill002-cfg.xml";
+	private final String CONFIG_FILE = "configlib/jgroups-tcp-mill002-cfg.xml";
 	private final String CACHE_NAME = "repl-cache";
 
 	String scopePrefix = "test_";
@@ -47,7 +47,7 @@ public class MillReplicatedCache implements KVStore {
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.clustering().cacheMode(CacheMode.REPL_SYNC);
 			cb.clustering().stateTransfer().fetchInMemoryState(true);
-			manager.defineConfiguration("repl-cache", cb.build());
+			manager.defineConfiguration(CACHE_NAME, cb.build());
 			
 			c = manager.getCache(CACHE_NAME);
 		} catch (Exception e) {
