@@ -66,7 +66,7 @@ public class MillReplPerfTest {
 				"-c",
 				"ssh -t b3048933@mill004.ncl.ac.uk \"cd narayana/kvstore ; java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"",
 				"ssh -t b3048933@mill005.ncl.ac.uk \"cd narayana/kvstore ; java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"",
-				"ssh -t b3048933@mill005.ncl.ac.uk \"cd narayana/kvstore ; java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"",
+				"ssh -t b3048933@mill006.ncl.ac.uk \"cd narayana/kvstore ; java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"",
 		};
 		try {
 		Runtime.getRuntime().exec(command);
@@ -79,9 +79,9 @@ public class MillReplPerfTest {
 	private boolean stopNodes() {
 
 		String[] command = {
-				"ssh -t b3048933@mill004.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes.sh",
-				"ssh -t b3048933@mill005.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes.sh",
-				"ssh -t b3048933@mill006.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes.sh"
+				"ssh -t b3048933@mill004.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes",
+				"ssh -t b3048933@mill005.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes",
+				"ssh -t b3048933@mill006.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes"
 		};
 		try {
 			Runtime.getRuntime().exec(command);
