@@ -78,9 +78,9 @@ public class MillDistPerfTest {
 	private boolean stopNodes() {
 		
 		String[] command = {
-				"/bin/sh",
-				"-c",
-				"kill -9 $(jps | grep Node | cut -d' ' -f1)"
+				"ssh -t b3048933@mill004.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes.sh",
+				"ssh -t b3048933@mill005.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes.sh",
+				"ssh -t b3048933@mill006.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes.sh"
 		};
 		
 		try {
