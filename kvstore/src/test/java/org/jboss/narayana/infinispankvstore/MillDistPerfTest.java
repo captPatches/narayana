@@ -35,7 +35,7 @@ public class MillDistPerfTest {
 		threadsNum = TestControlBean.threadsNum();
 		transCount = TestControlBean.transCount();
 		
-		startNodes(3);
+		startNodes();
 	}
 
 	@Test
@@ -58,25 +58,21 @@ public class MillDistPerfTest {
 		StoreManager.shutdown();
 	}
 	
-	private boolean startNodes(int nodes) {
+	private boolean startNodes() {
 		
-		String nodeStart = "\"cd narayana/kvstore ; java -cp target/classes:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"";
-		String sshBox = "ssh -t 10.66.66.";
-		
-		String[] command = new String[nodes];
-		command[0] = "/bin/sh";
-		command[1] = "-c";
-		for(int i=2;i<command.length;i++) {
-			command[i] = sshBox + (i+19) + nodeStart;
-		}
-		
+		String[] command = {
+				"/bin/sh",
+				"-c",
+				"ssh -t b3048933@mill004.ncl.ac.uk \"cd narayana/kvstore ; java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"",
+				"ssh -t b3048933@mill005.ncl.ac.uk \"cd narayana/kvstore ; java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"",
+				"ssh -t b3048933@mill005.ncl.ac.uk \"cd narayana/kvstore ; java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"",
+		};
 		try {
-			Runtime.getRuntime().exec(command);
-			return true;
+		Runtime.getRuntime().exec(command);
+		return true;
 		} catch (IOException e) {
-			System.out.println(e);
 			return false;
-		}	
+		}
 	}
 	
 	private boolean stopNodes() {
