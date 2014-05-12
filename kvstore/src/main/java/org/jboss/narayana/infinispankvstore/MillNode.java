@@ -1,5 +1,8 @@
 package org.jboss.narayana.infinispankvstore;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
@@ -8,24 +11,26 @@ import org.infinispan.manager.EmbeddedCacheManager;
 
 public class MillNode {
 
+	// Pipes in single line son't work, so execute as as script
+	private final static String[] CMD = {
+			"/bin/sh",
+			"-c",
+			"hostname | cut -d'.' -f1" 
+			};
 	private static String machineId = "";
 
 	public static void main(String[] args) {
 
-		// select the machine from the command line
-		// Why doesn't -Djgroups.bind_addr work. Rarr
-		if (args.length == 1) {
-			switch (args[0]) {
-			case "002":
-			case "004":
-			case "005":
-				machineId = "-mill" + args[0] + "-";
-				break;
-			default:
-				machineId = "-";
-			}
-		} else {
-			machineId = "-";
+		//find which machine to run on.
+		try {
+			Process p = Runtime.getRuntime().exec(CMD);
+			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			machineId = "-" + in.readLine() + "-";
+			in.close();	
+		} catch (Exception e) {
+			// Use default localhost configuration.
+			System.err.println("Can't find hostname - Using default Localhost");
+			machineId = "";
 		}
 
 		// Start the CacheManager and retrieve the Cache
@@ -37,7 +42,7 @@ public class MillNode {
 							.transport()
 							.defaultTransport()
 							.addProperty("configurationFile",
-									"jgroups-tcp" + machineId + "cfg.xml")
+									"configlib/jgroups-tcp" + machineId + "cfg.xml")
 							.addProperty("clusterName", "b3408933-cluster")
 							.build());
 
@@ -49,7 +54,7 @@ public class MillNode {
 
 			// Define Distributed Cache
 			cb = new ConfigurationBuilder();
-			cb.clustering().cacheMode(CacheMode.REPL_SYNC);
+			cb.clustering().cacheMode(CacheMode.DIST_SYNC);
 			cb.clustering().hash().numOwners(3);
 			cb.clustering().stateTransfer().fetchInMemoryState(true);
 			manager.defineConfiguration("dist-cache", cb.build());

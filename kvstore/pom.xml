@@ -44,7 +44,19 @@
 			<properties>
 				<exclude.tests>**/*Store*.java,**/*HotRod*.java,**/*Cache*.java</exclude.tests>
 			</properties>
-		</profile>	
+		</profile>
+		<profile>
+			<id>mill</id>
+			<properties>
+				<exclude.tests>**/*InfinispanWith*,**/Mcl*</exclude.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>fastMill</id>
+			<properties>
+				<exclude.tests>**/*InfinispanWith*,**/Mcl*,**/*Store*</exclude.tests>
+			</properties>
+		</profile>
 	</profiles>
 
 
