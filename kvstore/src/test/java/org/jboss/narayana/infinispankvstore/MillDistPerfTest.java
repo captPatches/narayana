@@ -35,7 +35,7 @@ public class MillDistPerfTest {
 		threadsNum = TestControlBean.threadsNum();
 		transCount = TestControlBean.transCount();
 		
-		startNodes();
+		//startNodes();
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class MillDistPerfTest {
 
 	@After
 	public void tearDown() {
-		stopNodes();
+	//	stopNodes();
 		StoreManager.shutdown();
 	}
 	
