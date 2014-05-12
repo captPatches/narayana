@@ -3,11 +3,12 @@ package org.jboss.narayana.infinispankvstore;
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 
 import javax.transaction.TransactionManager;
 
-import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +36,8 @@ public class InfinispanEmbeddedCachePerfTest {
 
 		threadsNum = TestControlBean.threadsNum();
 		transCount = TestControlBean.transCount();
+		
+		System.out.println("\n\r" + startNodes() + "\n\r");
 	}
 
 	@Test
@@ -54,6 +57,34 @@ public class InfinispanEmbeddedCachePerfTest {
 	@After
 	public void tearDown() {
 		StoreManager.shutdown();
+	}
+	
+	private boolean startNodes() {
+		
+		String command = "java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.NodeForTesting";
+		String[] TestNodeUp = {
+				"/bin/sh",
+				"-c",
+				"jps | grep NodeForTesting"
+		};
+		
+		try {
+			System.out.println("Starting Node \n\r");
+			Runtime.getRuntime().exec(command);
+			Process p = Runtime.getRuntime().exec(TestNodeUp);
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line;
+			while((line = in.readLine()) != null) {
+				System.out.println(line);
+				if(line != null) return true;
+			}
+			in.close();
+			return false;
+		} catch (Exception e) {
+			System.out.println(e);
+			return false;
+		}
 	}
 
 }
