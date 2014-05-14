@@ -31,6 +31,8 @@ public class HornetQJournelStorePerfTest {
 		System.setProperty(
 				"HornetqJournalEnvironmentBean.storeImplementationClassName",
 				"com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqJournalStore");
+		
+		System.setProperty("ObjectStoreEnvironmentBean.objectStoreDir", "/work/b3048944/hornetq");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
