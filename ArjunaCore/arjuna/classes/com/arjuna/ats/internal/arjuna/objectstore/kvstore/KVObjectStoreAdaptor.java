@@ -108,7 +108,11 @@ public class KVObjectStoreAdaptor implements ObjectStoreAPI
     @Override
     public boolean remove_uncommitted(Uid u, String tn) throws ObjectStoreException
     {
-        throw new ObjectStoreException(tsLogger.i18NLogger.get_method_not_implemented());
+    	 if (tsLogger.logger.isTraceEnabled()) {
+             tsLogger.logger.trace("LogStore.remove_uncommitted(" + u + ", " + tn + ")");
+         }
+
+         return false;
     }
 
 
@@ -197,9 +201,14 @@ public class KVObjectStoreAdaptor implements ObjectStoreAPI
      *         otherwise.
      */
     @Override
-    public boolean commit_state(Uid u, String tn) throws ObjectStoreException
+    public boolean commit_state(Uid objUid, String tName) throws ObjectStoreException
     {
-        throw new ObjectStoreException(tsLogger.i18NLogger.get_method_not_implemented());
+        
+    	 if (tsLogger.logger.isTraceEnabled()) {
+             tsLogger.logger.trace("ShadowingStore.commit_state(" + objUid + ", " + tName + ")");
+         }
+
+    	 return true;
     }
 
     /**
@@ -235,9 +244,12 @@ public class KVObjectStoreAdaptor implements ObjectStoreAPI
      *         otherwise.
      */
     @Override
-    public boolean write_uncommitted(Uid u, String tn, OutputObjectState buff) throws ObjectStoreException
+    public boolean write_uncommitted(Uid storeUid, String tName, OutputObjectState state) throws ObjectStoreException
     {
-        throw new ObjectStoreException(tsLogger.i18NLogger.get_method_not_implemented());
+    	if (tsLogger.logger.isTraceEnabled()) {
+            tsLogger.logger.trace("FileSystemStore.write_uncommitted(" + storeUid + ", " + tName + ", " + state + ")");
+    	}
+    	return true;
     }
 
     /**
