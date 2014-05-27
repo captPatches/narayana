@@ -13,6 +13,7 @@ public class MultiCacheNode {
 				"multi-cache-cfg.xml");
 		manager.getCache("distributed-cache").addListener(listener);
 		manager.getCache("replication-cache").addListener(listener);
+		manager.getCache("Aysnc-Repl-Cache").addListener(listener);
 
 	}
 
