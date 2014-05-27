@@ -1,6 +1,8 @@
 package org.jboss.narayana.infinispankvstore;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -19,7 +21,7 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 	private final String CACHE_NAME = "replication-cache";
 	
 
-	String scopePrefix = "test_";
+	private final String scopePrefix = getHostname();
 	// Setup an Infinispan cache
 	private EmbeddedCacheManager manager;
 	private Cache<String, byte[]> c;
@@ -98,5 +100,30 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 			}
 		}
 		return -1L;
+	}
+	
+	/**
+	 * Returns the hostname for the box this will be running on
+	 * TODO:  Test portability of this code to windows and BSD?!?
+	 * @return
+	 */
+	private String getHostname() {
+		
+		String hostname = null;
+		
+		try {
+			// Not run as a script to aid portability.
+			Process p = Runtime.getRuntime().exec("hostname");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			// Should be only one line - could check and throw exception if there
+			// is more than one line returned.  Complexity probably hurts portability however.
+			hostname = reader.readLine();
+			reader.close();
+		}
+		catch(IOException ioe) {
+			hostname = "Default_Hostname_";
+		}
+		
+		return hostname + "_";
 	}
 }
