@@ -1,4 +1,4 @@
-package org.jboss.narayana.infinispankvstore;
+package org.jboss.narayana.infinispankvstore.objectstoretests;
 
 import static org.junit.Assert.assertTrue;
 

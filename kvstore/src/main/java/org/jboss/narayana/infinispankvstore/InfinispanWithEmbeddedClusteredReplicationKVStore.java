@@ -78,13 +78,24 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 
 	@Override
 	public void update(long id, byte[] data) throws Exception {
-
 		c.replace(keys[(int) id], data);
 	}
 
 	@Override
 	public List<KVStoreEntry> load() throws Exception {
-		return new LinkedList<KVStoreEntry>();
+		
+		if(!c.isEmpty()) {
+			LinkedList<KVStoreEntry> list = new LinkedList<KVStoreEntry>();
+			for(String key : c.keySet()) {
+				// Hostname_ needs to be removed from key, the resulting number String
+				// parsed to find a useable Id
+				list.add(new KVStoreEntry(Long.parseLong(key.substring(key.lastIndexOf('_')+1)), c.get(key)));
+			}
+			return list;
+		} else {
+			// If ObjectStore is empty then return null.
+			return null;
+		}
 	}
 
 	@Override

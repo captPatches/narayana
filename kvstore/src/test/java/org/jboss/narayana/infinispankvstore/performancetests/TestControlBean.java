@@ -1,4 +1,4 @@
-package org.jboss.narayana.infinispankvstore;
+package org.jboss.narayana.infinispankvstore.performancetests;
 
 public class TestControlBean {
 

@@ -1,4 +1,4 @@
-package org.jboss.narayana.infinispankvstore;
+package org.jboss.narayana.infinispankvstore.performancetests;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
@@ -9,6 +9,7 @@ import java.math.BigInteger;
 
 import javax.transaction.TransactionManager;
 
+import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

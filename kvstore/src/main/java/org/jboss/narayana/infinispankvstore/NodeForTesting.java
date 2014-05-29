@@ -17,6 +17,7 @@ public class NodeForTesting {
 	public static void main(String[] args) {
 		
 		//System.setProperty("jgroups.bind_addr", "192.168.1.65");
+		System.setProperty("java.net.preferIPv4Stack", "true");
 		
 		try {
 			EmbeddedCacheManager manager = new DefaultCacheManager("/home/patches/workspace/narayana/kvstore/multi-cache-cfg.xml");
