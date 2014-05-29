@@ -43,7 +43,7 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 			manager = new DefaultCacheManager(CONFIG_FILE);
 			c = manager.getCache(CACHE_NAME);
 		} catch (IOException e) {
-			throw new RuntimeException();
+			throw new RuntimeException("No Cache Availble");
 		}
 		// Set all slots to "unused"
 		for (int i = 0; i < slotAllocation.length; i++) {
@@ -55,9 +55,7 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 	@Override
 	public void stop() throws Exception {
 
-		c.stop();
 		manager.stop();
-
 	}
 
 	@Override
@@ -67,7 +65,7 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 
 	@Override
 	public void delete(long id) throws Exception {
-		c.remove(id);
+		c.remove(keys[(int) id]);
 		slotAllocation[(int) id].set(false);
 
 	}
