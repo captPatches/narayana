@@ -4,7 +4,7 @@
 	<!-- ${jgroups.tcp.address:192.168.1.65} -->
 	
 	<TCP
-		bind_addr="${jgroups.tcp.address:192.168.1.65}"
+		bind_addr="${jgroups.tcp.address:127.0.0.1}"
 		bind_port="${jgroups.tcp.port:7800}"
 		port_range="30" recv_buf_size="20m"
 		send_buf_size="640k"
@@ -40,7 +40,7 @@
 		until JGRP-1253 is resolved -->
 
 	<TCPPING timeout="3000"
-		initial_hosts="${jgroups.tcpping.initial_hosts:127.0.0.1[7800],127.0.0.1[7801]}"
+		initial_hosts="127.0.0.1[7800]"
 		port_range="5" num_initial_members="3" ergonomics="false" />
 	
 	<MERGE2 max_interval="30000" min_interval="10000" />

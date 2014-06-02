@@ -1,0 +1,52 @@
+#!/bin/bash
+
+echo "[SCALING TEST SCRIPT STARTED]"
+
+declare -a address=(21 22 23 24 25 26 29 30 31 32 33 36 37 38 39 40 41 43 45 47 48 49 51 52 53);
+#declare -a address=(21 22 23 24 25 30 31 32 33 36 37 38 39 40 41 43 45 47 48 49 51 52 53);
+
+function startNodes {
+	echo '[SCRIPT INFO] Starting NODES'
+	for((i=0; i<$1; i++))
+	do
+		ssh -f 10.66.66.${address[i]} "cd narayana/kvstore ; java -Djava.net.preferIPv4Stack=true -cp target/classes:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode" 
+		sleep 5
+	done
+}
+
+function stopNodes {
+	echo '[SCRIPT INFO] Stopping NODES'
+	for((i=0; i<$1; i++))
+	do
+		ssh 10.66.66.${address[i]} ./narayana/kvstore/stopNodes
+	done
+}
+
+function test {
+	echo "$1 NODE TEST"
+	startNodes $1
+	./build.sh -f kvstore/pom.xml test -Dtest=org.jboss.narayana.infinispankvstore.MillD*
+	stopNodes $1
+	sleep 5
+	startNodes $1
+	./build.sh -f kvstore/pom.xml test -Dtest=org.jboss.narayana.infinispankvstore.MillR*	
+	stopNodes $1
+	sleep 5
+
+}
+
+stopNodes 24
+
+function go {
+	test 1
+	test 3
+	test 6
+#	test 9
+#	test 12
+#	test 15
+#	test 18
+#	test 21
+#	test 24
+}
+
+go grep -e "RESULTS" -e "NODE TEST" -e "SCRIPT" -e "new cluster view"

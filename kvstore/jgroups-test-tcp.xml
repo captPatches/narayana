@@ -2,9 +2,9 @@
 	xsi:schemaLocation="urn:org:jgroups http://www.jgroups.org/schema/JGroups-3.4.xsd">
 	
 	<!-- ${jgroups.tcp.address:192.168.1.65} -->
-	
-	<TCP
-		bind_addr="${jgroups.tcp.address:}"
+
+<TCP
+		bind_addr="${jgroups.tcp.address:127.0.0.1}"
 		bind_port="${jgroups.tcp.port:7800}"
 		port_range="30" recv_buf_size="20m"
 		send_buf_size="640k"
