@@ -1,4 +1,4 @@
-package org.jboss.narayana.infinispankvstore.objectstoretests;
+package org.jboss.narayana.kvstore.infinispan.objectstoretests;
 
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -12,30 +12,24 @@ import org.junit.Test;
 
 import com.arjuna.ats.arjuna.recovery.RecoveryManager;
 
-public class DummyRecoveryTest {
+public class LocalRepDummyRecoveryTest {
 
 	private TransactionManager tm;
 	private RecoveryManager rm;
 	
 	@Before
 	public void setup() {
-
-		// Make sure to use IPv4 Stack
-		System.setProperty("java.net.preferIPv4Stack", "true");
 		
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.infinispankvstore.InfinispanWithEmbeddedClusteredReplicationKVStore");
+				"org.jboss.narayana.kvstore.infinispan.ReplicatedStore");
 	
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 		rm = RecoveryManager.manager();
-		
-	//	Util.emptyObjectStore();
 	}
-	
 	/**
 	 * First scan to see if there are any transactions to recover. If there
 	 * are, recover them, else try to commit a new transaction (that will fail).
