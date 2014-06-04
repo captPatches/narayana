@@ -1,4 +1,4 @@
-package org.jboss.narayana.infinispankvstore;
+package org.jboss.narayana.infinispankvstore.performancetests;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
-public class MillReplPerfTest {
+public class MillDistPerfTest {
 	private TransactionManager tm;
 	private int threadsNum;
 	private int transCount;
@@ -29,13 +29,13 @@ public class MillReplPerfTest {
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.infinispankvstore.MillReplicatedCache");
+				"org.jboss.narayana.infinispankvstore.MillDistributedCache");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
 		threadsNum = TestControlBean.threadsNum();
 		transCount = TestControlBean.transCount();
-
+		
 		//startNodes();
 	}
 
@@ -49,7 +49,7 @@ public class MillReplPerfTest {
 		tester.measureThroughput(worker, opts);
 
 		System.out
-				.printf("\nRESULTS: Infinispan Replicated Mode: %d Txs / second (total time: %d)\n",
+				.printf("\nRESULTS: Infinispan Distributed Mode: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
 	}
 
@@ -58,9 +58,9 @@ public class MillReplPerfTest {
 	//	stopNodes();
 		StoreManager.shutdown();
 	}
-
+	
 	private boolean startNodes() {
-
+		
 		String[] command = {
 				"/bin/sh",
 				"-c",
@@ -75,18 +75,19 @@ public class MillReplPerfTest {
 			return false;
 		}
 	}
-
+	
 	private boolean stopNodes() {
-
+		
 		String[] command = {
 				"ssh -t b3048933@mill004.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes",
 				"ssh -t b3048933@mill005.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes",
 				"ssh -t b3048933@mill006.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes"
 		};
+		
 		try {
 			Runtime.getRuntime().exec(command);
 			return true;
-		} catch (IOException e) {
+		} catch(IOException e) {
 			return false;
 		}
 	}

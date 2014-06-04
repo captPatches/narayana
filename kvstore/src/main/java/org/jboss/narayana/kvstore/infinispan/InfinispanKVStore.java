@@ -1,8 +1,6 @@
-package org.jboss.narayana.infinispankvstore;
+package org.jboss.narayana.kvstore.infinispan;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,18 +9,13 @@ import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.manager.EmbeddedCacheManager;
 
+import com.arjuna.ats.arjuna.exceptions.ObjectStoreException;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
-public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
-		KVStore {
-
-	private final String CONFIG_FILE = "multi-cache-cfg.xml";
-	private final String CACHE_NAME = "replication-cache";
-	
+public abstract class InfinispanKVStore implements KVStore {
 
 	private final String scopePrefix = getHostname();
-	// Setup an Infinispan cache
 	private EmbeddedCacheManager manager;
 	private Cache<String, byte[]> c;
 
@@ -34,27 +27,28 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 																			// true
 																			// =
 																			// allocated
+	// holds the key for each record.
 	private final String[] keys = new String[SIZE];
-
+	
 	@Override
 	public void start() throws Exception {
-
+		// try to cache first, no point in setting up arrays
+		// just to discover there is no CacheManager
 		try {
-			manager = new DefaultCacheManager(CONFIG_FILE);
-			c = manager.getCache(CACHE_NAME);
+			this.manager = getManager();
 		} catch (IOException e) {
-			throw new RuntimeException("No Cache Availble");
+			throw new ObjectStoreException("Infinispan Configuration Not Availble");
 		}
-		// Set all slots to "unused"
+		c = getCache(manager);
+		
 		for (int i = 0; i < slotAllocation.length; i++) {
 			slotAllocation[i] = new AtomicBoolean(false);
-			keys[i] = scopePrefix + i;
+			keys[i] = scopePrefix + "_" + i;
 		}
 	}
 
 	@Override
 	public void stop() throws Exception {
-
 		manager.stop();
 	}
 
@@ -67,13 +61,11 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 	public void delete(long id) throws Exception {
 		c.remove(keys[(int) id]);
 		slotAllocation[(int) id].set(false);
-
 	}
 
 	@Override
 	public void add(long id, byte[] data) throws Exception {
 		c.put(keys[(int) id], data);
-
 	}
 
 	@Override
@@ -83,19 +75,17 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 
 	@Override
 	public List<KVStoreEntry> load() throws Exception {
-		
 		if(!c.isEmpty()) {
 			LinkedList<KVStoreEntry> list = new LinkedList<KVStoreEntry>();
 			for(String key : c.keySet()) {
 				// Hostname_ needs to be removed from key, the resulting number String
-				// parsed to find a useable Id
+				// parsed to find a usable Id
 				list.add(new KVStoreEntry(Long.parseLong(key.substring(key.lastIndexOf('_')+1)), c.get(key)));
 			}
 			return list;
-		} else {
-			// If ObjectStore is empty then return null.
-			return null;
 		}
+		// Return null if objectstore is empty
+		return null;
 	}
 
 	@Override
@@ -109,29 +99,33 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 		}
 		return -1L;
 	}
-	
+
 	/**
 	 * Returns the hostname for the box this will be running on
-	 * TODO:  Test portability of this code to windows and BSD?!?
+	 * 
 	 * @return
 	 */
-	private String getHostname() {
-		
-		String hostname = null;
-		
+	protected String getHostname() {
 		try {
-			// Not run as a script to aid portability.
-			Process p = Runtime.getRuntime().exec("hostname");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			// Should be only one line - could check and throw exception if there
-			// is more than one line returned.  Complexity probably hurts portability however.
-			hostname = reader.readLine();
-			reader.close();
+			return java.net.InetAddress.getLocalHost().getHostName();
+		} catch (java.net.UnknownHostException e) {
+			System.err.println(e.getMessage());
+			return "unknown_hostname";
 		}
-		catch(IOException ioe) {
-			hostname = "Default_Hostname_";
-		}
-		
-		return hostname + "_";
 	}
+
+	/**
+	 * Configures and provides the cache the
+	 * 
+	 * @return
+	 */
+	protected abstract DefaultCacheManager getManager() throws IOException;
+	
+	/**
+	 * Returns the user's cache, takes in the pre-defined cache manager.
+	 * This allows subclass to define cache programmatically if desired
+	 * rather than relying on XML config files.
+	 * @return
+	 */
+	protected abstract Cache<String, byte[]> getCache(EmbeddedCacheManager manager);
 }

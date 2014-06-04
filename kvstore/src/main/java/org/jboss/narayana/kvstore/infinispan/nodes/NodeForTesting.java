@@ -1,4 +1,4 @@
-package org.jboss.narayana.infinispankvstore;
+package org.jboss.narayana.kvstore.infinispan.nodes;
 
 import java.io.IOException;
 

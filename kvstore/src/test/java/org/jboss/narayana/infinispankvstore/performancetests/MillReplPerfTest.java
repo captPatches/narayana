@@ -1,22 +1,21 @@
-package org.jboss.narayana.infinispankvstore;
+package org.jboss.narayana.infinispankvstore.performancetests;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.math.BigInteger;
 
 import javax.transaction.TransactionManager;
 
+import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
-public class InfinispanEmbeddedCachePerfTest {
-
+public class MillReplPerfTest {
 	private TransactionManager tm;
 	private int threadsNum;
 	private int transCount;
@@ -30,14 +29,14 @@ public class InfinispanEmbeddedCachePerfTest {
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.infinispankvstore.NoReplInfinispanKVStore");
+				"org.jboss.narayana.infinispankvstore.MillReplicatedCache");
 
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
 		threadsNum = TestControlBean.threadsNum();
 		transCount = TestControlBean.transCount();
-		
-	//	System.out.println("\n\r" + startNodes() + "\n\r");
+
+		//startNodes();
 	}
 
 	@Test
@@ -50,39 +49,44 @@ public class InfinispanEmbeddedCachePerfTest {
 		tester.measureThroughput(worker, opts);
 
 		System.out
-				.printf("\nRESULTS: Infinispan Embedded performance: %d Txs / second (total time: %d)\n",
+				.printf("\nRESULTS: Infinispan Replicated Mode: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
 	}
 
 	@After
 	public void tearDown() {
+	//	stopNodes();
 		StoreManager.shutdown();
 	}
-	
+
 	private boolean startNodes() {
-		
-		String command = "java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.NodeForTesting";
-		String[] TestNodeUp = {
+
+		String[] command = {
 				"/bin/sh",
 				"-c",
-				"jps | grep NodeForTesting"
+				"ssh -t b3048933@mill004.ncl.ac.uk \"cd narayana/kvstore ; java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"",
+				"ssh -t b3048933@mill005.ncl.ac.uk \"cd narayana/kvstore ; java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"",
+				"ssh -t b3048933@mill006.ncl.ac.uk \"cd narayana/kvstore ; java -cp target/classes/:target/dependency/* org.jboss.narayana.infinispankvstore.MillNode\"",
 		};
-		
 		try {
-			System.out.println("Starting Node \n\r");
-			Runtime.getRuntime().exec(command);
-			Process p = Runtime.getRuntime().exec(TestNodeUp);
-			
-			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line;
-			while((line = in.readLine()) != null) {
-				System.out.println(line);
-				if(line != null) return true;
-			}
-			in.close();
+		Runtime.getRuntime().exec(command);
+		return true;
+		} catch (IOException e) {
 			return false;
-		} catch (Exception e) {
-			System.out.println(e);
+		}
+	}
+
+	private boolean stopNodes() {
+
+		String[] command = {
+				"ssh -t b3048933@mill004.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes",
+				"ssh -t b3048933@mill005.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes",
+				"ssh -t b3048933@mill006.ncl.ac.uk \"cd narayana/kvstore ; ./stopNodes"
+		};
+		try {
+			Runtime.getRuntime().exec(command);
+			return true;
+		} catch (IOException e) {
 			return false;
 		}
 	}

@@ -1,7 +1,8 @@
-package org.jboss.narayana.infinispankvstore;
+package org.jboss.narayana.infinispankvstore.performancetests;
 
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
+import io.narayana.perf.Worker;
 
 import java.math.BigInteger;
 
@@ -14,7 +15,8 @@ import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
-public class InfinispanWithDistCachPerfTest {
+public class FileSystemStorePerfTest {
+	
 	private TransactionManager tm;
 	private int threadsNum;
 	private int transCount;
@@ -22,37 +24,45 @@ public class InfinispanWithDistCachPerfTest {
 	@Before
 	public void setup() {
 
-		// Set System properties to use infinispanKVStore
-		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
-				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
-
+		// Don't Set System properties to use infinispanKVStore
+		// Default Store
+		/*
 		System.setProperty(
-				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.infinispankvstore.DistributedModeInfinispanKVStore");
-
+				"ObjectStoreEnvironmentBean.objectStoreType",
+				"com.arjuna.ats.internal.arjuna.objectstore.FileLockingStore");
+		*/
+		
+		System.setProperty("ObjectStoreEnvironmentBean.objectStoreDir", "/work/b3048933/ObjectStore");
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
-
+		
 		threadsNum = TestControlBean.threadsNum();
 		transCount = TestControlBean.transCount();
+
 	}
 
 	@Test
 	public void speedTest() {
 
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
-		KVStoreWorkerTM worker = new KVStoreWorkerTM(tm);
+		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
 
 		Result<BigInteger> opts = new Result<BigInteger>(threadsNum, transCount);
 		tester.measureThroughput(worker, opts);
 
+		// discount any tests that contain an error
+		if (opts.getErrorCount() > 0)
+			throw new RuntimeException("There was error - Test Failed!!");
+
 		System.out
-				.printf("\nRESULTS: Infinispan Distributed Mode: %d Txs / second (total time: %d)\n",
+				.printf("\nRESULTS: Default File Store: %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
+
 	}
 
 	@After
 	public void tearDown() {
 		StoreManager.shutdown();
+
 	}
 
 }
