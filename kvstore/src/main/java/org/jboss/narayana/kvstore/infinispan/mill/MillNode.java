@@ -28,7 +28,7 @@ public class MillNode {
 			// Get full hostname
 			hostname = java.net.InetAddress.getLocalHost().getHostName();
 			// remove the ".ncl.ac.uk"
-			hostname = hostname.substring(0, hostname.indexOf('.') -1);
+			hostname = hostname.substring(0, hostname.indexOf('.'));
 		} catch (IOException e) {
 			hostname = "";
 			System.err.println("Using Default Hostname");
@@ -48,7 +48,7 @@ public class MillNode {
 							.transport()
 							.defaultTransport()
 							.addProperty("configurationFile",
-									"configlib/jgroups-tcp" + machineId + "cfg.xml")
+									"configlib/jgroups-tcp-" + machineId + "-cfg.xml")
 							.addProperty("clusterName", "b3408933-cluster")
 							.build());
 
