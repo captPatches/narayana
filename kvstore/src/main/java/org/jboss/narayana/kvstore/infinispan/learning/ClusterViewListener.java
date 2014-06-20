@@ -1,15 +1,18 @@
 package org.jboss.narayana.kvstore.infinispan.learning;
 
+import java.util.HashSet;
+
 import org.infinispan.notifications.Listener;
 import org.infinispan.notifications.cachemanagerlistener.annotation.ViewChanged;
 import org.infinispan.notifications.cachemanagerlistener.event.ViewChangedEvent;
 
 @Listener
 public class ClusterViewListener {
-
+	
 	@ViewChanged
 	public void viewChanged(ViewChangedEvent event) {
 		
+		// Retrieve CacheSet
 		int oldSize;
 		
 		try {
