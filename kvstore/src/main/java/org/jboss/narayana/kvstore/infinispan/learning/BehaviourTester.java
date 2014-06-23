@@ -33,6 +33,7 @@ public class BehaviourTester {
 				break;
 			case "exit":
 				exit = true;
+				System.exit(1);
 				break;
 			default:
 			}

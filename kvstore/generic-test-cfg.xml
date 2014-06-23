@@ -33,6 +33,13 @@
 			<sync />
 		</clustering>
 	</namedCache>
+	<namedCache name="segTest">
+		<clustering mode="distribution">
+		<sync />
+		<hash 	numOwners="3"
+				numSegments="2" />
+		</clustering>
+	</namedCache>
 	<namedCache name="Aysnc-Repl-Cache">
 		<clustering mode="replication-cach">
 			<async />
