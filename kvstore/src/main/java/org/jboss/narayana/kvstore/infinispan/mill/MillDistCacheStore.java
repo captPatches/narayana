@@ -7,7 +7,6 @@ import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
-import org.infinispan.manager.EmbeddedCacheManager;
 import org.jboss.narayana.kvstore.infinispan.InfinispanKVStore;
 
 public class MillDistCacheStore extends InfinispanKVStore {
@@ -16,7 +15,7 @@ public class MillDistCacheStore extends InfinispanKVStore {
 	private String CONFIG_FILE = "configlib/jgroups-tcp-mill002-cfg.xml";
 	
 	@Override
-	protected DefaultCacheManager getManager() throws IOException {
+	protected DefaultCacheManager setManager() throws IOException {
 		return new DefaultCacheManager(GlobalConfigurationBuilder
 				.defaultClusteredBuilder().transport().defaultTransport()
 				.addProperty("configurationFile", CONFIG_FILE)
@@ -24,7 +23,7 @@ public class MillDistCacheStore extends InfinispanKVStore {
 	}
 
 	@Override
-	protected Cache<String, byte[]> getCache(EmbeddedCacheManager manager) {
+	protected Cache<String, byte[]> setCache(DefaultCacheManager manager) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.clustering().cacheMode(CacheMode.DIST_SYNC);
 		cb.clustering().hash().numOwners(3);

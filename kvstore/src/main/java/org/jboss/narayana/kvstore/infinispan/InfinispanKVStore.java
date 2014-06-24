@@ -16,8 +16,8 @@ import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 public abstract class InfinispanKVStore implements KVStore {
 
 	private final String scopePrefix = getHostname();
-	private EmbeddedCacheManager manager;
-	private Cache<String, byte[]> c;
+	private final DefaultCacheManager manager;
+	private final Cache<String, byte[]> c;
 
 	private static final int SIZE = 1024;
 
@@ -30,16 +30,21 @@ public abstract class InfinispanKVStore implements KVStore {
 	// holds the key for each record.
 	private final String[] keys = new String[SIZE];
 	
-	@Override
-	public void start() throws Exception {
+	
+	public InfinispanKVStore() {
 		// try to cache first, no point in setting up arrays
 		// just to discover there is no CacheManager
 		try {
-			this.manager = getManager();
+			this.manager = setManager();
 		} catch (IOException e) {
-			throw new ObjectStoreException("Infinispan Configuration Not Availble");
+			throw new RuntimeException("ObjectStore Cache Manager Unavailble");
 		}
-		c = getCache(manager);
+		c = setCache(manager);
+	}
+	
+	@Override
+	public void start() throws Exception {
+		
 		
 		for (int i = 0; i < slotAllocation.length; i++) {
 			slotAllocation[i] = new AtomicBoolean(false);
@@ -113,13 +118,17 @@ public abstract class InfinispanKVStore implements KVStore {
 			return "unknown_hostname";
 		}
 	}
-
+	
+	protected final DefaultCacheManager getManager() {
+		return manager;
+	}
+	
 	/**
 	 * Configures and provides the cache the
 	 * 
 	 * @return
 	 */
-	protected abstract DefaultCacheManager getManager() throws IOException;
+	protected abstract DefaultCacheManager setManager() throws IOException;
 	
 	/**
 	 * Returns the user's cache, takes in the pre-defined cache manager.
@@ -127,5 +136,5 @@ public abstract class InfinispanKVStore implements KVStore {
 	 * rather than relying on XML config files.
 	 * @return
 	 */
-	protected abstract Cache<String, byte[]> getCache(EmbeddedCacheManager manager);
+	protected abstract Cache<String, byte[]> setCache(DefaultCacheManager manager);
 }

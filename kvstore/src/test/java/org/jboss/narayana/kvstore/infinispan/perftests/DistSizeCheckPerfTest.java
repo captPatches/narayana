@@ -16,7 +16,7 @@ public class DistSizeCheckPerfTest extends MillTester {
 			setMessage("(Mill) Distributed Cache Store");
 			System.setProperty(
 					"KVStoreEnvironmentBean.storeImplementationClassName",
-					"org.jboss.narayana.kvstore.infinispan.mill.MillDistCacheStore"
+					"org.jboss.narayana.kvstore.infinispan.mill.MillDistSizeCheckStore"
 					);
 			
 		}
@@ -24,7 +24,7 @@ public class DistSizeCheckPerfTest extends MillTester {
 			setMessage("Distributed Infinispan CacheStore");
 			System.setProperty(
 					"KVStoreEnvironmentBean.storeImplementationClassName",
-					"org.jboss.narayana.kvstore.infinispan.DistributedStore");
+					"org.jboss.narayana.kvstore.infinispan.DistributedSizeCheckStore");
 		}
 		
 		return com.arjuna.ats.jta.TransactionManager.transactionManager();
