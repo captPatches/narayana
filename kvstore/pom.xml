@@ -29,10 +29,25 @@
 	<url>http://www.jboss.org/jbosstm/</url>
 
 	<properties>
+		<exclude.tests>**/infinispankvstore/**
 	</properties>
 
-	<developers>
+	<profiles>
+		<profile>
+			<id>perfOnly</id>
+			<properties>
+				<exclude.tests>**/objectstoretests/**,**/infinispankvstore/**</exclude.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>sizeTest</id>
+			<properties>
+				<exclude.tests>**/objectstoretests/**,**/HornetQ**,**/Shadowing**</exclude.tests>
+			</properties>
+		</profile>
+	</profiles>
 
+	<developers>
 		<developer>
 			<id>jhalliday</id>
 			<name>Jonathan Halliday</name>
@@ -269,16 +284,21 @@
 			<version>6.0.2.Final</version>
 		</dependency>
 
-
 		<!-- HotRod Client -->
 		<dependency>
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-client-hotrod</artifactId>
 			<version>6.0.2.Final</version>
+<<<<<<< HEAD
 		</dependency>
 
 
 
 	</dependencies>
 
+=======
+		</dependency>     
+        
+ 	</dependencies>
+>>>>>>> corrected pom
 </project>
