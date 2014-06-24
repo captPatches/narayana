@@ -2,29 +2,27 @@ package org.jboss.narayana.kvstore.infinispan.perftests;
 
 import javax.transaction.TransactionManager;
 
-public class DistSizeCheckPerfTest extends MillTester {
-
-	protected TransactionManager getTM() {
-
+public class ReplSizeCheckStore extends MillTester {
+	
+	protected TransactionManager getTM() {	
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 	
 		if(runOnMill()) {
-			setMessage("(Mill) Distributed Cluster Size Store");
+			setMessage("(Mill) Replicated Cluster Size Store");
 			System.setProperty(
 					"KVStoreEnvironmentBean.storeImplementationClassName",
-					"org.jboss.narayana.kvstore.infinispan.mill.MillDistSizeCheckStore"
+					"org.jboss.narayana.kvstore.infinispan.mill.MillReplSizeCheckStore"
 					);
 			
 		}
 		else {
-			setMessage("Distributed Cluster Size Checking Store");
+			setMessage("Replciated Cluster Size Checking Store");
 			System.setProperty(
 					"KVStoreEnvironmentBean.storeImplementationClassName",
-					"org.jboss.narayana.kvstore.infinispan.DistributedSizeCheckStore");
+					"org.jboss.narayana.kvstore.infinispan.ReplicatedSizeCheckStore");
 		}
-		
 		return com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
-	
+
 }
