@@ -15,7 +15,7 @@
   <parent>
     <groupId>org.jboss.narayana</groupId>
     <artifactId>narayana-all</artifactId>
-    <version>5.0.2.Final-SNAPSHOT</version>
+    <version>5.0.3.Final-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -209,7 +209,6 @@
       <activation>
         <property>
           <name>idlj-enabled</name>
-          <value>true</value>
         </property>
       </activation>
      
@@ -235,6 +234,27 @@
       <version>${project.version}</version>
     </dependency>
   </dependencies>
+    </profile>
+    <profile>
+      <id>jts-ibmorb</id>
+      <activation>
+        <property>
+          <name>ibmorb-enabled</name>
+        </property>
+      </activation>
+     
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.narayana.jts</groupId>
+          <artifactId>narayana-jts-ibmorb</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.jboss.narayana.jts</groupId>
+          <artifactId>ibmorb-idl</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+      </dependencies>
     </profile>
   </profiles>
 </project>

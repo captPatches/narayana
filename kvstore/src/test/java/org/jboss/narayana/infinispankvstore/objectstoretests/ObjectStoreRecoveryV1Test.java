@@ -42,7 +42,6 @@ public class ObjectStoreRecoveryV1Test {
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
 				"org.jboss.narayana.infinispankvstore.InfinispanWithEmbeddedClusteredReplicationKVStore");
-
 		// emptyObjectStore();
 	}
 
@@ -51,13 +50,13 @@ public class ObjectStoreRecoveryV1Test {
 
 		RecoveryStore recoveryStore = StoreManager.getRecoveryStore();
 
-		final int numTrans = 10;
+		final int numTrans = 1000;
+
 		final Uid[] ids = new Uid[numTrans];
 		final int fakeData = 0xdeedbaaf;
 		final String type = "/KVStoreTests/ObjectStoreRecoveryV1Test";
 		final int rand = getRandom(numTrans);
 
-		// Write Data for numTrans transactions (default 1000)
 		for (int i = 0; i < numTrans; i++) {
 			OutputObjectState dummyState = new OutputObjectState();
 

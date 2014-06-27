@@ -18,8 +18,7 @@ import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 @SuppressWarnings("unused")
 public class FirstInfinispanTest {
 
-	private final static Cache<String, String> c = new DefaultCacheManager().getCache();
-	
+	private final static Cache<String, String> c = new DefaultCacheManager().getCache("imaginary-cache");
 	
 	/**
 	 * Pre-populates list with keys

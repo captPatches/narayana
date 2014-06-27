@@ -31,6 +31,7 @@ import java.lang.annotation.*;
  * @author marklittle
  *
  */
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE })
 public @interface Optimistic

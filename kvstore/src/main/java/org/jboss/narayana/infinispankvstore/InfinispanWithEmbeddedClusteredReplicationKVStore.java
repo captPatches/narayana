@@ -83,7 +83,7 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 
 	@Override
 	public List<KVStoreEntry> load() throws Exception {
-		
+	
 		if(!c.isEmpty()) {
 			LinkedList<KVStoreEntry> list = new LinkedList<KVStoreEntry>();
 			for(String key : c.keySet()) {
@@ -100,7 +100,7 @@ public class InfinispanWithEmbeddedClusteredReplicationKVStore implements
 
 	@Override
 	public long allocateId() throws Exception {
-		// Method stolen from MemCachedKVStore
+
 		for (int i = 0; i < SIZE; i++) {
 			if (!slotAllocation[i].get()) {
 				if (slotAllocation[i].compareAndSet(false, true)) {

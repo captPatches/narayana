@@ -60,5 +60,4 @@ public class VolatileStorePerfTest {
 		StoreManager.shutdown();
 
 	}
-
 }

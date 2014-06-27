@@ -12,13 +12,14 @@ import org.jboss.narayana.kvstore.XAResourceImpl;
 
 public class KVStoreWorkerTM implements Worker<BigInteger> {
 
-	private TransactionManager tm;
+	private static TransactionManager tm;
+
 	private long initTimeMillis = -1;
 	private long finiTimeMillis = -1;
 	private long workTimeMillis = -1;
 	
 	public KVStoreWorkerTM(TransactionManager tm) {
-		this.tm = tm;
+		KVStoreWorkerTM.tm = tm;
 	}
 
 	@Override

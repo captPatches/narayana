@@ -60,7 +60,6 @@ public class BasicIntUnitTest extends TestCase
         public int get () throws Exception;
     }
     
-    @Transactional
     public class ExampleSTM implements Atomic
     {   
         @ReadLock
@@ -94,6 +93,47 @@ public class BasicIntUnitTest extends TestCase
         try
         {
             obj = theContainer.enlist(basic);
+        }
+        catch (final Throwable ex)
+        {
+            ex.printStackTrace();
+            
+            success = false;
+        }
+        
+        assertTrue(success);
+        
+        AtomicAction a = new AtomicAction();
+        
+        a.begin();
+        
+        obj.set(1234);
+        
+        a.commit();
+
+        assertEquals(obj.get(), 1234);
+        
+        a = new AtomicAction();
+
+        a.begin();
+
+        obj.change(1);
+        
+        a.abort();
+
+        assertEquals(obj.get(), 1234);
+    }
+    
+    public void testExampleSTMContainer () throws Exception
+    {
+        Container<Atomic> theContainer = new Container<Atomic>();
+        ExampleSTM basic = new ExampleSTM();
+        boolean success = true;
+        Atomic obj = null;
+        
+        try
+        {
+            obj = theContainer.create(basic);
         }
         catch (final Throwable ex)
         {

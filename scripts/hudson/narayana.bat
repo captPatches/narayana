@@ -1,4 +1,6 @@
 if not defined WORKSPACE (call:fail_build & exit -1)
+for /f "usebackq delims=<,> tokens=3" %%i in (`findstr "jboss-as.version" pom.xml`) do @set WILDFLY_MASTER_VERSION=%%i
+echo "Set WILDFLY_MASTER_VERSION=%WILDFLY_MASTER_VERSION%"
 
 call:comment_on_pull "Started testing this pull request with BLACKTIE profile on Windows: %BUILD_URL%"
 
@@ -9,9 +11,12 @@ rmdir /S /Q jboss-as
 git clone https://github.com/jbosstm/jboss-as.git
 if %ERRORLEVEL% NEQ 0 exit -1
 cd jboss-as
-git remote add upstream https://github.com/wildfly/wildfly.git
-git pull --rebase --ff-only -s recursive -Xtheirs upstream master
-if %ERRORLEVEL% NEQ 0 exit -1
+rem git remote add upstream https://github.com/wildfly/wildfly.git
+rem git pull --rebase --ff-only -s recursive -Xtheirs upstream master
+rem if %ERRORLEVEL% NEQ 0 exit -1
+for /f "usebackq delims=<,> tokens=3" %%i in (`gawk "/wildfly-parent/ {getline;print;}" pom.xml`) do @set WILDFLY_VERSION_FROM_JBOSS_AS=%%i
+echo "AS version is %WILDFLY_VERSION_FROM_JBOSS_AS%"
+if not "%WILDFLY_MASTER_VERSION%" == "%WILDFLY_VERSION_FROM_JBOSS_AS%" (call:comment_on_pull "Need to upgrade the jboss-as.version in the narayana pom.xml to %WILDFLY_VRESION_FROM_JBOSS_AS% - Check AS Version Failed %BUILD_URL%" & exit -1)
 echo "Building AS"
 set MAVEN_OPTS="-Xmx768M"
 call build.bat clean install "-DskipTests" "-Drelease=true" || (call:comment_on_pull "BLACKTIE profile tests failed on Windows - AS Failed %BUILD_URL%" & exit -1)
@@ -26,13 +31,13 @@ rmdir wildfly-%WILDFLY_MASTER_VERSION% /s /q
 mkdir wildfly-%WILDFLY_MASTER_VERSION%
 xcopy ..\jboss-as\build\target\wildfly-%WILDFLY_MASTER_VERSION% wildfly-%WILDFLY_MASTER_VERSION% /S
 set JBOSS_HOME=%CD%\wildfly-%WILDFLY_MASTER_VERSION%\
-unzip wildfly-blacktie\build\target\wildfly-blacktie-build-5.0.2.Final-SNAPSHOT-bin.zip -d %JBOSS_HOME%
+unzip wildfly-blacktie\build\target\wildfly-blacktie-build-5.0.3.Final-SNAPSHOT-bin.zip -d %JBOSS_HOME%
 cd ..\
 
 set NOPAUSE=true
 
 rem SHUTDOWN ANY PREVIOUS BUILD REMNANTS
-FOR /F "usebackq tokens=5" %%i in (`"netstat -ano|findstr 9999.*LISTENING"`) DO taskkill /F /PID %%i
+FOR /F "usebackq tokens=5" %%i in (`"netstat -ano|findstr 9990.*LISTENING"`) DO taskkill /F /PID %%i
 tasklist
 taskkill /F /IM mspdbsrv.exe
 taskkill /F /IM testsuite.exe
@@ -58,7 +63,7 @@ rem BUILD BLACKTIE
 call build.bat -f blacktie\pom.xml clean install "-Djbossas.ip.addr=%JBOSSAS_IP_ADDR%" || (call:fail_build & exit -1)
 
 rem SHUTDOWN ANY PREVIOUS BUILD REMNANTS
-tasklist & FOR /F "usebackq tokens=5" %%i in (`"netstat -ano|findstr 9999.*LISTENING"`) DO taskkill /F /PID %%i
+tasklist & FOR /F "usebackq tokens=5" %%i in (`"netstat -ano|findstr 9990.*LISTENING"`) DO taskkill /F /PID %%i
 echo "Finished build"
 
 call:comment_on_pull "BLACKTIE profile tests passed on Windows - Job complete %BUILD_URL%"
@@ -71,7 +76,7 @@ goto:eof
 
 :fail_build
   call:comment_on_pull "Build failed %BUILD_URL%"
-  tasklist & FOR /F "usebackq tokens=5" %%i in (`"netstat -ano|findstr 9999.*LISTENING"`) DO taskkill /F /PID %%i
+  tasklist & FOR /F "usebackq tokens=5" %%i in (`"netstat -ano|findstr 9990.*LISTENING"`) DO taskkill /F /PID %%i
   exit -1
 goto:eof
 

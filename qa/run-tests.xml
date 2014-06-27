@@ -55,7 +55,7 @@
 
   <!-- set this property to the location of a JBossTS core build -->
   <property name="org.jboss.jbossts.qa.ts.home" location="dist"/>
-  <property name="narayana.version" value="5.0.2.Final-SNAPSHOT"/>
+  <property name="narayana.version" value="5.0.3.Final-SNAPSHOT"/>
   <property name="working.dir" location="build"/>
   <property name="testoutput.zipname" value="testoutput.zip"/>
   <property name="testoutput.zip.includes" value="testoutput/**,TEST*"/>
@@ -379,6 +379,7 @@
     <fileset dir="${org.jboss.jbossts.qa.ts.home}/narayana-full-${narayana.version}/lib">
       <exclude name="narayana-jts-idlj.jar"/>
       <exclude name="narayana-jts-jacorb.jar"/>
+      <exclude name="narayana-jts-ibmorb.jar"/>
       <include name="*.jar"/>
     </fileset>
     <fileset dir="${org.jboss.jbossts.qa.ts.home}/narayana-full-${narayana.version}/lib/ext">
@@ -546,7 +547,7 @@
       <structure name="Narayana QA Report">
         <classfiles>
           <fileset dir=".." >
-		    <exclude name="**/idlj/**"/>
+            <exclude name="**/idlj/**"/>
             <exclude name="**/ArjunaJTS/narayana-jts-idlj/**"/>
             <exclude name="**/XTS/localjunit/unit/**"/>
             <exclude name="**/blacktie/blacktie-admin-services/**"/>

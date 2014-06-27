@@ -5,8 +5,13 @@
 	<global>
 		<transport clusterName="testCluster">
 			<properties>
+<<<<<<< HEAD
 				<property name="configurationFile" value="jgroups-udp.xml" />
 				<!-- <property name="configurationFile" value="jgroups-test-tcp.xml" /> -->
+=======
+				<!-- <property name="configurationFile" value="jgroups-udp.xml" /> -->
+				<property name="configurationFile" value="jgroups-test-tcp.xml" />
+>>>>>>> f467ef2c4588fd395ded5cf9ac0ba6f7b5ba88f5
 			</properties>
 		</transport>
 	</global>
@@ -21,8 +26,12 @@
 		<clustering mode="distribution">
 			<sync />
 			<hash numOwners="2" />
+<<<<<<< HEAD
 			<stateTransfer chunkSize="0"
 				fetchInMemoryState="true"
+=======
+			<stateTransfer chunkSize="0" fetchInMemoryState="true"
+>>>>>>> f467ef2c4588fd395ded5cf9ac0ba6f7b5ba88f5
 				timeout="240000" />
 		</clustering>
 	</namedCache>
@@ -33,6 +42,7 @@
 			<sync />
 		</clustering>
 	</namedCache>
+<<<<<<< HEAD
 	<namedCache name="Aysnc-Repl-Cache">
 		<clustering mode="replication-cach">
 			<async />
@@ -41,3 +51,9 @@
 		</clustering>
 	</namedCache>
 </infinispan>
+=======
+ 
+
+</infinispan>
+
+>>>>>>> f467ef2c4588fd395ded5cf9ac0ba6f7b5ba88f5

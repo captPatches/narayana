@@ -62,9 +62,8 @@ public class MillReplicatedCache implements KVStore {
 
 	@Override
 	public void stop() throws Exception {
-
+		c.stop();
 		manager.stop();
-
 	}
 
 	@Override
@@ -75,8 +74,8 @@ public class MillReplicatedCache implements KVStore {
 	@Override
 	public void delete(long id) throws Exception {
 		c.remove(keys[(int) id]);
+		c.remove(id);
 		slotAllocation[(int) id].set(false);
-
 	}
 
 	@Override

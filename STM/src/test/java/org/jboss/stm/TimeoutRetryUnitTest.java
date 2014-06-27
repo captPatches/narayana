@@ -54,7 +54,6 @@ public class TimeoutRetryUnitTest extends TestCase
        public int value ();
     }
     
-    @Transactional
     public class SampleLockable implements Sample
     {
         public SampleLockable (int init)
@@ -63,8 +62,8 @@ public class TimeoutRetryUnitTest extends TestCase
         }
         
         @ReadLock
-        @Timeout(period=0)
-        @Retry(count=0)
+        @Timeout(period=50)
+        @Retry(count=2)
         public int value ()
         {
             return _isState;
@@ -79,8 +78,8 @@ public class TimeoutRetryUnitTest extends TestCase
         }
         
         @WriteLock
-        @Timeout(period=0)
-        @Retry(count=0)
+        @Timeout(period=100)
+        @Retry(count=1)
         public void decrement ()
         {
             _isState--;

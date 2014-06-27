@@ -64,5 +64,4 @@ public class HornetQJournelStorePerfTest {
 		// Move the store shutdown
 		StoreManager.shutdown();
 	}
-
 }

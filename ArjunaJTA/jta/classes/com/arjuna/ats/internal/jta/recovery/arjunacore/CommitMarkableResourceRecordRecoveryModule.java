@@ -110,6 +110,7 @@ public class CommitMarkableResourceRecordRecoveryModule implements
 	private Map<String, String> commitMarkableResourceTableNameMap = jtaEnvironmentBean
 			.getCommitMarkableResourceTableNameMap();
 	private Map<String, List<Xid>> completedBranches = new HashMap<String, List<Xid>>();
+    private boolean inFirstPass;
 	private static String defaultTableName = jtaEnvironmentBean
 			.getDefaultCommitMarkableTableName();
 
@@ -156,7 +157,11 @@ public class CommitMarkableResourceRecordRecoveryModule implements
 	}
 
 	@Override
-	public void periodicWorkFirstPass() {
+	public synchronized void periodicWorkFirstPass() {
+        if (inFirstPass) {
+            return;
+        }
+	    inFirstPass = true;
 		// TODO - this is one shot only due to a
 		// remove in the function, if this delete fails only normal
 		// recovery is possible
@@ -317,32 +322,37 @@ public class CommitMarkableResourceRecordRecoveryModule implements
 							currentUid, ATOMIC_ACTION_TYPE);
 					if (state != null) {
 						if (!recoveryStore.remove_committed(currentUid,
-								CONNECTABLE_ATOMIC_ACTION_TYPE)) {
-							tsLogger.logger.error("Could not remove a: "
+                                CONNECTABLE_ATOMIC_ACTION_TYPE)) {
+                            tsLogger.logger.debug("Could not remove a: "
 									+ CONNECTABLE_ATOMIC_ACTION_TYPE + " uid: "
 									+ currentUid);
 						}
 					} else {
-						RecoverConnectableAtomicAction rcaa = new RecoverConnectableAtomicAction(
-								CONNECTABLE_ATOMIC_ACTION_TYPE, currentUid);
-
-						if (rcaa.containsIncompleteCommitMarkableResourceRecord()) {
-							String commitMarkableResourceJndiName = rcaa
-									.getCommitMarkableResourceJndiName();
-							// Check if the resource manager is online yet
-							if (queriedResourceManagers
-									.contains(commitMarkableResourceJndiName)) {
-
-								// If it is remove the CRR and move it back and
-								// let
-								// the
-								// next stage update it
-								moveRecord(currentUid,
-										CONNECTABLE_ATOMIC_ACTION_TYPE,
-										ATOMIC_ACTION_TYPE);
-							}
-						}
+    				    state = recoveryStore.read_committed(currentUid, CONNECTABLE_ATOMIC_ACTION_TYPE);
+    				    // TX may have been in progress and cleaned up by now 
+    	                if (state != null) {
+    						RecoverConnectableAtomicAction rcaa = new RecoverConnectableAtomicAction(
+    								CONNECTABLE_ATOMIC_ACTION_TYPE, currentUid, state);
+    
+    						if (rcaa.containsIncompleteCommitMarkableResourceRecord()) {
+    							String commitMarkableResourceJndiName = rcaa
+    									.getCommitMarkableResourceJndiName();
+    							// Check if the resource manager is online yet
+    							if (queriedResourceManagers
+    									.contains(commitMarkableResourceJndiName)) {
+    
+    								// If it is remove the CRR and move it back and
+    								// let
+    								// the
+    								// next stage update it
+    								moveRecord(currentUid,
+    										CONNECTABLE_ATOMIC_ACTION_TYPE,
+    										ATOMIC_ACTION_TYPE);
+    							}
+    						}
+                        }
 					}
+					
 					currentUid = transactionUidEnum.iterate();
 				}
 			} catch (ObjectStoreException | IOException ex) {
@@ -372,30 +382,32 @@ public class CommitMarkableResourceRecordRecoveryModule implements
 							.getTransactionStatus(ATOMIC_ACTION_TYPE,
 									currentUid))) {
 
-						// Try to load it is a BasicAction that has a
-						// ConnectedResourceRecord
-						RecoverConnectableAtomicAction rcaa = new RecoverConnectableAtomicAction(
-								ATOMIC_ACTION_TYPE, currentUid);
-						// Check if it did have a ConnectedResourceRecord
-						if (rcaa.containsIncompleteCommitMarkableResourceRecord()) {
-							String commitMarkableResourceJndiName = rcaa
-									.getCommitMarkableResourceJndiName();
-							// If it did, check if the resource manager was
-							// online
-							if (!queriedResourceManagers
-									.contains(commitMarkableResourceJndiName)) {
-								// If the resource manager wasn't online, move
-								// it
-								moveRecord(currentUid, ATOMIC_ACTION_TYPE,
-										CONNECTABLE_ATOMIC_ACTION_TYPE);
-							} else {
-								// Update the completed outcome for the 1PC
-								// resource
-								rcaa.updateCommitMarkableResourceRecord(wasCommitted(
-										commitMarkableResourceJndiName,
-										rcaa.getXid()));
-							}
-						}
+					    InputObjectState state = recoveryStore.read_committed(
+	                            currentUid, ATOMIC_ACTION_TYPE);
+	                    if (state != null) {
+    	                    // Try to load it is a BasicAction that has a
+    						// ConnectedResourceRecord
+    						RecoverConnectableAtomicAction rcaa = new RecoverConnectableAtomicAction(
+    								ATOMIC_ACTION_TYPE, currentUid, state);
+    						// Check if it did have a ConnectedResourceRecord
+    						if (rcaa.containsIncompleteCommitMarkableResourceRecord()) {
+    							String commitMarkableResourceJndiName = rcaa
+    									.getCommitMarkableResourceJndiName();
+    							// If it did, check if the resource manager was
+    							// online
+    							if (!queriedResourceManagers
+    									.contains(commitMarkableResourceJndiName)) {
+    								// If the resource manager wasn't online, move
+    								// it
+    								moveRecord(currentUid, ATOMIC_ACTION_TYPE,
+    										CONNECTABLE_ATOMIC_ACTION_TYPE);
+    							} else {
+    								// Update the completed outcome for the 1PC
+    								// resource
+                                    rcaa.updateCommitMarkableResourceRecord(committedXidsToJndiNames.get(rcaa.getXid()) != null);
+    							}
+    						}
+	                    }
 					}
 					currentUid = transactionUidEnum.iterate();
 				}
@@ -408,10 +420,11 @@ public class CommitMarkableResourceRecordRecoveryModule implements
 					"Could not lookup datasource, AS is shutting down: "
 							+ e.getMessage(), e);
 		}
+        inFirstPass = false;
 	}
 
 	@Override
-	public void periodicWorkSecondPass() {
+	public synchronized void periodicWorkSecondPass() {
 		/**
 		 * This is the list of AtomicActions that were prepared but not
 		 * completed.
@@ -472,12 +485,15 @@ public class CommitMarkableResourceRecordRecoveryModule implements
 	 * @param xid
 	 * @return
 	 */
-	public boolean wasCommitted(String jndiName, Xid xid)
+	public synchronized boolean wasCommitted(String jndiName, Xid xid)
 			throws ObjectStoreException {
-		if (!queriedResourceManagers.contains(jndiName)) {
-			throw new ObjectStoreException(jndiName + " was not online");
+		if (!queriedResourceManagers.contains(jndiName) || committedXidsToJndiNames.get(xid) == null) {
+		    periodicWorkFirstPass();
 		}
-		String committed = committedXidsToJndiNames.get(xid);
+		if (!queriedResourceManagers.contains(jndiName)) {
+            throw new ObjectStoreException(jndiName + " was not online");
+        }
+        String committed = committedXidsToJndiNames.get(xid);
 		if (tsLogger.logger.isTraceEnabled()) {
 			tsLogger.logger.trace("wasCommitted" + xid + " " + committed);
 		}
@@ -666,6 +682,8 @@ public class CommitMarkableResourceRecordRecoveryModule implements
 					} catch (SQLException e) {
 						tsLogger.logger.warn("Could not handle the connection",
 								e);
+						// the connection is unavailable so try again later
+						break;
 					} finally {
 						if (connection != null) {
 							try {

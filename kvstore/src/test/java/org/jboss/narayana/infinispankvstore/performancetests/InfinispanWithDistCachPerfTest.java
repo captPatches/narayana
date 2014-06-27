@@ -54,5 +54,4 @@ public class InfinispanWithDistCachPerfTest {
 	public void tearDown() {
 		StoreManager.shutdown();
 	}
-
 }

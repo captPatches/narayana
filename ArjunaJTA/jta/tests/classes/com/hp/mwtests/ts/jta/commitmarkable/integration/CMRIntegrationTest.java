@@ -123,8 +123,8 @@ public class CMRIntegrationTest {
 		}
 	}
 
-	private int threadCount = 100;
-	private int iterationCount = 2000;
+	private int threadCount = 5;
+	private int iterationCount = 20;
 	private int waiting;
 	private boolean go;
 	private final Object waitLock = new Object();

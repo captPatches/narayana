@@ -1,6 +1,7 @@
 package org.jboss.narayana.infinispankvstore;
 
 public enum StoreType {
+
 	
 	// Each instance includes info about whether the Adapator is needed	
 	INFINISPAN ("infinispankvstore.HotrodRemoteCacheKVStore", "org.jboss.narayana.", true),

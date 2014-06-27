@@ -64,8 +64,8 @@
   <!-- where to get the source -->
   <property name="gitbase" value="https://github.com/jbosstm"/>
   <!-- The tag as it appears under svnbase -->
-  <property name="pageName" value="5.0.2.Final-SNAPSHOT"/>
-  <property name="tag" value="5.0.2.Final-SNAPSHOT"/>
+  <property name="pageName" value="5.0.3.Final-SNAPSHOT"/>
+  <property name="tag" value="5.0.3.Final-SNAPSHOT"/>
   <!-- which uber jar to use -->
   <property name="orb" value="jacorb"/>
   <!-- the location the JBossTS web site content is copied to -->
@@ -136,6 +136,9 @@
     </exec>
     <delete dir="tmp-docs-dir-docs"/>
     <mkdir dir="tmp-docs-dir-docs"/>
+    <copy todir="tmp-docs-dir-docs/guides/stm_guide">
+      <fileset dir="${workdir}/${tag}-docs/STM/target/docbook/publish/en-US/html_single"/>
+    </copy>
     <copy todir="tmp-docs-dir-docs/guides/narayana-jts-orbportability_guide">
       <fileset dir="${workdir}/${tag}-docs/ArjunaJTS/docs/orbportability_guide/target/docbook/publish/en-US/html_single"/>
     </copy>

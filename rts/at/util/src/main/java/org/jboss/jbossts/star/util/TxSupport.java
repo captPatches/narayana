@@ -50,8 +50,12 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.Link;
 import org.jboss.resteasy.spi.LinkHeader;
 
+import java.security.KeyStore;
+import javax.net.ssl.*;
+
 /**
  * Various utilities for sending HTTP messages
+ * @deprecated
  */
 public class TxSupport
 {
@@ -89,6 +93,12 @@ public class TxSupport
     private String contentType = null;
     private String txnMgr;
     private int readTimeout = DEFAULT_READ_TIMEOUT;
+    private static HttpConnectionCreator creator = new HttpConnectionCreator() {
+        @Override
+        public HttpURLConnection open(URL url) throws IOException {
+            return (HttpURLConnection) url.openConnection();
+        }
+    };
 
     public static void setTxnMgrUrl(String txnMgrUrl) {
         TXN_MGR_URL = txnMgrUrl;
@@ -108,6 +118,10 @@ public class TxSupport
 
     public TxSupport(int readTimeout) {
         this(TXN_MGR_URL, readTimeout);
+    }
+
+    public static void setHttpConnectionCreator(HttpConnectionCreator creator) {
+        TxSupport.creator = creator;
     }
 
     public static void addLinkHeader(Response.ResponseBuilder response, UriInfo info, String title, String name,
@@ -188,7 +202,7 @@ public class TxSupport
     }
 
     /**
-     * Get the status of the current transacton
+     * Get the status of the current transaction
      * @return the transaction status expressed in the default media type (@see TxMediaType#TX_STATUS_MEDIA_TYPE)
      * @throws HttpResponseException
      */
@@ -555,7 +569,7 @@ public class TxSupport
         if (connection != null)
             connection.disconnect();
 
-        connection = (HttpURLConnection) new URL(url).openConnection();
+        connection = creator.open(new URL(url));
 
         connection.setRequestMethod(method);
 
@@ -807,4 +821,28 @@ public class TxSupport
 
         return (TransactionManagerElement)((JAXBElement)o).getValue();
     }
+
+    private static SSLContext getSSLContext() throws Exception {
+        String trustStoreFile = System.getProperty("javax.net.ssl.trustStore");
+        String trustStorePswd = System.getProperty("javax.net.ssl.trustStorePassword");
+
+        // Load the key store: change store type if needed
+        KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+        FileInputStream fis = new FileInputStream(trustStoreFile);
+
+        try {
+            ks.load(fis, trustStorePswd.toCharArray());
+        } finally {
+            if (fis != null) { fis.close(); }
+        }
+
+        // Get the default Key Manager
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        kmf.init(ks, trustStorePswd.toCharArray());
+
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(kmf.getKeyManagers(), null, null);
+
+        return sslContext;
+   }
 }

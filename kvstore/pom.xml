@@ -29,39 +29,26 @@
 	<url>http://www.jboss.org/jbosstm/</url>
 
 	<properties>
-		<exclude.tests>nothing-to-exclude</exclude.tests>
+
+		<exclude.tests>**/infinispankvstore/**</exclude.tests>
 	</properties>
 
 	<profiles>
 		<profile>
-			<id>fast</id>
+			<id>perfOnly</id>
 			<properties>
-				<exclude.tests>**/*Store*.java,**/*Mill*</exclude.tests>
+				<exclude.tests>**/objectstoretests/**,**/infinispankvstore/**</exclude.tests>
 			</properties>
 		</profile>
 		<profile>
-			<id>clusterTests</id>
+			<id>sizeTest</id>
 			<properties>
-				<exclude.tests>**/*Store*.java,**/*HotRod*.java,**/*Cache*.java</exclude.tests>
-			</properties>
-		</profile>
-		<profile>
-			<id>mill</id>
-			<properties>
-				<exclude.tests>**/*InfinispanWith*,**/Mcl*</exclude.tests>
-			</properties>
-		</profile>
-		<profile>
-			<id>fastMill</id>
-			<properties>
-				<exclude.tests>**/*InfinispanWith*,**/Mcl*,**/*Store*</exclude.tests>
+				<exclude.tests>**/objectstoretests/**,**/HornetQ**,**/Shadowing**</exclude.tests>
 			</properties>
 		</profile>
 	</profiles>
 
-
 	<developers>
-
 		<developer>
 			<id>jhalliday</id>
 			<name>Jonathan Halliday</name>
@@ -93,8 +80,7 @@
 		</license>
 	</licenses>
 
-
-	<!-- Chasing down transaction-spi -->
+	<!--  Chasing down transaction-spi -->
 	<repositories>
 
 		<repository>
@@ -121,7 +107,6 @@
 						<!-- <redirectTestOutputToFile>true</redirectTestOutputToFile> -->
 						<forkMode>perTest</forkMode>
 					</configuration>
-
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -145,6 +130,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.8</version>
+
 				<executions>
 					<execution>
 						<id>copy-dependencies</id>
@@ -157,6 +143,9 @@
 						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<overWriteIfNewer>true</overWriteIfNewer>
+				</configuration>
 			</plugin>
 
 			<!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
@@ -197,7 +186,6 @@
 				<configuration>
 					<encoding>UTF-8</encoding>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
-
 				</configuration>
 				<executions>
 					<execution>
@@ -208,7 +196,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 
@@ -252,7 +239,6 @@
 			<groupId>org.jboss.narayana.jta</groupId>
 			<artifactId>narayana-jta</artifactId>
 			<version>5.0.2.Final-SNAPSHOT</version>
-			<!-- <scope>test</scope> -->
 			<exclusions>
 				<exclusion>
 					<groupId>sun.jdk</groupId>
@@ -272,14 +258,16 @@
 			<groupId>org.jboss</groupId>
 			<artifactId>jboss-transaction-spi</artifactId>
 			<version>7.1.0.Final</version>
-			<scope>provided</scope>
+		    <scope>provided</scope>
+
 			<exclusions>
 				<exclusion>
 					<groupId>org.jboss.logging</groupId>
 					<artifactId>jboss-logging-spi</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency> 
+
 
 		<dependency>
 			<groupId>org.jgroups</groupId>
@@ -302,12 +290,12 @@
 			<version>6.0.2.Final</version>
 		</dependency>
 
-
 		<!-- HotRod Client -->
 		<dependency>
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-client-hotrod</artifactId>
 			<version>6.0.2.Final</version>
+
 		</dependency>
 
 	</dependencies>

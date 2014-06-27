@@ -32,8 +32,10 @@
 package com.hp.mwtests.ts.jts.remote.hammer;
 
 import com.arjuna.ats.internal.jts.ORBManager;
-import com.arjuna.orbportability.*;
-import io.narayana.perf.PerformanceTester;
+import com.arjuna.orbportability.OA;
+import com.arjuna.orbportability.ORB;
+import com.arjuna.orbportability.ORBInfo;
+import com.arjuna.orbportability.RootOA;
 import io.narayana.perf.Result;
 
 public class PerfHammer
@@ -41,6 +43,13 @@ public class PerfHammer
     public static void main(String[] args) throws Exception
     {
         String gridReference = args[0];
+        int defaultNumberOfCalls = args.length > 1 ? Integer.parseInt(args[1]) : 10;
+        int defaultThreadCount = args.length > 2 ? Integer.parseInt(args[2]) : 100000;
+        int defaultBatchSize = args.length > 3 ? Integer.parseInt(args[3]) : 100;
+
+        int numberOfCalls = Integer.getInteger("testgroup.jtsremote.perftest.numberOfCalls", defaultNumberOfCalls);
+        int threadCount = Integer.getInteger("testgroup.jtsremote.perftest.numberOfThreads", defaultThreadCount);
+        int batchSize = Integer.getInteger("testgroup.jtsremote.perftest.batchSize", defaultBatchSize);
 
         ORB myORB = ORB.getInstance("test");
         RootOA myOA = OA.getRootOA(myORB);
@@ -51,19 +60,12 @@ public class PerfHammer
         ORBManager.setORB(myORB);
         ORBManager.setPOA(myOA);
 
-        PerformanceTester tester = new PerformanceTester(10, 10);
         GridWorker worker = new GridWorker(myORB, gridReference);
-        Result opts = new Result(10, 100);
+        Result opts = new Result(threadCount, numberOfCalls, batchSize).measure(worker);
 
-        try {
-            tester.measureThroughput(worker, opts);
-
-            System.out.printf("Test performance (for orb type %s): %d calls/sec (%d invocations using %d threads with %d errors. Total time %d ms)%n",
-                    ORBInfo.getOrbName(), opts.getThroughput(), opts.getNumberOfCalls(), opts.getThreadCount(),
-                    opts.getErrorCount(), opts.getTotalMillis());
-        } finally {
-            tester.fini();
-        }
+        System.out.printf("Test performance (for orb type %s): %d calls/sec (%d invocations using %d threads with %d errors. Total time %d ms)%n",
+                ORBInfo.getOrbName(), opts.getThroughput(), opts.getNumberOfCalls(), opts.getThreadCount(),
+                opts.getErrorCount(), opts.getTotalMillis());
 
         System.out.println("Passed");
     }

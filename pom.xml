@@ -22,7 +22,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jboss.narayana</groupId>
   <artifactId>narayana-all</artifactId>
-  <version>5.0.2.Final-SNAPSHOT</version>
+  <version>5.0.3.Final-SNAPSHOT</version>
   <packaging>pom</packaging>
   <url>http://www.jboss.org/jbosstm/</url>
   <name>Narayana: all</name>
@@ -401,7 +401,7 @@
     <jvm.args.other>-server</jvm.args.other>
     
     <!-- External dependencies versions -->
-    <jboss-as.version>8.0.1.Final-SNAPSHOT</jboss-as.version>
+    <jboss-as.version>9.0.0.Alpha1-SNAPSHOT</jboss-as.version>
     <version.org.jboss.spec.javax.jms.jboss-jms-api_2.0_spec>1.0.0.Final</version.org.jboss.spec.javax.jms.jboss-jms-api_2.0_spec>
     <version.org.jboss.jandex>1.1.0.Final</version.org.jboss.jandex>
     <version.rhino.js>1.7R2</version.rhino.js>
@@ -426,7 +426,7 @@
     <version.javax.annotation>1.2</version.javax.annotation>
     <version.javax.enterprise>1.1</version.javax.enterprise>
     <version.javax.inject>1</version.javax.inject>
-    <version.javax.servlet>2.5</version.javax.servlet>
+    <version.javax.servlet>3.0.1</version.javax.servlet>
     <version.commons-httpclient>3.1-jbossorg-1</version.commons-httpclient>
     <version.commons-logging>1.1.0.jboss</version.commons-logging>
     <version.log4j>1.2.17</version.log4j>

@@ -16,6 +16,7 @@ public class NodeForTestingVerbose {
 
 		try {
 			EmbeddedCacheManager manager = new DefaultCacheManager(
+
 					"/home/patches/workspace/narayana/kvstore/multi-cache-cfg.xml");
 			
 			// Object Store Mode

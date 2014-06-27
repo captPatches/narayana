@@ -33,8 +33,6 @@ public class ObjectStoreTests {
 		} catch(Exception e) {
 			throw new RuntimeException(e);
 		}
-		
-		
 	}
 	
 	@Test

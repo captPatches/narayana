@@ -31,8 +31,8 @@ public class FileSystemStorePerfTest {
 				"ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.FileLockingStore");
 		*/
-		
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreDir", "/work/b3048933/ObjectStore");
+
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 		
 		threadsNum = TestControlBean.threadsNum();

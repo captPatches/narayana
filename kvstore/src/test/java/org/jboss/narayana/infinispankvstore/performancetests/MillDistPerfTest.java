@@ -1,3 +1,4 @@
+
 package org.jboss.narayana.infinispankvstore.performancetests;
 
 import io.narayana.perf.PerformanceTester;

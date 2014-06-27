@@ -40,7 +40,6 @@
 		until JGRP-1253 is resolved -->
 
 	<!-- initial_hosts="${jgroups.tcpping.initial_hosts:127.0.0.1[7800],1270.0.1[7801],127.0.0.1[7802]}" -->
-
 	<TCPPING timeout="3000"
 		initial_hosts="127.0.0.1[7800],127.0.0.1[7801]"
 		port_range="5" num_initial_members="3" ergonomics="false" />

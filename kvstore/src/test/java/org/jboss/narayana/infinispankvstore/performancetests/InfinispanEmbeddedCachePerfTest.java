@@ -37,7 +37,7 @@ public class InfinispanEmbeddedCachePerfTest {
 
 		threadsNum = TestControlBean.threadsNum();
 		transCount = TestControlBean.transCount();
-		
+
 	//	System.out.println("\n\r" + startNodes() + "\n\r");
 	}
 

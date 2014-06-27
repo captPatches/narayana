@@ -80,7 +80,6 @@ public class BasicContainerUnitTest extends TestCase
        public void notTransactionalWork ();
     }
     
-    @Transactional
     public class SampleLockable implements Sample
     {
         public void myWork ()
@@ -126,6 +125,28 @@ public class BasicContainerUnitTest extends TestCase
             success = true;
         }
 
+        assertTrue(success);
+    }
+    
+    public void testInvalidModel ()
+    {
+        boolean success = true;
+        
+        try
+        {
+            Container<TestObject> theContainer = new Container<TestObject>("Foobar", Container.TYPE.RECOVERABLE, Container.MODEL.SHARED);
+        
+            success = false;
+        }
+        catch (final RuntimeException ex)
+        {
+            success = true;
+        }
+        catch (final Throwable ex)
+        {
+            success = false;
+        }
+        
         assertTrue(success);
     }
     

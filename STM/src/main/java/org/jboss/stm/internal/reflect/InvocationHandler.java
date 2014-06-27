@@ -27,6 +27,7 @@ import java.util.HashMap;
 
 import org.jboss.stm.LockException;
 import org.jboss.stm.TransactionException;
+import org.jboss.stm.annotations.LockFree;
 import org.jboss.stm.annotations.NestedTopLevel;
 import org.jboss.stm.annotations.Optimistic;
 import org.jboss.stm.annotations.Retry;
@@ -112,7 +113,7 @@ public class InvocationHandler<T> implements java.lang.reflect.InvocationHandler
          * Do we need to use the optimistic LockManager instance?
          */
         
-        Class<?> c = obj.getClass().getSuperclass();
+        Class<?> c = obj.getClass();
         
         while (c != null)
         {
@@ -197,7 +198,9 @@ public class InvocationHandler<T> implements java.lang.reflect.InvocationHandler
          * is called?
          */       
         
-        c = obj.getClass().getSuperclass();
+        c = obj.getClass();
+        
+        // yeah ok, should use isAnnotationPresent ...
         
         while (c != null)
         {
@@ -263,11 +266,19 @@ public class InvocationHandler<T> implements java.lang.reflect.InvocationHandler
         if (_txObject == null)
             throw new LockException("Transactional object is null!");
         
+        AtomicAction currentTx = null;
+        
         synchronized (_txObject)
         {
             synchronized (_theObject)
             {
                 AtomicAction act = null;
+                
+                /*
+                 * We could maybe be a bit more intelligent here and not create any
+                 * nested transaction if TransactionFree is set, but there's very little
+                 * overhead in creating the transaction and not using it.
+                 */
                 
                 if (_nestedTransactions)
                 {
@@ -305,6 +316,7 @@ public class InvocationHandler<T> implements java.lang.reflect.InvocationHandler
         
                         int lockType = -1;
                         boolean lockFree = false;
+                        boolean transactionFree = false;
         
                         if (cachedLock == null)
                         {
@@ -330,7 +342,7 @@ public class InvocationHandler<T> implements java.lang.reflect.InvocationHandler
                             /*
                              * What about other lock types?
                              */
-        
+                            
                             if (theMethod.isAnnotationPresent(ReadLock.class))
                                 lockType = LockMode.READ;
                             else
@@ -340,33 +352,51 @@ public class InvocationHandler<T> implements java.lang.reflect.InvocationHandler
                                 else
                                 {
                                     if (theMethod.isAnnotationPresent(TransactionFree.class))
-                                        lockFree = true;
+                                        transactionFree = true;
+                                    else
+                                    {
+                                        if (theMethod.isAnnotationPresent(LockFree.class))
+                                            lockFree = true;
+                                    }
                                 }
                             }
-        
-                            int timeout = LockManager.defaultSleepTime;
-                            int retry = LockManager.defaultRetry;
-        
-                            if (theMethod.isAnnotationPresent(Timeout.class))
-                                timeout = theMethod.getAnnotation(Timeout.class).period();
-        
-                            if (theMethod.isAnnotationPresent(Retry.class))
-                                retry = theMethod.getAnnotation(Retry.class).count();
-        
-                            if ((lockType == -1) && (!lockFree)) // default to WRITE
-                                lockType = LockMode.WRITE;
-        
-                            cachedLock = new LockInformation(lockType, timeout, retry);
-                            _cachedMethods.put(method, cachedLock);
+
+                            // if TransactionFree then suspend any transactions and don't do locking
+
+                            if (!lockFree && !transactionFree)
+                            {
+                                int timeout = LockManager.defaultSleepTime;
+                                int retry = LockManager.defaultRetry;
+            
+                                if (theMethod.isAnnotationPresent(Timeout.class))
+                                    timeout = theMethod.getAnnotation(Timeout.class).period();
+            
+                                if (theMethod.isAnnotationPresent(Retry.class))
+                                    retry = theMethod.getAnnotation(Retry.class).count();
+            
+                                if (lockType == -1) // default to WRITE
+                                    lockType = LockMode.WRITE;    
+
+                                cachedLock = new LockInformation(lockType, timeout, retry);
+                                _cachedMethods.put(method, cachedLock);
+                            }
+                            else
+                            {
+                                if (transactionFree)
+                                    currentTx = AtomicAction.suspend();
+                            }
                         }          
         
                         // TODO type specific concurrency control (define Lock class in annotation?)
 
-                        int result = _txObject.setlock(new Lock(cachedLock._lockType), cachedLock._retry, cachedLock._timeout);
-        
-                        if (result != LockResult.GRANTED)
+                        if (!lockFree && !transactionFree)
                         {
-                            throw new LockException(Thread.currentThread()+" could not set "+LockMode.stringForm(cachedLock._lockType)+" lock. Got: "+LockResult.stringForm(result));
+                            int result = _txObject.setlock(new Lock(cachedLock._lockType), cachedLock._retry, cachedLock._timeout);
+            
+                            if (result != LockResult.GRANTED)
+                            {
+                                throw new LockException(Thread.currentThread()+" could not set "+LockMode.stringForm(cachedLock._lockType)+" lock. Got: "+LockResult.stringForm(result));
+                            }
                         }
                     }
     
@@ -379,11 +409,30 @@ public class InvocationHandler<T> implements java.lang.reflect.InvocationHandler
                         int status = act.commit();
                         
                         if ((status != ActionStatus.COMMITTED) && (status != ActionStatus.COMMITTING))
+                        {
+                            if (currentTx != null)
+                                AtomicAction.resume(currentTx);
+                            
                             throw new TransactionException("Failed to commit container transaction!", status);
+                        }
                     }
+                    
+                    if (currentTx != null)
+                        AtomicAction.resume(currentTx);
                 }
             }
         }
+    }
+    
+    /**
+     * It might be useful to get the Container for the object at some points.
+     * 
+     * @return the container reference.
+     */
+    
+    protected final RecoverableContainer<T> getContainer ()
+    {
+        return _container;
     }
     
     private static boolean initialiseStore ()
