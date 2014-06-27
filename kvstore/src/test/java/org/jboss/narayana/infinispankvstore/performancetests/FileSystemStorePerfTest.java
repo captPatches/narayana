@@ -7,7 +7,6 @@ import io.narayana.perf.Worker;
 import java.math.BigInteger;
 
 import javax.transaction.TransactionManager;
-
 import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
 import org.junit.After;
 import org.junit.Before;
