@@ -17,7 +17,6 @@ public class ReplicatedStorePerfTest extends MillTester {
 			System.setProperty(
 					"KVStoreEnvironmentBean.storeImplementationClassName",
 					"org.jboss.narayana.kvstore.infinispan.ReplicatedStore");
-			
 		}
 	}
 }

@@ -26,7 +26,7 @@ public abstract class ObjectStorePerfTester {
 	public abstract void setup();
 	
 	@Before
-	private void chooseIPStack() {
+	public void chooseIPStack() {
 		System.setProperty("java.net.preferIPv4Stack","true");
 	}
 	
