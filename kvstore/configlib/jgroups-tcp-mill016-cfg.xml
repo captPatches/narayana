@@ -39,16 +39,10 @@
 	<!-- Ergonomics, new in JGroups 2.11, are disabled by default in TCPPING 
 		until JGRP-1253 is resolved -->
 
-<<<<<<< HEAD
-	<TCPPING timeout="3000"
-		initial_hosts="${jgroups.tcpping.initial_hosts:10.66.65.107[7800],10.66.66.21[7800],10.66.66.22[7800],10.66.66.23[7800]}"
-		port_range="5" num_initial_members="3" ergonomics="false" />
-=======
 	<TCPPING timeout="6000"
 				initial_hosts="${jgroups.tcpping.initial_hosts:10.66.65.107[7800],10.66.66.21[7800],10.66.66.22[7800],10.66.66.23[7800],10.66.66.24[7800],10.66.66.25[7800],10.66.66.26[7800],10.66.66.29[7800],10.66.66.30[7800],10.66.66.31[7800],10.66.66.32[7800],10.66.66.33[7800],10.66.66.36[7800],10.66.66.37[7800]}"
 		port_range="1" num_initial_members="13" ergonomics="false" />
->>>>>>> f467ef2c4588fd395ded5cf9ac0ba6f7b5ba88f5
-	
+
 	<MERGE2 max_interval="30000" min_interval="10000" />
 
 	<FD_SOCK />
