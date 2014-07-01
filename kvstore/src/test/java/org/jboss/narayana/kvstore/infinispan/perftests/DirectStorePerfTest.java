@@ -1,9 +1,11 @@
 package org.jboss.narayana.kvstore.infinispan.perftests;
 
+import javax.transaction.TransactionManager;
+
 public class DirectStorePerfTest extends MillTester {
 
 	@Override
-	public void setup() {
+	protected TransactionManager getTransManager() {
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType", 
 				"org.jboss.narayana.mapstore.infinispan.ReplDirectStore");
 		
@@ -13,5 +15,6 @@ public class DirectStorePerfTest extends MillTester {
 		else {
 			setMessage("DirectStore");
 		}
+		return com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
 }

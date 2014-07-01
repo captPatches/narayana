@@ -17,13 +17,10 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
 public abstract class ObjectStorePerfTester {
 
-	private String message;
-	private final int transCount = 500000;
+	private String message = "Default Message";
+	private final int transCount = 50000;
 	private final int threadsNum = 250;
-	private TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
-	
-	@Before
-	public abstract void setup();
+	private TransactionManager tm = getTransManager();
 	
 	@Before
 	public void chooseIPStack() {
@@ -56,5 +53,7 @@ public abstract class ObjectStorePerfTester {
 	protected final void setMessage(String msg) {
 		this.message = msg;
 	}
+	
+	protected abstract TransactionManager getTransManager();
 
 }

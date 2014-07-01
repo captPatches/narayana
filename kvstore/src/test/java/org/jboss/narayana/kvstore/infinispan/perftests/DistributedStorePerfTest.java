@@ -1,10 +1,11 @@
 package org.jboss.narayana.kvstore.infinispan.perftests;
 
+import javax.transaction.TransactionManager;
+
 public class DistributedStorePerfTest extends MillTester {
 
 	@Override
-	public void setup() {
-		
+	protected TransactionManager getTransManager() {
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 		
@@ -17,10 +18,11 @@ public class DistributedStorePerfTest extends MillTester {
 		} else {
 			System.setProperty(
 					"KVStoreEnvironmentBean.storeImplementationClassName",
-					"org.jboss.narayana.kvstore.infinispan.DistirbutedStore");
+					"org.jboss.narayana.kvstore.infinispan.DistributedStore");
 			setMessage("Distibuted Cache Store");
 		}
-
+		
+		return com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
 
 }

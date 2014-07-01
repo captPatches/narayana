@@ -20,18 +20,20 @@
 	<groupId>org.jboss.narayana.kvstore</groupId>
 	<artifactId>kvstorecore</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.7-SNAPSHOT</version>
 
 	<name>kvstore</name>
 
 	<description>Prototype code for Key/Value ObjectStore</description>
 
 	<url>http://www.jboss.org/jbosstm/</url>
-
+<!-- 
 	<properties>
 
-		<exclude.tests>**/infinispankvstore/**</exclude.tests>
+		<exclude.tests>**/infinispankvstore/**,**/kvstorecore/**</exclude.tests>
 	</properties>
+	
+ -->
 
 	<profiles>
 		<profile>
@@ -44,6 +46,12 @@
 			<id>sizeTest</id>
 			<properties>
 				<exclude.tests>**/objectstoretests/**,**/HornetQ**,**/Shadowing**</exclude.tests>
+			</properties>
+		</profile>
+		<profile>
+			<id>local</id>
+			<properties>
+				<exclude.tests>**/*Size*,**/objectstoretests/**</exclude.tests>
 			</properties>
 		</profile>
 	</profiles>
@@ -103,6 +111,8 @@
 					<configuration>
 						<excludes>
 							<exclude>${exclude.tests}</exclude>
+							<exclude>**/infinispankvstore/**</exclude>
+							<exclude>**/kvstorecore/**</exclude>
 						</excludes>
 						<!-- <redirectTestOutputToFile>true</redirectTestOutputToFile> -->
 						<forkMode>perTest</forkMode>

@@ -1,9 +1,11 @@
 package org.jboss.narayana.kvstore.infinispan.perftests;
 
+import javax.transaction.TransactionManager;
+
 public class ShadowingFileStorePerfTest extends MillTester {
 
 	@Override
-	public void setup() {
+	protected TransactionManager getTransManager() {
 		// Make sure not to use the network drive on the Mill
 		if(runOnMill() ) {
 			System.setProperty("ObjectStoreEnvironmentBean.objectStoreDir",
@@ -11,6 +13,7 @@ public class ShadowingFileStorePerfTest extends MillTester {
 			setMessage("(Default) Shadowing Store (Mill Mode");
 		}
 		setMessage("(Default) Shadowing Store");
+		return com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
 
 }

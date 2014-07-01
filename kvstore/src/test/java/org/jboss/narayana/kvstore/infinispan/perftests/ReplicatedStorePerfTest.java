@@ -1,9 +1,11 @@
 package org.jboss.narayana.kvstore.infinispan.perftests;
 
+import javax.transaction.TransactionManager;
+
 public class ReplicatedStorePerfTest extends MillTester {
 
 	@Override
-	public void setup() {
+	protected TransactionManager getTransManager() {
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 		
@@ -18,5 +20,6 @@ public class ReplicatedStorePerfTest extends MillTester {
 					"KVStoreEnvironmentBean.storeImplementationClassName",
 					"org.jboss.narayana.kvstore.infinispan.ReplicatedStore");
 		}
+		return com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
 }

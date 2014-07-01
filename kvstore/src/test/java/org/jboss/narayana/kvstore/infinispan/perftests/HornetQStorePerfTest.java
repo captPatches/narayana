@@ -1,9 +1,11 @@
 package org.jboss.narayana.kvstore.infinispan.perftests;
 
+import javax.transaction.TransactionManager;
+
 public class HornetQStorePerfTest extends MillTester {
 
 	@Override
-	public void setup() {
+	public TransactionManager getTransManager() {
 		
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.hornetq.HornetqObjectStoreAdaptor");
@@ -17,6 +19,7 @@ public class HornetQStorePerfTest extends MillTester {
 		}
 		
 		setMessage("HornetQ Journalling Store");
+		return com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
-
+	
 }
