@@ -23,7 +23,7 @@
 	
 	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
 		<param name="target" value="System.out" />
-		<param name="Threshold" value="ALL" />
+		<param name="Threshold" value="WARN" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d [%t] %9x %-5p (%-25.25c{2}:%-4L) - %m%n" />
 		</layout>

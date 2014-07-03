@@ -18,8 +18,8 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 public abstract class ObjectStorePerfTester {
 
 	private String message = "Default Message";
-	private final int transCount = 50000;
-	private final int threadsNum = 250;
+	private final int transCount = 5000000;
+	private final int threadsNum = 400;
 	private TransactionManager tm = getTransManager();
 	
 	@Before
@@ -30,7 +30,8 @@ public abstract class ObjectStorePerfTester {
 	@Test
 	public void perTest() {
 
-		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>();
+		// -1 uses the default batch size for testing
+		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>(400,-1);
 		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
 
 		Result<BigInteger> opts = new Result<BigInteger>(threadsNum, transCount);
