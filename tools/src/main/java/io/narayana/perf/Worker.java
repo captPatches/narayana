@@ -26,28 +26,5 @@ package io.narayana.perf;
  *
  * Interface for running a batch of work
  */
-public interface Worker<T> {
-    /**
-     * Perform a single unit of work. @see PerformanceTester begins a number of threads and each thread
-     * then invokes the doWork method in parallel until there is no more remaining work.
-     *
-     * @param context a thread specific instance that may have been returned by a previous invocation of the doWork
-     *                method by this thread. This may be useful if the worker needs to save thread specific data
-     * @param niters the number of work iterations to perform in this batch
-     * @param opts config parameters for the work that triggered this call
-     * @return A thread specific instance that will be passed to subsequent calls to the doWork method by the thread
-     * @throws Exception 
-     */
-    // Added Exception - May need to take this out shortly
-	T doWork(T context, int niters, Result<T> opts) throws Exception;
-
-    /**
-     * notify the worker that the test is starting
-     */
-    void init();
-
-    /**
-     * notify the worker that the test has finished
-     */
-    void fini();
+public interface Worker<T> extends WorkerLifecycle, WorkerWorkload<T>{
 }

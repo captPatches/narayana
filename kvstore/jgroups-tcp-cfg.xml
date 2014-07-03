@@ -4,11 +4,7 @@
 	<!-- ${jgroups.tcp.address:192.168.1.65} -->
 	
 	<TCP
-<<<<<<< HEAD
 		bind_addr="${jgroups.tcp.address:192.168.1.65}"
-=======
-		bind_addr="${jgroups.tcp.address:127.0.0.1}"
->>>>>>> f467ef2c4588fd395ded5cf9ac0ba6f7b5ba88f5
 		bind_port="${jgroups.tcp.port:7800}"
 		port_range="30" recv_buf_size="20m"
 		send_buf_size="640k"
