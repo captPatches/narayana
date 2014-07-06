@@ -12,11 +12,17 @@ import org.infinispan.manager.DefaultCacheManager;
 import org.jboss.narayana.kvstore.infinispan.learning.NoInputException;
 
 public class NodeController {
-private Cache<String, String> cache;
+	private Cache<String, String> cache;
+	private DefaultCacheManager manager;
 	
 	public NodeController(String node) {
 		System.setProperty("java.net.preferIPv4Stack", "true");
-		DefaultCacheManager manager;
+		if(node == null) {
+			node = "jgroups-tcp-cfg.xml";
+		} else {
+			node = "netconfig/node-"+node+"-cfg.xml";
+		}
+		
 		try {
 			manager = new DefaultCacheManager(
 						GlobalConfigurationBuilder
@@ -24,16 +30,17 @@ private Cache<String, String> cache;
 							.transport()
 							.defaultTransport()
 							.addProperty("configurationFile",
-									"netconfig/node-"+node+"-cfg.xml")
+									node)
+						//			"netconfig/node-"+node+"-cfg.xml")
 						//			"jgroups-tcp-cfg.xml")
 					.addProperty("clusterName", "splitting-cluster").build());
 
 			// Define Cache Configuration
 			ConfigurationBuilder cb = new ConfigurationBuilder();
-			cb.clustering().cacheMode(CacheMode.REPL_SYNC);
-			cb.clustering().stateTransfer().fetchInMemoryState(true);
-			manager.defineConfiguration("repl-cache", cb.build());
-			cache = manager.getCache("repl-cache");
+			cb.clustering().cacheMode(CacheMode.DIST_SYNC).hash().numOwners(5);
+		//	cb.clustering().stateTransfer().fetchInMemoryState(true);
+			manager.defineConfiguration("dist-cache", cb.build());
+			cache = manager.getCache("dist-cache");
 		} catch (Exception e) {
 			throw new RuntimeException("Cache Creation Failed");
 		}
@@ -54,6 +61,9 @@ private Cache<String, String> cache;
 		} catch (IOException e) {
 			System.err.println("Input Exception Caught");
 			return;
+		}
+		catch (Exception e) {
+			System.err.println("Cache Write Failed");
 		}
 	}
 	
@@ -99,6 +109,9 @@ private Cache<String, String> cache;
 			case "exit":
 				exit = true;
 				System.exit(1);
+				break;
+			case "size":
+				System.out.println("Cluster Size: "+this.manager.getClusterSize());
 				break;
 			default:
 			}

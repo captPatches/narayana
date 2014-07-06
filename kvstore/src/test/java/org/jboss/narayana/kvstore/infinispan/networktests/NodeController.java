@@ -30,7 +30,7 @@ private Cache<String, String> cache;
 
 			// Define Cache Configuration
 			ConfigurationBuilder cb = new ConfigurationBuilder();
-			cb.clustering().cacheMode(CacheMode.REPL_SYNC);
+			cb.clustering().cacheMode(CacheMode.REPL_SYNC).hash().numOwners(3);
 			cb.clustering().stateTransfer().fetchInMemoryState(true);
 			manager.defineConfiguration("repl-cache", cb.build());
 			cache = manager.getCache("repl-cache");

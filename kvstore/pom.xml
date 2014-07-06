@@ -226,7 +226,7 @@
 			<groupId>org.jboss.narayana</groupId>
 			<artifactId>test-utils</artifactId>
 			<version>5.0.2.Final-SNAPSHOT</version>
-			<!-- <scope>test</scope> -->
+			<scope>test</scope>
 		</dependency>
 
 
@@ -311,7 +311,6 @@
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-client-hotrod</artifactId>
 			<version>6.0.2.Final</version>
-
 		</dependency>
 
 	</dependencies>

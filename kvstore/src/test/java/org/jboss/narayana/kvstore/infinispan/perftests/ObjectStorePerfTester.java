@@ -20,11 +20,13 @@ public abstract class ObjectStorePerfTester {
 	private String message = "Default Message";
 	private final int transCount = 5000000;
 	private final int threadsNum = 400;
+	private int batchSize = 32;
 	private TransactionManager tm = getTransManager();
 	
 	@Before
 	public void chooseIPStack() {
-		System.setProperty("java.net.preferIPv4Stack","true");
+		System.setProperty(
+				"java.net.preferIPv4Stack","true");
 	}
 	
 	@Test
@@ -44,6 +46,14 @@ public abstract class ObjectStorePerfTester {
 		System.out
 				.printf("\nRESULTS: " + message + ": %d Txs / second (total time: %d)\n",
 						opts.getThroughput(), opts.getTotalMillis());
+	}
+	
+	@Test
+	public void perfTest() {
+		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
+		Result<BigInteger> measurement = new Result<>(threadsNum, transCount, batchSize).measure(worker);
+		
+		System.out.println("RESULTS: "+message+" "+measurement.getThroughput());
 	}
 	
 	@After
