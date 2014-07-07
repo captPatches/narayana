@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.infinispan.Cache;
+import org.infinispan.context.Flag;
 import org.infinispan.manager.DefaultCacheManager;
-import org.infinispan.manager.EmbeddedCacheManager;
 
-import com.arjuna.ats.arjuna.exceptions.ObjectStoreException;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
@@ -70,6 +69,7 @@ public abstract class InfinispanKVStore implements KVStore {
 
 	@Override
 	public void add(long id, byte[] data) throws Exception {
+	//	c.getAdvancedCache().withFlags(Flag.IGNORE_RETURN_VALUES).put(keys[(int) id], data);
 		c.put(keys[(int) id], data);
 	}
 

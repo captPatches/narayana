@@ -1,13 +1,11 @@
 package org.jboss.narayana.kvstore.infinispan.perftests;
 
 import io.narayana.perf.Result;
-import io.narayana.perf.Worker;
-
-import java.math.BigInteger;
+import io.narayana.perf.WorkerWorkload;
 
 import javax.transaction.TransactionManager;
 
-import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
+import org.jboss.narayana.kvstore.XAResourceImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,11 +15,10 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 public abstract class ObjectStorePerfTester {
 
 	private String message = "Default Message";
-	private final int transCount = 500000;
+	private final int transCount = 5000000;
 	private final int threadsNum = 400;
 	private final int batchSize = 10;
-	private TransactionManager tm = getTransManager();
-
+	
 	@Before
 	public void chooseIPStack() {
 		System.setProperty("java.net.preferIPv4Stack", "true");
@@ -30,17 +27,31 @@ public abstract class ObjectStorePerfTester {
 	@Test
 	public void perTest() {
 
-		// -1 uses the default batch size for testing
-		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
-
 		// This sets the thread pool to the number of requested threads
 		// automatically
-		Result<BigInteger> measurement = new Result<BigInteger>(threadsNum,
-				transCount, batchSize).measure(worker);
-
-		// discount any tests that contain an error
-		if (measurement.getErrorCount() > 0)
-			throw new RuntimeException("There was error - Test Failed!");
+		Result<Void> measurement = new Result<Void>(threadsNum,
+				transCount, batchSize).measure( new WorkerWorkload<Void>() {
+					
+					private TransactionManager tm = getTransManager();
+					
+					@Override
+					public Void doWork(Void context, int batchSize, Result<Void> measure) {
+										
+						try {
+								tm.begin();
+							
+								tm.getTransaction().enlistResource( new XAResourceImpl() );
+								tm.getTransaction().enlistResource( new XAResourceImpl() );
+							
+								tm.commit();
+							
+							} catch (Exception e) {
+								throw new RuntimeException("There was an error, test failed");
+							}
+						return context;
+					}
+				
+				});
 
 		System.out.printf("\nRESULTS: " + message
 				+ ": %d Txs / second (total time: %d)\n",

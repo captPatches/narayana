@@ -10,6 +10,7 @@ import javax.transaction.xa.XAResource;
 
 import org.jboss.narayana.kvstore.XAResourceImpl;
 
+@Deprecated
 public class TxWorker implements Worker<BigInteger> {
 
 	private TransactionManager tm;

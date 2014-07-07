@@ -113,6 +113,7 @@
 							<exclude>${exclude.tests}</exclude>
 							<exclude>**/infinispankvstore/**</exclude>
 							<exclude>**/kvstorecore/**</exclude>
+							<exclude>**/networktests</exclude>
 						</excludes>
 						<!-- <redirectTestOutputToFile>true</redirectTestOutputToFile> -->
 						<forkMode>perTest</forkMode>

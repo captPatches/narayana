@@ -26,6 +26,7 @@
 				fetchInMemoryState="true"
 				timeout="240000" />
 		</clustering>
+		<unsafe unreliableReturnValues="true" />
 	</namedCache>
 	<namedCache name="replication-cache">
 		<clustering mode="replication">
