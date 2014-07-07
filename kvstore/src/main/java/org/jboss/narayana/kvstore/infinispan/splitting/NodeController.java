@@ -9,14 +9,15 @@ import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
+import org.jboss.narayana.kvstore.infinispan.learning.FullListener;
 import org.jboss.narayana.kvstore.infinispan.learning.NoInputException;
 
 public class NodeController {
-private Cache<String, String> cache;
+	private Cache<String, String> cache;
+	private DefaultCacheManager manager;
 	
 	public NodeController(String node) {
 		System.setProperty("java.net.preferIPv4Stack", "true");
-		DefaultCacheManager manager;
 		try {
 			manager = new DefaultCacheManager(
 						GlobalConfigurationBuilder
@@ -37,6 +38,7 @@ private Cache<String, String> cache;
 		} catch (Exception e) {
 			throw new RuntimeException("Cache Creation Failed");
 		}
+		manager.addListener(new FullListener());
 	}
 	
 	public void write(BufferedReader in) {
@@ -74,7 +76,14 @@ private Cache<String, String> cache;
 		}
 	}
 	
+	public void size() {
+		System.out.println("Current View: " + manager.getClusterSize() );
+	}
+	
 	public void start() {
+		
+		System.out.println(manager.getPhysicalAddresses());
+		
 		boolean exit = false;
 		BufferedReader in = new BufferedReader(new InputStreamReader (System.in));
 		
@@ -99,6 +108,9 @@ private Cache<String, String> cache;
 			case "exit":
 				exit = true;
 				System.exit(1);
+				break;
+			case "size":
+				this.size();
 				break;
 			default:
 			}

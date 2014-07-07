@@ -1,8 +1,5 @@
 package org.jboss.narayana.kvstore.infinispan.learning;
 
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.infinispan.notifications.Listener;
 import org.infinispan.notifications.cachelistener.annotation.CacheEntryCreated;
 import org.infinispan.notifications.cachelistener.annotation.CacheEntryModified;
@@ -23,13 +20,15 @@ public class FullListener {
 			System.out.println("key: "+key+" - value: "+cache.get(key));
 		}*/
 		
-		Set<Entry<Object, Object>> entries = event.getCacheManager().getCache("rep").entrySet();
+		/*Set<Entry<Object, Object>> entries = event.getCacheManager().getCache("rep").entrySet();
 		for(Entry<Object,Object> entry : entries) {
 			System.out.println("key: "+entry.getKey()+" - value: "+entry.getValue());
-		}
+		}*/
 		
 		
-		System.out.println("MOOOO!!!!");
+		System.err.println("View Changed: was "+event.getOldMembers().size() + ", now "+event.getNewMembers().size());
+		
+	//	System.out.println("MOOOO!!!!");
 
 	}
 	

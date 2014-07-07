@@ -17,8 +17,7 @@ public class NoSizeCheckWorker implements Worker<Integer> {
 	private long finiTimeMills = -1;
 
 	@Override
-	public Integer doWork(Integer context, int niters, Result opts)
-			throws Exception {
+	public Integer doWork(Integer context, int niters, Result opts) {
 
 		/*if (context < 0) {
 			throw new RuntimeException("Cluster Size cannot be negative");

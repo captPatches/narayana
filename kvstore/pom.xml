@@ -225,7 +225,7 @@
 		<dependency>
 			<groupId>org.jboss.narayana</groupId>
 			<artifactId>test-utils</artifactId>
-			<version>5.0.2.Final-SNAPSHOT</version>
+			<version>5.0.3.Final-SNAPSHOT</version>
 			<!-- <scope>test</scope> -->
 		</dependency>
 
