@@ -35,13 +35,13 @@ public abstract class InfinispanKVStore implements KVStore {
 		// just to discover there is no CacheManager
 		try {
 			this.manager = setManager();
-			c = new DecoratedCache<String, byte[]>(setCache(manager)
-					.getAdvancedCache(), Flag.IGNORE_RETURN_VALUES,
-					Flag.SKIP_CACHE_LOAD);
+			
 		} catch (IOException e) {
 			throw new RuntimeException("ObjectStore Cache Manager Unavailble");
 		}
-
+		c = new DecoratedCache<String, byte[]>(setCache(manager)
+				.getAdvancedCache(), Flag.IGNORE_RETURN_VALUES,
+				Flag.SKIP_CACHE_LOAD);
 	}
 
 	@Override

@@ -11,9 +11,9 @@ import org.jboss.narayana.kvstore.infinispan.InfinispanKVStore;
 
 public class MillDistCacheStore extends InfinispanKVStore {
 	
-	private String CACHE_NAME = "dist-cache";
-	private String CONFIG_FILE = "configlib/jgroups-tcp-mill002-cfg.xml";
-	
+	private final String CONFIG_FILE = "configlib/jgroups-tcp-mill002-cfg.xml";
+	private final String CACHE_NAME = "repl-cache";
+
 	@Override
 	protected DefaultCacheManager setManager() throws IOException {
 		return new DefaultCacheManager(GlobalConfigurationBuilder
@@ -26,18 +26,19 @@ public class MillDistCacheStore extends InfinispanKVStore {
 	protected Cache<String, byte[]> setCache(DefaultCacheManager manager) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.clustering().cacheMode(CacheMode.DIST_SYNC);
-		cb.clustering().hash().numOwners(3);
 		cb.clustering().stateTransfer().fetchInMemoryState(true);
+		cb.clustering().hash().numOwners(3);
 		manager.defineConfiguration(CACHE_NAME, cb.build());
-		
+
 		return manager.getCache(CACHE_NAME);
 	}
-	
+
 	@Override
 	protected String getHostname() {
-		// try to remove the .ncl.ac.uk that should be attatched.
+		// remove the '.ncl.ac.uk'
 		try {
-			return super.getHostname().substring(0, super.getHostname().indexOf('.')-1);
+			return super.getHostname().substring(0,
+					super.getHostname().indexOf('.') - 1);
 		} catch (Exception e) {
 			System.err.println("hostname unavailble");
 			return "default_hostname";
