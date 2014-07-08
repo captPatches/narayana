@@ -2,7 +2,9 @@ package org.jboss.narayana.kvstore.infinispan.perftests;
 
 /**
  * Allows tests that will load will Mill-Cluster specific system properties
- * a chance to test if they are running on the Mill cluster or not.
+ * a chance to test if they are running on the Mill cluster or not. This
+ * is useful in the current version to allow tests run on the Mill Cluster to 
+ * choose a file location other than the default network SSD.
  * 
  * @author patches
  *

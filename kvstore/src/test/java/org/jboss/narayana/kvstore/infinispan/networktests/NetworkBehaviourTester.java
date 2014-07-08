@@ -35,6 +35,12 @@ public class NetworkBehaviourTester {
 				exit = true;
 				System.exit(1);
 				break;
+			case "size":
+				controller.size();
+				break;
+			case "own":
+				controller.numOwners();
+				break;
 			default:
 			}
 		}

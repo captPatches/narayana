@@ -9,6 +9,7 @@ import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 import org.jboss.narayana.kvstore.infinispan.InfinispanKVStore;
 
+@Deprecated
 public class MillDistCacheStore extends InfinispanKVStore {
 	
 	private final String CONFIG_FILE = "configlib/jgroups-tcp-mill002-cfg.xml";

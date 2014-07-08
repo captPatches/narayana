@@ -7,6 +7,7 @@ import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 import org.jboss.narayana.kvstore.infinispan.ClusterSizeCheckStore;
 
+@Deprecated
 public class MillDistSizeCheckStore extends ClusterSizeCheckStore {
 	
 	private String CACHE_NAME = "dist-cache";
