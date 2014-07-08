@@ -15,7 +15,7 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 public abstract class ObjectStorePerfTester {
 
 	private String message = "Default Message";
-	private final int transCount = 5000000;
+	private final int transCount = 500000000;
 	private final int threadsNum = 400;
 	private final int batchSize = 10;
 	
@@ -29,8 +29,7 @@ public abstract class ObjectStorePerfTester {
 
 		// This sets the thread pool to the number of requested threads
 		// automatically
-		Result<Void> measurement = new Result<Void>(threadsNum,
-				transCount, batchSize).measure( new WorkerWorkload<Void>() {
+		Result<Void> measurement = new Result<Void>(threadsNum, transCount, batchSize).measure( new WorkerWorkload<Void>() {
 					
 					private TransactionManager tm = getTransManager();
 					
