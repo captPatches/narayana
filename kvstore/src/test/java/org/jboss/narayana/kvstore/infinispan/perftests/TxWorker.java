@@ -10,6 +10,7 @@ import javax.transaction.xa.XAResource;
 
 import org.jboss.narayana.kvstore.XAResourceImpl;
 
+@Deprecated
 public class TxWorker implements Worker<BigInteger> {
 
 	private TransactionManager tm;
@@ -17,10 +18,12 @@ public class TxWorker implements Worker<BigInteger> {
 	private long finiTimeMillis = -1;
 	private long workTimeMillis = -1;
 	
+	@Deprecated
 	public TxWorker(TransactionManager tm) {
 		this.tm = tm;
 	}
 
+	@Deprecated
 	@Override
 	public BigInteger doWork(BigInteger context, int niters, Result opts) throws RuntimeException {
 
@@ -47,6 +50,7 @@ public class TxWorker implements Worker<BigInteger> {
 
 	}
 
+	@Deprecated
 	@Override
 	public void init() {
 		initTimeMillis = System.currentTimeMillis();

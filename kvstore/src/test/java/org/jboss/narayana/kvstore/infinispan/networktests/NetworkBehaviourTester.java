@@ -21,6 +21,7 @@ public class NetworkBehaviourTester {
 			} catch (IOException e) {
 				cmd = null;
 			}
+			
 			switch (cmd) {
 			case "put":
 				controller.write(in);
@@ -34,6 +35,15 @@ public class NetworkBehaviourTester {
 			case "exit":
 				exit = true;
 				System.exit(1);
+				break;
+			case "size":
+				controller.size();
+				break;
+			case "own":
+				controller.numOwners();
+				break;
+			case "get":
+				controller.numOwners();
 				break;
 			default:
 			}

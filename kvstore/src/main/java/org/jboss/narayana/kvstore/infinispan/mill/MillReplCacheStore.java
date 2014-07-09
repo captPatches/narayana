@@ -16,6 +16,7 @@ import org.jboss.narayana.kvstore.infinispan.InfinispanKVStore;
  * @author patches
  * 
  */
+@Deprecated
 public class MillReplCacheStore extends InfinispanKVStore {
 
 	private final String CONFIG_FILE = "configlib/jgroups-tcp-mill002-cfg.xml";

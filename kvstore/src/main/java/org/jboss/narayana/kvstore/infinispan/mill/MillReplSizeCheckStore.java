@@ -9,6 +9,7 @@ import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 import org.jboss.narayana.kvstore.infinispan.ClusterSizeCheckStore;
 
+@Deprecated
 public class MillReplSizeCheckStore extends ClusterSizeCheckStore {
 
 	private final String CACHE_NAME = "repl-cache";

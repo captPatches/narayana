@@ -9,6 +9,7 @@ import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
+import org.jboss.narayana.kvstore.infinispan.learning.FullListener;
 import org.jboss.narayana.kvstore.infinispan.learning.NoInputException;
 
 public class NodeController {
@@ -17,12 +18,13 @@ public class NodeController {
 	
 	public NodeController(String node) {
 		System.setProperty("java.net.preferIPv4Stack", "true");
+
 		if(node == null) {
 			node = "jgroups-tcp-cfg.xml";
 		} else {
 			node = "netconfig/node-"+node+"-cfg.xml";
 		}
-		
+
 		try {
 			manager = new DefaultCacheManager(
 						GlobalConfigurationBuilder
@@ -44,6 +46,7 @@ public class NodeController {
 		} catch (Exception e) {
 			throw new RuntimeException("Cache Creation Failed");
 		}
+		manager.addListener(new FullListener());
 	}
 	
 	public void write(BufferedReader in) {
@@ -84,7 +87,14 @@ public class NodeController {
 		}
 	}
 	
+	public void size() {
+		System.out.println("Current View: " + manager.getClusterSize() );
+	}
+	
 	public void start() {
+		
+		System.out.println(manager.getPhysicalAddresses());
+		
 		boolean exit = false;
 		BufferedReader in = new BufferedReader(new InputStreamReader (System.in));
 		

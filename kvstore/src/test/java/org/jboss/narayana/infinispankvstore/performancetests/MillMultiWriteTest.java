@@ -29,8 +29,7 @@ public class MillMultiWriteTest {
 		private long finiTimeMillis = -1;
 
 		@Override
-		public Object doWork(Object context, int niters, Result opts)
-				throws Exception {
+		public Object doWork(Object context, int niters, Result opts) {
 
 			if (context != null)
 				throw new IllegalArgumentException(

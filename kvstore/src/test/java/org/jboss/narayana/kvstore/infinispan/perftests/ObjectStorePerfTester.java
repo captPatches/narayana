@@ -3,14 +3,16 @@ package org.jboss.narayana.kvstore.infinispan.perftests;
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
 import io.narayana.perf.Worker;
+import io.narayana.perf.WorkerWorkload;
 
 import java.math.BigInteger;
 
 import javax.transaction.TransactionManager;
 
-import org.jboss.narayana.infinispankvstore.KVStoreWorkerTM;
+import org.jboss.narayana.kvstore.XAResourceImpl;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
@@ -18,9 +20,9 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 public abstract class ObjectStorePerfTester {
 
 	private String message = "Default Message";
-	private final int transCount = 5000000;
+	private final int transCount = 500000000;
 	private final int threadsNum = 400;
-	private int batchSize = 32;
+	private int batchSize = 10;
 	private TransactionManager tm = getTransManager();
 	
 	@Before
@@ -28,13 +30,15 @@ public abstract class ObjectStorePerfTester {
 		System.setProperty(
 				"java.net.preferIPv4Stack","true");
 	}
-	
+
+	@Deprecated
 	@Test
-	public void perTest() {
+	@Ignore
+	public void test() {
 
 		// -1 uses the default batch size for testing
 		PerformanceTester<BigInteger> tester = new PerformanceTester<BigInteger>(400,-1);
-		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
+		Worker<BigInteger> worker = new TxWorker(tm);
 
 		Result<BigInteger> opts = new Result<BigInteger>(threadsNum, transCount);
 		tester.measureThroughput(worker, opts);
@@ -50,21 +54,45 @@ public abstract class ObjectStorePerfTester {
 	
 	@Test
 	public void perfTest() {
-		Worker<BigInteger> worker = new KVStoreWorkerTM(tm);
-		Result<BigInteger> measurement = new Result<>(threadsNum, transCount, batchSize).measure(worker);
-		
-		System.out.println("RESULTS: "+message+" "+measurement.getThroughput());
+
+		// This sets the thread pool to the number of requested threads
+		// automatically
+		Result<Void> measurement = new Result<Void>(threadsNum, transCount, batchSize).measure( new WorkerWorkload<Void>() {
+					
+					private TransactionManager tm = getTransManager();
+					
+					@Override
+					public Void doWork(Void context, int batchSize, Result<Void> measure) {
+										
+						try {
+								tm.begin();
+							
+								tm.getTransaction().enlistResource( new XAResourceImpl() );
+								tm.getTransaction().enlistResource( new XAResourceImpl() );
+							
+								tm.commit();
+							
+							} catch (Exception e) {
+								throw new RuntimeException("There was an error, test failed");
+							}
+						return context;
+					}
+				
+				});
+
+		System.out.printf("\nRESULTS: " + message
+				+ ": %d Txs / second (total time: %d)\n",
+				measurement.getThroughput(), measurement.getTotalMillis());
 	}
-	
+
 	@After
 	public void teardown() {
 		StoreManager.shutdown();
 	}
-	
+
 	protected final void setMessage(String msg) {
 		this.message = msg;
 	}
-	
-	protected abstract TransactionManager getTransManager();
 
+	protected abstract TransactionManager getTransManager();
 }

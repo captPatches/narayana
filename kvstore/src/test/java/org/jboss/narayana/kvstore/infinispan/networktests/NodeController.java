@@ -12,11 +12,11 @@ import org.infinispan.manager.DefaultCacheManager;
 import org.jboss.narayana.kvstore.infinispan.learning.NoInputException;
 
 public class NodeController {
-private Cache<String, String> cache;
+	private Cache<String, String> cache;
+	private DefaultCacheManager manager;
 	
 	public NodeController(String node) {
 		System.setProperty("java.net.preferIPv4Stack", "true");
-		DefaultCacheManager manager;
 		try {
 			manager = new DefaultCacheManager(
 						GlobalConfigurationBuilder
@@ -74,6 +74,19 @@ private Cache<String, String> cache;
 		}
 	}
 	
+	public void read(BufferedReader in) {
+		try {
+			System.out.print("key: ");
+			String key = in.readLine();
+			if(key.equals("") || key.equals(null)) throw new NoInputException();
+			cache.getAdvancedCache().get(key);
+		} catch (NoInputException e) {
+			System.err.println("No Key entered: nothing returned");
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+	
 	public void start() {
 		boolean exit = false;
 		BufferedReader in = new BufferedReader(new InputStreamReader (System.in));
@@ -86,6 +99,7 @@ private Cache<String, String> cache;
 			} catch (IOException e) {
 				cmd = null;
 			}
+			
 			switch (cmd) {
 			case "put":
 				this.write(in);
@@ -96,6 +110,11 @@ private Cache<String, String> cache;
 			case "view":
 				this.viewAll();
 				break;
+			case "get":
+				this.read(in);
+				break;
+			case "size":
+				System.out.println("Current Cluster Size: " + manager.getClusterSize());
 			case "exit":
 				exit = true;
 				System.exit(1);

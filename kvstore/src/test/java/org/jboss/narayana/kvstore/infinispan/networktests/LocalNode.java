@@ -36,6 +36,7 @@ public abstract class LocalNode {
 			case "view":
 				controller.viewAll();
 				break;
+				
 			case "exit":
 				exit = true;
 				System.exit(1);

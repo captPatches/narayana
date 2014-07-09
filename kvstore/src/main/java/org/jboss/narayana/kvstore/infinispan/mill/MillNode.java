@@ -68,13 +68,14 @@ public class MillNode {
 			manager.getCache("repl-cache");
 			manager.getCache("dist-cache");
 			System.out.println("Node Started Successfully");
-
+			
 		} catch (Exception e) {
 			System.out.println("Node Failed To Start");
 			System.out.println(e);
 			throw new RuntimeException();
 		}
 
+		
 	}
 
 }

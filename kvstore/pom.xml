@@ -113,6 +113,7 @@
 							<exclude>${exclude.tests}</exclude>
 							<exclude>**/infinispankvstore/**</exclude>
 							<exclude>**/kvstorecore/**</exclude>
+							<exclude>**/networktests</exclude>
 						</excludes>
 						<!-- <redirectTestOutputToFile>true</redirectTestOutputToFile> -->
 						<forkMode>perTest</forkMode>
@@ -143,7 +144,7 @@
 
 				<executions>
 					<execution>
-						<id>copy-dependencies</id>
+						<id>dependency-copy</id>
 						<phase>process-test-resources</phase>
 						<goals>
 							<goal>copy-dependencies</goal>
@@ -225,10 +226,9 @@
 		<dependency>
 			<groupId>org.jboss.narayana</groupId>
 			<artifactId>test-utils</artifactId>
-			<version>5.0.2.Final-SNAPSHOT</version>
-			<scope>test</scope>
+			<version>5.0.3.Final-SNAPSHOT</version>
+			<!-- <scope>test</scope> -->
 		</dependency>
-
 
 		<!-- memcached client. https://code.google.com/p/spymemcached/ -->
 		<dependency>
@@ -283,7 +283,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency> 
-
 
 		<dependency>
 			<groupId>org.jgroups</groupId>
