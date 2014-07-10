@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;
 
+@Deprecated
 public class DistributedSizeCheckStore extends ClusterSizeCheckStore {
 
 	private final String CONFIG_FILE = "multi-cache-cfg.xml";

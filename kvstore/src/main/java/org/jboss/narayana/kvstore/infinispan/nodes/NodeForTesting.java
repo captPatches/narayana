@@ -20,7 +20,7 @@ public class NodeForTesting {
 		System.setProperty("java.net.preferIPv4Stack", "true");
 		
 		try {
-			EmbeddedCacheManager manager = new DefaultCacheManager("/home/patches/workspace/narayana/kvstore/multi-cache-cfg.xml");
+			EmbeddedCacheManager manager = new DefaultCacheManager("multi-cache-cfg.xml");
 			manager.getCache("distributed-cache");
 			manager.getCache("replication-cache");
 			
