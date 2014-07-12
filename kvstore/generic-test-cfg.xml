@@ -5,7 +5,7 @@
 	<global>
 		<transport clusterName="testCluster">
 			<properties>
-				<property name="configurationFile" value="jgroups-udp.xml" />
+				<property name="configurationFile" value="jgroups-udp-cfg.xml" />
 				<!-- <property name="configurationFile" value="jgroups-test-tcp.xml" /> -->
 			</properties>
 		</transport>

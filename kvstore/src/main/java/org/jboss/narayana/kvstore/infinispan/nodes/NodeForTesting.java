@@ -16,15 +16,15 @@ public class NodeForTesting {
 
 	public static void main(String[] args) {
 		
-		//System.setProperty("jgroups.bind_addr", "192.168.1.65");
 		System.setProperty("java.net.preferIPv4Stack", "true");
 		
 		try {
-			EmbeddedCacheManager manager = new DefaultCacheManager("multi-cache-cfg.xml");
+			DefaultCacheManager manager = new DefaultCacheManager("multi-cache-cfg.xml");
 			manager.getCache("distributed-cache");
 			manager.getCache("replication-cache");
 			
 			System.out.println("Node Started Successfully");
+			System.out.println("Cluster Size: " + manager.getClusterSize());
 		} catch (IOException ioe) {
 			System.out.println("Node Failed to Start - no Config File");
 		} catch (Exception e) {
