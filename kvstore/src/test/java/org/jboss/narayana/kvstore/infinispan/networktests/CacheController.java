@@ -52,7 +52,7 @@ public class CacheController {
 			System.out.print("key: ");
 			String key = in.readLine();
 			if(key.equals("") || key.equals(null)) throw new NoInputException();
-			cache.getAdvancedCache().get(key);
+			System.out.println(cache.getAdvancedCache().get(key));
 		} catch (NoInputException e) {
 			System.err.println("No Key entered: nothing returned");
 		} catch (IOException e) {

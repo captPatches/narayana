@@ -42,11 +42,5 @@
 				numSegments="2" />
 		</clustering>
 	</namedCache>
-	<namedCache name="Aysnc-Repl-Cache">
-		<clustering mode="replication-cach">
-			<async />
-			<stateTransfer chunkSize="0" fetchInMemoryState="true"
-				timeout="240000" />
-		</clustering>
-	</namedCache>
+
 </infinispan>

@@ -43,7 +43,7 @@ public class NetworkBehaviourTester {
 				controller.numOwners();
 				break;
 			case "get":
-				controller.numOwners();
+				controller.read(in);
 				break;
 			default:
 			}

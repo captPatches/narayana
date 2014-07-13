@@ -3,7 +3,7 @@ package org.jboss.narayana.kvstore.infinispan.perftests;
 import javax.transaction.TransactionManager;
 
 @SuppressWarnings("all")
-public class DistributedStorePerfTest extends MillTester {
+public class DistributedStorePerfTest extends ObjectStorePerfTester {
 
 	@Override
 	protected TransactionManager getTransManager() {
