@@ -3,7 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:infinispan:config:6.0">
 	<!-- <infinispan> -->
 	<global>
-		<transport clusterName="testCluster">
+			<globalJmxStatistics allowDuplicateDomains="true" />
+			<transport clusterName="testCluster">
 			<properties>
 				<property name="configurationFile" value="jgroups-udp-cfg.xml" />
 			</properties>

@@ -5,10 +5,12 @@ import io.narayana.perf.Result;
 import io.narayana.perf.Worker;
 import io.narayana.perf.WorkerWorkload;
 
+import java.io.IOException;
 import java.math.BigInteger;
 
 import javax.transaction.TransactionManager;
 
+import org.infinispan.manager.DefaultCacheManager;
 import org.jboss.narayana.kvstore.XAResourceImpl;
 import org.junit.After;
 import org.junit.Before;
@@ -17,18 +19,37 @@ import org.junit.Test;
 
 import com.arjuna.ats.arjuna.objectstore.StoreManager;
 
+
+// Deprecated test class is left in there for academic reasons.
+@SuppressWarnings("deprecation")
 public abstract class ObjectStorePerfTester {
 
 	private String message = "Default Message";
-	private final int transCount = 500000000;
+	private final int transCount = 5000000;
 	private final int threadsNum = 400;
 	private int batchSize = 10;
 	private TransactionManager tm = getTransManager();
+	
+	private int currentClusterSize;
 	
 	@Before
 	public void chooseIPStack() {
 		System.setProperty(
 				"java.net.preferIPv4Stack","true");
+	}
+	
+	/**
+	 * Gets an optimistic idea of what the cluster size is:
+	 * This variable is a best effort and will only work
+	 * if the cluster remains up for the duration of the test.
+	 */
+	@Before
+	public void getClusterSize() {
+		try {
+			currentClusterSize = new DefaultCacheManager("multi-cache-cfg.xml").getClusterSize();
+		} catch (IOException e) {
+			currentClusterSize = -1;
+		}
 	}
 
 	@Deprecated
@@ -80,6 +101,7 @@ public abstract class ObjectStorePerfTester {
 				
 				});
 
+		System.out.println("Cluster Size: "+currentClusterSize);
 		System.out.printf("\nRESULTS: " + message
 				+ ": %d Txs / second (total time: %d)\n",
 				measurement.getThroughput(), measurement.getTotalMillis());
