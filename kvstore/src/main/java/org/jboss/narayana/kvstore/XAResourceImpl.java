@@ -93,7 +93,7 @@ public class XAResourceImpl implements XAResource
 
     public void commit(Xid xid, boolean b) throws XAException
     {
-        networkCall(0);
+    //    networkCall(0);
 
 //        long nanos = System.nanoTime() - lockNanos;
 //

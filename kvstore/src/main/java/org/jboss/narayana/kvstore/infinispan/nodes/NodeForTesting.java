@@ -3,7 +3,6 @@ package org.jboss.narayana.kvstore.infinispan.nodes;
 import java.io.IOException;
 
 import org.infinispan.manager.DefaultCacheManager;
-import org.infinispan.manager.EmbeddedCacheManager;
 
 /**
  * Runs an infinispan node for testing purposes that has knowledge of a
@@ -21,10 +20,9 @@ public class NodeForTesting {
 		try {
 			DefaultCacheManager manager = new DefaultCacheManager("multi-cache-cfg.xml");
 			manager.getCache("distributed-cache");
-			manager.getCache("replication-cache");
-			
-			System.out.println("Node Started Successfully");
+			//manager.getCache("replication-cache");
 			System.out.println("Cluster Size: " + manager.getClusterSize());
+			System.out.println("Node Started Successfully");
 		} catch (IOException ioe) {
 			System.out.println("Node Failed to Start - no Config File");
 		} catch (Exception e) {

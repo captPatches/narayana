@@ -3,10 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:infinispan:config:6.0">
 	<!-- <infinispan> -->
 	<global>
-			<globalJmxStatistics allowDuplicateDomains="true" />
 			<transport clusterName="testCluster">
 			<properties>
-				<property name="configurationFile" value="jgroups-udp-cfg.xml" />
+			<property name="configurationFile" value="jgroups-udp-cfg.xml" />
+			<!-- <property name="configurationFile" value="jgroups-tcp.xml" /> -->
 			</properties>
 		</transport>
 	</global>
@@ -18,13 +18,10 @@
 	</default>
 
 	<namedCache name="distributed-cache">
+		 <transaction transactionMode="NON_TRANSACTIONAL"/>
 		<clustering mode="distribution">
-			<sync />
-			<hash numOwners="3"
-					numSegments="20" />
-			<stateTransfer chunkSize="0"
-				fetchInMemoryState="true"
-				timeout="240000" />
+			<sync replTimeout="300000000" />
+			<hash numOwners="3" />
 		</clustering>
 		<unsafe unreliableReturnValues="true" />
 	</namedCache>

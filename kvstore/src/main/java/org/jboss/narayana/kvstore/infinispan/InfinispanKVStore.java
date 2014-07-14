@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.infinispan.Cache;
-import org.infinispan.DecoratedCache;
-import org.infinispan.context.Flag;
 import org.infinispan.manager.DefaultCacheManager;
+import org.jboss.narayana.kvstore.infinispan.nodes.NodeListener;
 
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
@@ -17,9 +16,10 @@ public abstract class InfinispanKVStore implements KVStore {
 
 	private final String scopePrefix = getHostname();
 	private final DefaultCacheManager manager;
-	private final DecoratedCache<String, byte[]> c;
+	//private final DecoratedCache<String, byte[]> c;
+	private final Cache<String, byte[]> c;
 
-	private static final int SIZE = 1024;
+	private static final int SIZE = 2048;
 
 	private final AtomicBoolean[] slotAllocation = new AtomicBoolean[SIZE]; // false
 																			// =
@@ -39,9 +39,13 @@ public abstract class InfinispanKVStore implements KVStore {
 		} catch (IOException e) {
 			throw new RuntimeException("ObjectStore Cache Manager Unavailble");
 		}
-		c = new DecoratedCache<String, byte[]>(setCache(manager)
+	/*	c = new DecoratedCache<String, byte[]>(setCache(manager)
 				.getAdvancedCache(), Flag.IGNORE_RETURN_VALUES,
 				Flag.SKIP_CACHE_LOAD);
+	*/
+		c = setCache(manager);
+		System.out.println("Cluster Size: "+manager.getClusterSize());
+		//c.addListener(new NodeListener());
 	}
 
 	@Override

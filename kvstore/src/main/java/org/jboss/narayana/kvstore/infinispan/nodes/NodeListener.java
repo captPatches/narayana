@@ -11,6 +11,8 @@ import org.infinispan.notifications.cachelistener.event.CacheEntryVisitedEvent;
 @Listener
 public class NodeListener {
 	
+	private int i=0;
+	
 	@CacheEntryCreated
 	public void dataAdded
 	(CacheEntryCreatedEvent<String, byte[]> event) {
@@ -20,6 +22,7 @@ public class NodeListener {
 		else {
 			System.out.println("added new entry: " + event.getKey());
 		}
+		System.out.println(i++);
 	}
 	
 	@CacheEntryRemoved

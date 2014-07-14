@@ -12,10 +12,11 @@ public class NodeForTestingVerbose {
 
 		try {
 			EmbeddedCacheManager manager = new DefaultCacheManager(
-					"multi-cache-cfg.xml");
-			
-			manager.getCache("distributed-cache").addListener(new NodeListener());
-			manager.getCache("replication-cache").addListener(new NodeListener());
+			//		"multi-cache-cfg.xml");
+					"generic-test-cfg.xml");
+						
+			manager.getCache("dis").addListener(new NodeListener());
+			//manager.getCache("distributed-cache").addListener(new NodeListener());
 			
 			System.out.println("Node Started Successfully");
 		} catch (IOException ioe) {
