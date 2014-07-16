@@ -1,5 +1,6 @@
 package org.jboss.narayana.kvstore.infinispan.perftests;
 
+import static org.junit.Assert.assertEquals;
 import io.narayana.perf.PerformanceTester;
 import io.narayana.perf.Result;
 import io.narayana.perf.Worker;
@@ -88,6 +89,7 @@ public abstract class ObjectStorePerfTester {
 				
 				});
 
+		assertEquals("There should be no errors!!", 0, measurement.getErrorCount());
 		System.out.printf("\nRESULTS: " + message
 				+ ": %d Txs / second (total time: %d)\n",
 				measurement.getThroughput(), measurement.getTotalMillis());

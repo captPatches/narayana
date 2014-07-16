@@ -18,8 +18,8 @@ public class NodeForTesting {
 		System.setProperty("java.net.preferIPv4Stack", "true");
 		
 		try {
-			DefaultCacheManager manager = new DefaultCacheManager("multi-cache-cfg.xml");
-			manager.getCache("distributed-cache");
+			DefaultCacheManager manager = new DefaultCacheManager("generic-test-cfg.xml");
+			manager.getCache("dis");
 			//manager.getCache("replication-cache");
 			System.out.println("Cluster Size: " + manager.getClusterSize());
 			System.out.println("Node Started Successfully");
