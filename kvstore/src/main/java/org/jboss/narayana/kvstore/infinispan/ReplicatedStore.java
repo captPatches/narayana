@@ -19,4 +19,5 @@ public final class ReplicatedStore extends InfinispanKVStore {
 	protected Cache<String, byte[]> setCache(DefaultCacheManager manager) {
 		return manager.getCache(CACHE_NAME);
 	}
+		
 }

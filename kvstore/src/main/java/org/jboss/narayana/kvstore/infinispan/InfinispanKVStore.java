@@ -7,14 +7,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;
-import org.jboss.narayana.kvstore.infinispan.nodes.NodeListener;
 
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
 public abstract class InfinispanKVStore implements KVStore {
 
-	private final String scopePrefix = getHostname();
+	private String scopePrefix;
 	private final DefaultCacheManager manager;
 	//private final DecoratedCache<String, byte[]> c;
 	private final Cache<String, byte[]> c;
@@ -44,6 +43,7 @@ public abstract class InfinispanKVStore implements KVStore {
 				Flag.SKIP_CACHE_LOAD);
 	*/
 		c = setCache(manager);
+		scopePrefix = getHostname();
 		System.out.println("Cluster Size: "+manager.getClusterSize());
 		//c.addListener(new NodeListener());
 	}
@@ -118,12 +118,7 @@ public abstract class InfinispanKVStore implements KVStore {
 	 * @return
 	 */
 	protected String getHostname() {
-		try {
-			return java.net.InetAddress.getLocalHost().getHostName();
-		} catch (java.net.UnknownHostException e) {
-			System.err.println(e.getMessage());
-			return "unknown_hostname";
-		}
+		return manager.getAddress().toString();
 	}
 
 	protected final DefaultCacheManager getManager() {
@@ -146,4 +141,20 @@ public abstract class InfinispanKVStore implements KVStore {
 	 */
 	protected abstract Cache<String, byte[]> setCache(
 			DefaultCacheManager manager);
+	
+	protected String scopePrefix() {
+		return scopePrefix;
+	}
+	
+	protected byte[] get(String key) {
+		return c.get(key);
+	}
+	
+	protected boolean containsKey(String key) {
+		return c.containsKey(key);
+	}
+	
+	protected int size() {
+		return SIZE;
+	}
 }
