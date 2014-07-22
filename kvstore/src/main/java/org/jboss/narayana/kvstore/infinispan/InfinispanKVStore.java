@@ -157,4 +157,8 @@ public abstract class InfinispanKVStore implements KVStore {
 	protected int size() {
 		return SIZE;
 	}
+	
+	protected boolean storeEmpty() {
+		return c.isEmpty();
+	}
 }
