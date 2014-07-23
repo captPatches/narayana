@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.infinispan.Cache;
+import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
@@ -14,7 +15,7 @@ import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 public abstract class InfinispanKVStore implements KVStore {
 
 	private String scopePrefix;
-	protected final DefaultCacheManager manager;
+	private final DefaultCacheManager manager;
 	//private final DecoratedCache<String, byte[]> c;
 	private final Cache<String, byte[]> c;
 
@@ -164,5 +165,16 @@ public abstract class InfinispanKVStore implements KVStore {
 	
 	protected String getMembersAsString() {
 		return manager.getClusterMembers();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	protected Cache getCacheByXML(String cacheName) {
+		return manager.getCache(cacheName);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	protected Cache getCacheByBuilder(ConfigurationBuilder cb, String cacheName) {
+		manager.defineConfiguration(cacheName, cb.build());
+		return manager.getCache(cacheName);
 	}
 }

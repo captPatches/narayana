@@ -21,7 +21,7 @@ public class DistributedStore extends InfinispanKVStore implements KeyCacheAPI {
 
 	public DistributedStore() {
 		super();
-		keyCache = manager.getCache("key-cache");
+		keyCache = getCacheByXML("key-cache");
 		if (keyCache.containsKey(scopePrefix())) {
 			// Probably not necessary as at the moment the store simply
 			// returns all keys.
@@ -39,7 +39,7 @@ public class DistributedStore extends InfinispanKVStore implements KeyCacheAPI {
 
 	@Override
 	protected Cache<String, byte[]> setCache() {
-		return manager.getCache(CACHE_NAME);
+		return getCacheByXML(CACHE_NAME);
 	}
 
 	@Override
