@@ -25,6 +25,9 @@ public class BehaviourTester {
 			case "put":
 				controller.write(in);
 				break;
+			case "add":
+				//controller.cache2Write(in);
+				break;
 			case "remove":
 				controller.delete(in);
 				break;
@@ -34,6 +37,12 @@ public class BehaviourTester {
 			case "exit":
 				exit = true;
 				System.exit(1);
+				break;
+			case "rpc":
+				controller.rpcTry();
+				break;
+			case "mem":
+				controller.getMembers();
 				break;
 			default:
 			}

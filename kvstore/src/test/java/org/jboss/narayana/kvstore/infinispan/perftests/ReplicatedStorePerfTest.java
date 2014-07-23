@@ -2,7 +2,7 @@ package org.jboss.narayana.kvstore.infinispan.perftests;
 
 import javax.transaction.TransactionManager;
 
-public class ReplicatedStorePerfTest extends MillTester {
+public class ReplicatedStorePerfTest extends ObjectStorePerfTester {
 
 	@Override
 	protected TransactionManager getTransManager() {

@@ -26,7 +26,7 @@ public class CrazyMadListener {
 
 	@CacheEntryCreated
 	public void dataAdded(CacheEntryCreatedEvent<String, String> event) {
-		System.out.println(event.getValue());
+		System.out.println(event.getValue());		
 	}
 
 	@CacheStopped

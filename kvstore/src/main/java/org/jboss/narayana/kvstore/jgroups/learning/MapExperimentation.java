@@ -1,42 +1,32 @@
 package org.jboss.narayana.kvstore.jgroups.learning;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Map;
 
 import org.jgroups.JChannel;
 import org.jgroups.ReceiverAdapter;
 import org.jgroups.View;
 import org.jgroups.blocks.ReplicatedHashMap;
-import org.jgroups.util.Util;
 
 public class MapExperimentation extends ReceiverAdapter {
 
 	private ReplicatedHashMap<String, String> testMap;
+	//private ReplCache<String, String> testMap;
 	
 	public MapExperimentation() throws Exception {
 		System.setProperty("java.net.preferIPv4Stack",  "true");
-		JChannel channel = new JChannel();
+		JChannel channel = new JChannel("udp.xml");
 //		channel.setReceiver(this);
 		channel.connect("my-cluster");
 		testMap = new ReplicatedHashMap<String, String>(channel) {
+		
 			@Override
 			public void viewAccepted(View new_view) {
 				System.out.println(new_view.size());
 			}
-			@Override
-			public void setState(InputStream input) throws Exception {
-				Map<String, String> tmpMap;
-				tmpMap=(Map<String,String>)Util.objectFromStream(new DataInputStream(input));
-				
-				synchronized(map) {
-					map.clear();
-					map.putAll(tmpMap);
-				}
-			}
+			
 		};
+	//testMap = new ReplCache<String, String>("jgroups-udp-cfg.xml", "my-cluster");
 		testMap.start(3000);
 		System.out.println(testMap.size());
 	}
@@ -77,7 +67,7 @@ public class MapExperimentation extends ReceiverAdapter {
 			System.out.println("Key or value is null");
 			return;
 		}
-		testMap._put(key, value);
+		testMap.put(key, value);
 	}
 	
 	private void put(String key) {
@@ -93,7 +83,7 @@ public class MapExperimentation extends ReceiverAdapter {
 				System.out.println("value cannot be null");
 				return;
 			}
-			testMap._put(key, value);
+			testMap.put(key, value);
 		} catch (Exception e) {
 			throw new RuntimeException("hehehehehe");
 		}
@@ -112,7 +102,7 @@ public class MapExperimentation extends ReceiverAdapter {
 				System.out.println("Key or Value cannot be null!");
 				return;
 			}
-			testMap._put(key, value);
+			testMap.put(key, value);
 		} catch (Exception e) {
 			System.out.println("MOOOOOO!!");
 		}

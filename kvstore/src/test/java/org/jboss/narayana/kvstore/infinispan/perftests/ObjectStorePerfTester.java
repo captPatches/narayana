@@ -68,6 +68,7 @@ public abstract class ObjectStorePerfTester {
 		// automatically
 		Result<Void> measurement = new Result<Void>(threadsNum, transCount, batchSize).measure( new WorkerWorkload<Void>() {
 					
+					int i=0;
 					private TransactionManager tm = getTransManager();
 					
 					@Override
@@ -84,9 +85,13 @@ public abstract class ObjectStorePerfTester {
 							} catch (Exception e) {
 								throw new RuntimeException("There was an error, test failed");
 							}
+						i++;
+						if(i%1000 == 0) {
+							System.out.println(i);
+						}
 						return context;
 					}
-				
+					
 				});
 
 		assertEquals("There should be no errors!!", 0, measurement.getErrorCount());

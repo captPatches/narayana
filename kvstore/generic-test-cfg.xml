@@ -20,8 +20,7 @@
 	<namedCache name="dis">
 		<clustering mode="distribution">
 			<sync />
-			<hash numOwners="2"
-					numSegments="5" />
+			<hash numOwners="3"/>
 			<stateTransfer chunkSize="0"
 				fetchInMemoryState="true"
 				timeout="240000" />
@@ -40,6 +39,12 @@
 		<sync />
 		<hash 	numOwners="3"
 				numSegments="2" />
+		</clustering>
+	</namedCache>
+	<namedCache name="key-cache">
+		<clustering mode="repl">
+			<sync />
+			<stateTransfer fetchInMemoryState="true" />
 		</clustering>
 	</namedCache>
 

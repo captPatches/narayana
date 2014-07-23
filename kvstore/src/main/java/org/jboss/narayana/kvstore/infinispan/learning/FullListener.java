@@ -1,5 +1,7 @@
 package org.jboss.narayana.kvstore.infinispan.learning;
 
+import java.util.Set;
+
 import org.infinispan.notifications.Listener;
 import org.infinispan.notifications.cachelistener.annotation.CacheEntryCreated;
 import org.infinispan.notifications.cachelistener.annotation.CacheEntryModified;
@@ -9,8 +11,19 @@ import org.infinispan.notifications.cachemanagerlistener.annotation.ViewChanged;
 import org.infinispan.notifications.cachemanagerlistener.event.ViewChangedEvent;
 
 @Listener
+@SuppressWarnings("unused")
 public class FullListener {
 
+
+	
+	public FullListener(Set set) {
+		
+	}
+	
+	public FullListener() {
+	
+	}
+	
 	@ViewChanged
 	public void viewChanged(ViewChangedEvent event) {
 		/*
@@ -39,6 +52,7 @@ public class FullListener {
 		
 		System.out.println("Added - key: " + key + " - value: " + val);
 	}
+	
 	
 	@CacheEntryModified
 	public void entryUpdated(CacheEntryModifiedEvent event) {

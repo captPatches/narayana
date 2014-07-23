@@ -1,16 +1,16 @@
 package org.jboss.narayana.kvstore.infinispan.learning;
 
 import org.infinispan.manager.DefaultCacheManager;
-import org.infinispan.manager.EmbeddedCacheManager;
 
 public class DistNode {
 
 	private static CrazyMadListener listener;
 	
 	public static void main(String[] args) {
+			
 		try {
-		EmbeddedCacheManager manager = new DefaultCacheManager(
-				"infinispan-dist-cfg.xml");
+		DefaultCacheManager manager = new DefaultCacheManager(
+				"multi-cache-cfg.xml");
 		
 		listener = new CrazyMadListener(); //manager);
 		

@@ -14,7 +14,7 @@ import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 public abstract class InfinispanKVStore implements KVStore {
 
 	private String scopePrefix;
-	private final DefaultCacheManager manager;
+	protected final DefaultCacheManager manager;
 	//private final DecoratedCache<String, byte[]> c;
 	private final Cache<String, byte[]> c;
 
@@ -42,7 +42,7 @@ public abstract class InfinispanKVStore implements KVStore {
 				.getAdvancedCache(), Flag.IGNORE_RETURN_VALUES,
 				Flag.SKIP_CACHE_LOAD);
 	*/
-		c = setCache(manager);
+		c = setCache();
 		scopePrefix = getHostname();
 		System.out.println("Cluster Size: "+manager.getClusterSize());
 		//c.addListener(new NodeListener());
@@ -139,8 +139,8 @@ public abstract class InfinispanKVStore implements KVStore {
 	 * 
 	 * @return
 	 */
-	protected abstract Cache<String, byte[]> setCache(
-			DefaultCacheManager manager);
+	protected abstract Cache<String, byte[]> setCache();
+	
 	
 	protected String scopePrefix() {
 		return scopePrefix;
@@ -160,5 +160,9 @@ public abstract class InfinispanKVStore implements KVStore {
 	
 	protected boolean storeEmpty() {
 		return c.isEmpty();
+	}
+	
+	protected String getMembersAsString() {
+		return manager.getClusterMembers();
 	}
 }

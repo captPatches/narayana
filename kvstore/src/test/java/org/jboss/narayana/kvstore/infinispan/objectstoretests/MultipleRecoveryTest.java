@@ -37,12 +37,15 @@ public class MultipleRecoveryTest {
 		System.setProperty("java.net.preferIPv4Stack", "true");		
 		
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
+				"org.jboss.narayana.mapstore.infinispan.ReplDirectStore");
+		
+		/*System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.kvstore.infinispan.ReplicatedStore");
-
+				"org.jboss.narayana.kvstore.infinispan.DistributedStore");
+*/
 		// emptyObjectStore();
 	}
 
@@ -54,7 +57,7 @@ public class MultipleRecoveryTest {
 		final int numTrans = 1000;
 		final Uid[] ids = new Uid[numTrans];
 		final int fakeData = 0xdeedbaaf;
-		final String type = "/InfinispanKVStoreTests/ReplicatedRecovery";
+		final String type = "/InfinispanKVStoreTests/DistributedRecovery";
 		final int rand = getRandom(numTrans);
 
 		// Write Data for numTrans transactions (default 1000)
