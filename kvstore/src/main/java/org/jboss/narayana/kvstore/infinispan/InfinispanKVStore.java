@@ -12,6 +12,7 @@ import org.infinispan.manager.DefaultCacheManager;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
+@Deprecated
 public abstract class InfinispanKVStore implements KVStore {
 
 	private String scopePrefix;

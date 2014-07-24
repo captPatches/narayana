@@ -37,7 +37,7 @@ public class DistributedStoreComponentTest {
 		assertEquals("there should be two keys in KeyCache now", 2, store.allKeys().size());
 		
 		Set<String> deadMembers = store.getDeadMembers();
-		assertEquals("There shoud be only 1 dead member:", deadMembers.size(), 1);
+		assertEquals("There shoud be only 1 dead member:", 1, deadMembers.size());
 		assertEquals("The dead member should be the fictional one added earlier", deadMembers.toString(), "["+key+"]");
 	}
 }

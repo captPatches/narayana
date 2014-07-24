@@ -1,6 +1,5 @@
 package org.jboss.narayana.kvstore.infinispan;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -8,40 +7,33 @@ import java.util.List;
 import java.util.Set;
 
 import org.infinispan.Cache;
+import org.infinispan.configuration.cache.CacheMode;
+import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
-public class DistributedStore extends InfinispanKVStore implements KeyCacheAPI {
+public class DistributedStore extends InfinispanKVStoreAbstract implements KeyCacheAPI {
 
-	private final String CONFIG_FILE = "generic-test-cfg.xml";
-	private final String CACHE_NAME = "dis";
+	private final static String CONFIG_FILE = "multi-cache-cfg.xml";
+	private final static String CACHE_NAME = "distribution";
 
 	private Cache<String, Boolean> keyCache;
 
 	public DistributedStore() {
-		super();
-		keyCache = getCacheByXML("key-cache");
-		if (keyCache.containsKey(scopePrefix())) {
-			// Probably not necessary as at the moment the store simply
-			// returns all keys.
-			throw new RuntimeException("ScopePrefix Already Exists");
-		}
-		// Sadly Infinispan will not allow the storage of null values.
-		// Done this way to avoid
+		super(CACHE_NAME, CONFIG_FILE);
+		
+		String cacheName = "keyCache";
+		
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		cb.clustering().cacheMode(CacheMode.REPL_SYNC);
+		cb.clustering().stateTransfer().fetchInMemoryState(true);
+		manager().defineConfiguration(cacheName, cb.build());
+		keyCache = manager().getCache(cacheName);
+		
 		keyCache.putIfAbsent(scopePrefix(), false);
 	}
 	
-	@Override
-	protected DefaultCacheManager setManager() throws IOException {
-		return new DefaultCacheManager(CONFIG_FILE);
-	}
-
-	@Override
-	protected Cache<String, byte[]> setCache() {
-		return getCacheByXML(CACHE_NAME);
-	}
-
 	@Override
 	public void start() throws Exception {
 		super.start();
@@ -51,8 +43,9 @@ public class DistributedStore extends InfinispanKVStore implements KeyCacheAPI {
 	public List<KVStoreEntry> load() throws Exception {
 
 		// Test to see if there is anything in the store to start with
-		if (storeEmpty())
+		if (objectStoreEmpty()) {
 			return null;
+		}
 
 		LinkedList<KVStoreEntry> list = new LinkedList<KVStoreEntry>();
 		// This works due to being a part of a
@@ -63,17 +56,17 @@ public class DistributedStore extends InfinispanKVStore implements KeyCacheAPI {
 		for (String scope : scopeSet) {
 			if (scope != scopePrefix()) {
 				int cnt = 0;
-				for (int i = 0; i < size(); i++) {
+				for (int i = 0; i < getMaxId(); i++) {
 					// There will be no keys for our ScopePrefix
 					String key = scope + "_" + i;
-					if (containsKey(key)) {
+					if (objectStoreContains(key)) {
 						// Stripping all CacheKeys of their scopePrefix
 						// to generate an ID, however different scopes can
 						// use identical slot addresses, there adjust the
 						// address by
 						// slotAllocation size every iteration
 						list.add(new KVStoreEntry(Long.parseLong(key
-								.substring(key.lastIndexOf('_') + 1)), get(key)));
+								.substring(key.lastIndexOf('_') + 1)), getFromStore(key)));
 						// count number of keys that are associated with
 						// down address.
 						if(deadScope.contains(scope)) cnt++;
@@ -88,6 +81,11 @@ public class DistributedStore extends InfinispanKVStore implements KeyCacheAPI {
 		return list;
 	}
 
+	private int getMaxId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	protected Set<String> getDeadMembers() {
 		String regex = "[\\[\\]\\s]";;
 		String replacement = "";
@@ -95,16 +93,14 @@ public class DistributedStore extends InfinispanKVStore implements KeyCacheAPI {
 		
 		
 		HashSet<String> currentMembers = new HashSet<String>(
-				Arrays.asList(getMembersAsString().replaceAll(regex,
+				Arrays.asList(manager().getClusterMembers().replaceAll(regex,
 						replacement).split(",")));
 			
 		// Get known cluster members
 		// Remove all not supported on returned set, everyhting must be hashSet
 		HashSet<String> returnSet = new HashSet<String>(keyCache.keySet());
-		System.err.println(returnSet.getClass());
 		// Strip currently up members from key.
 		returnSet.removeAll(currentMembers);
-		System.out.println(returnSet + "--" + currentMembers);
 		return returnSet;
 	}
 
@@ -135,5 +131,8 @@ public class DistributedStore extends InfinispanKVStore implements KeyCacheAPI {
 		return keyCache.containsKey(key);
 	}
 	
-
+	private DefaultCacheManager manager() {
+		return (DefaultCacheManager) getManager();
+	}
+	
 }
