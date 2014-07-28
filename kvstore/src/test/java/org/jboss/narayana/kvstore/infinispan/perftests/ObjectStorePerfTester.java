@@ -23,7 +23,7 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 public abstract class ObjectStorePerfTester {
 
 	private String message = "Default Message";
-	private final int transCount = 500000;
+	private final int transCount = 5000;
 	private final int threadsNum = 400;
 	private int batchSize = 1;
 	private TransactionManager tm = getTransManager();
@@ -68,7 +68,7 @@ public abstract class ObjectStorePerfTester {
 		// automatically
 		Result<Void> measurement = new Result<Void>(threadsNum, transCount, batchSize).measure( new WorkerWorkload<Void>() {
 					
-					int i=0;
+				//	int i=0;
 					private TransactionManager tm = getTransManager();
 					
 					@Override
@@ -85,10 +85,10 @@ public abstract class ObjectStorePerfTester {
 							} catch (Exception e) {
 								throw new RuntimeException("There was an error, test failed");
 							}
-						i++;
+						/*i++;
 						if(i%1000 == 0) {
 							System.out.println(i);
-						}
+						}*/
 						return context;
 					}
 					

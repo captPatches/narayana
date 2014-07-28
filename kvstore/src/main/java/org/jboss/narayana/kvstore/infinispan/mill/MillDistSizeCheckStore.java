@@ -10,18 +10,20 @@ import org.jboss.narayana.kvstore.infinispan.ClusterSizeCheckStore;
 @Deprecated
 public class MillDistSizeCheckStore extends ClusterSizeCheckStore {
 	
-	private String CACHE_NAME = "dist-cache";
-	private String CONFIG_FILE = "configlib/jgroups-tcp-mill002-cfg.xml";
+	private static String CACHE_NAME = "dist-cache";
+	private static String CONFIG_FILE = "configlib/jgroups-tcp-mill002-cfg.xml";
 	
-	public DefaultCacheManager setManager() {
+	public MillDistSizeCheckStore() {
+		super(setManager(), CACHE_NAME);
+	}
+	
+	public static DefaultCacheManager setManager() {
 		return new DefaultCacheManager(GlobalConfigurationBuilder
 				.defaultClusteredBuilder().transport().defaultTransport()
 				.addProperty("configurationFile", CONFIG_FILE)
 				.addProperty("clusterName", "b3408933-cluster").build());
 	}
-	
 
-	@Override
 	protected Cache<String, byte[]> setCache(DefaultCacheManager manager) {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.clustering().cacheMode(CacheMode.DIST_SYNC);
@@ -32,11 +34,11 @@ public class MillDistSizeCheckStore extends ClusterSizeCheckStore {
 		return manager.getCache(CACHE_NAME);
 	}
 	
-	@Override
+	@Deprecated
 	protected String getHostname() {
 		// remove the '.ncl.ac.uk'.
 		try {
-			return super.getHostname().substring(0, super.getHostname().indexOf('.')-1);
+			return super.scopePrefix().substring(0, super.scopePrefix().indexOf('.')-1);
 		} catch (Exception e) {
 			System.err.println("hostname unavailble");
 			return "default_hostname";

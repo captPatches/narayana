@@ -10,10 +10,9 @@ import org.infinispan.context.Flag;
 import org.infinispan.manager.CacheContainer;
 import org.infinispan.manager.DefaultCacheManager;
 
-import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
-public abstract class InfinispanKVStoreAbstract implements KVStore {
+public abstract class InfinispanKVStoreAbstract implements KVStoreInfinispan {
 
 	// Cache that holds the object store
 	private final Cache<String, byte[]> objectStore;
@@ -113,9 +112,14 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 
 	@Override
 	public void delete(long id) throws Exception {
+		throw new Exception("Method not implemented");
+	}
+	
+	@Override
+	public void delete(String prefix, long id) throws Exception {
 		if (id < 0)
-			throw new Exception("cannot put: invalid id");
-		objectStore.remove(scopePrefix + id);
+			throw new Exception("cannot delete: invalid id");
+		objectStore.remove(prefix + id);
 		ids[(int) id].compareAndSet(true, false);
 	}
 
@@ -161,7 +165,7 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 
 	@Override
 	public long allocateId() throws Exception {
-		for (int i = 0; i < SIZE; i++) {
+		for (int i=0; i<SIZE; i++) {
 			if (ids[i].compareAndSet(false, true)) {
 				return (long) i;
 			}
@@ -170,17 +174,6 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 	}
 
 	// /////////////////
-
-	/**
-	 * Sets the scope prefix. The scope prefix ensures prepends the objectStore
-	 * Cache keys and should ensure the keys are unique to the JVM creating
-	 * them.
-	 * 
-	 * @return scopePrefix
-	 */
-	// protected abstract String setScopePrefix();
-
-	// ////////////////////
 
 	/**
 	 * Provides the total number of IDs availble to the store.
@@ -193,7 +186,8 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		return max;
 	}
 	
-	public String scopePrefix() {
+	@Override
+	public String getPrefix() {
 		return scopePrefix.substring(0, scopePrefix.lastIndexOf('_'));
 	}
 

@@ -54,7 +54,7 @@ public class DistributedStore extends InfinispanKVStoreAbstract implements KeyCa
 		Set<String> scopeSet = keyCache.keySet();
 		Set<String> deadScope = getDeadMembers();
 		for (String scope : scopeSet) {
-			if (scope != scopePrefix()) {
+			if ( !scope.equals(scopePrefix()) ) {
 				int cnt = 0;
 				for (int i = 0; i < getMaxId(); i++) {
 					// There will be no keys for our ScopePrefix
@@ -69,11 +69,11 @@ public class DistributedStore extends InfinispanKVStoreAbstract implements KeyCa
 								.substring(key.lastIndexOf('_') + 1)), getFromStore(key)));
 						// count number of keys that are associated with
 						// down address.
-						if(deadScope.contains(scope)) cnt++;
+						cnt++;
 					}
 				}
 				// If down address has no keys associated with it, remove from keyCache
-				if(cnt == 0) {
+				if(cnt == 0 && deadScope.contains(scope)) {
 					keyCache.remove(scope);
 				}
 			}
@@ -89,9 +89,8 @@ public class DistributedStore extends InfinispanKVStoreAbstract implements KeyCa
 	protected Set<String> getDeadMembers() {
 		String regex = "[\\[\\]\\s]";;
 		String replacement = "";
+		
 		// Get clusterMembers returns all members as a String
-		
-		
 		HashSet<String> currentMembers = new HashSet<String>(
 				Arrays.asList(manager().getClusterMembers().replaceAll(regex,
 						replacement).split(",")));
