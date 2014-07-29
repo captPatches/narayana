@@ -15,7 +15,7 @@ import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
 public class DistributedStore extends InfinispanKVStoreAbstract implements KeyCacheAPI {
 
-	private final static String CONFIG_FILE = "generic-cache-cfg.xml";
+	private final static String CONFIG_FILE = "generic-test-cfg.xml";
 	private final static String CACHE_NAME = "dis";
 
 	private Cache<String, Boolean> keyCache;
