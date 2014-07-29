@@ -10,9 +10,10 @@ import org.infinispan.context.Flag;
 import org.infinispan.manager.CacheContainer;
 import org.infinispan.manager.DefaultCacheManager;
 
+import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
 
-public abstract class InfinispanKVStoreAbstract implements KVStoreInfinispan {
+public abstract class InfinispanKVStoreAbstract implements KVStore {
 
 	// Cache that holds the object store
 	private final Cache<String, byte[]> objectStore;
@@ -112,17 +113,15 @@ public abstract class InfinispanKVStoreAbstract implements KVStoreInfinispan {
 
 	@Override
 	public void delete(long id) throws Exception {
-		throw new Exception("Method not implemented");
-	}
-	
-	@Override
-	public void delete(String prefix, long id) throws Exception {
 		if (id < 0)
 			throw new Exception("cannot delete: invalid id");
-		objectStore.remove(prefix + id);
-		ids[(int) id].compareAndSet(true, false);
+		if(ids[(int) id].compareAndSet(true, false)) {
+			objectStore.remove(scopePrefix + id);
+			return;
+		}
+		throw new Exception("Index Corrupted");
 	}
-
+	
 	@Override
 	public void add(long id, byte[] data) throws Exception {
 		if (id < 0)
@@ -186,7 +185,6 @@ public abstract class InfinispanKVStoreAbstract implements KVStoreInfinispan {
 		return max;
 	}
 	
-	@Override
 	public String getPrefix() {
 		return scopePrefix.substring(0, scopePrefix.lastIndexOf('_'));
 	}

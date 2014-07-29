@@ -31,7 +31,7 @@ public class DistributedStore extends InfinispanKVStoreAbstract implements KeyCa
 		manager().defineConfiguration(cacheName, cb.build());
 		keyCache = manager().getCache(cacheName);
 		
-		keyCache.putIfAbsent(scopePrefix(), false);
+		keyCache.putIfAbsent(getPrefix(), false);
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class DistributedStore extends InfinispanKVStoreAbstract implements KeyCa
 		Set<String> scopeSet = keyCache.keySet();
 		Set<String> deadScope = getDeadMembers();
 		for (String scope : scopeSet) {
-			if ( !scope.equals(scopePrefix()) ) {
+			if ( !scope.equals(getPrefix()) ) {
 				int cnt = 0;
 				for (int i = 0; i < getMaxId(); i++) {
 					// There will be no keys for our ScopePrefix

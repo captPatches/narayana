@@ -38,7 +38,7 @@ public class MillDistSizeCheckStore extends ClusterSizeCheckStore {
 	protected String getHostname() {
 		// remove the '.ncl.ac.uk'.
 		try {
-			return super.scopePrefix().substring(0, super.scopePrefix().indexOf('.')-1);
+			return super.getPrefix().substring(0, super.getPrefix().indexOf('.')-1);
 		} catch (Exception e) {
 			System.err.println("hostname unavailble");
 			return "default_hostname";

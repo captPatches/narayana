@@ -37,7 +37,7 @@ public class MultipleRecoveryTest {
 		System.setProperty("java.net.preferIPv4Stack", "true");		
 		
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
-				"org.jboss.narayana.mapstore.infinispan.ReplDirectStore");
+				"org.jboss.narayana.kvstore.infinispan.InfinispanStoreAdapter");
 		
 		/*System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");

@@ -7,8 +7,9 @@ public class DirectStorePerfTest extends MillTester {
 	@Override
 	protected TransactionManager getTransManager() {
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType", 
-				"org.jboss.narayana.mapstore.infinispan.ReplDirectStore");
-		
+				"org.jboss.narayana.kvstore.infinispan.InfinispanStoreAdapter"
+				);
+				
 		if(runOnMill()) {
 			setMessage("(Running on Mill DirectStore");
 		}
