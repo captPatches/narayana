@@ -28,18 +28,18 @@ author: Bela Ban
 
          thread_pool.enabled="true"
          thread_pool.min_threads="2"
-         thread_pool.max_threads="400"
+         thread_pool.max_threads="250"
          thread_pool.keep_alive_time="5000"
-         thread_pool.queue_enabled="true"
-         thread_pool.queue_max_size="10000"
+         thread_pool.queue_enabled="false"
+         thread_pool.queue_max_size="15000"
          thread_pool.rejection_policy="discard"
 
          oob_thread_pool.enabled="true"
-         oob_thread_pool.min_threads="1"
-         oob_thread_pool.max_threads="400"
+         oob_thread_pool.min_threads="2"
+         oob_thread_pool.max_threads="250"
          oob_thread_pool.keep_alive_time="5000"
          oob_thread_pool.queue_enabled="false"
-         oob_thread_pool.queue_max_size="100"
+         oob_thread_pool.queue_max_size="15000"
          oob_thread_pool.rejection_policy="discard"/>
 
     <PING />
@@ -47,7 +47,7 @@ author: Bela Ban
             min_interval="10000"/>
     <FD_SOCK/>
     <FD_ALL/>
-    <VERIFY_SUSPECT timeout="2000" />
+    <VERIFY_SUSPECT timeout="6000" />
     <BARRIER />
     <pbcast.NAKACK2 xmit_interval="500"
                     xmit_table_num_rows="100"
@@ -75,3 +75,9 @@ author: Bela Ban
     <pbcast.STATE_TRANSFER />
     <!-- pbcast.FLUSH /-->
 </config>
+
+		<!--  internal_thread_pool.enabled="true"
+		 internal_thread_pool.keep_alive_time="5000"
+		 internal_thread_pool.max_threads="400"
+		 internal_thread_pool.min_threads="2"
+		 internal_thread_pool.queue_enabled="true"	 -->

@@ -28,9 +28,7 @@
 	</namedCache>
 	<namedCache name="rep">
 		<clustering mode="replication">
-			<stateTransfer chunkSize="0" fetchInMemoryState="true"
-				timeout="240000" />
-			<hash numOwners="3" />
+			<stateTransfer fetchInMemoryState="true" />
 			<sync />
 		</clustering>
 	</namedCache>
