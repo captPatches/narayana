@@ -1,5 +1,7 @@
 package org.jboss.narayana.kvstore.infinispan.nodes;
 
+import org.infinispan.Cache;
+import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.notifications.Listener;
 import org.infinispan.notifications.cachelistener.annotation.CacheEntryCreated;
 import org.infinispan.notifications.cachelistener.event.CacheEntryCreatedEvent;
@@ -13,8 +15,13 @@ import org.infinispan.notifications.cachemanagerlistener.event.ViewChangedEvent;
  * @author patches
  * 
  */
-public class NodeForTestingVerbose extends AbstractNode {
+public class NodeForTestingVerbose {
 
+	/*
+	 * Unfortunately it seems when a class extends another class that starts a cache,
+	 * it fails to keep the cache running indefinitely.
+	 */
+	
 	@Listener
 	private class NodeListener {
 
@@ -31,18 +38,30 @@ public class NodeForTestingVerbose extends AbstractNode {
 					.size());
 		}
 	}
+	
+	private final DefaultCacheManager manager;
+	private final Cache<String, byte[]> cache;
 
 	private NodeForTestingVerbose(String cacheName, String cfgFile)
 			throws Exception {
-		super(cacheName, cfgFile);
-		getCache().addListener(new NodeListener());
-		getManager().addListener(new NodeListener());
+		
+		manager = new DefaultCacheManager(cfgFile);
+		if( ! manager.getCacheNames().contains(cacheName)) {
+			System.out.printf("Invalid Cache \"%s\" requested", cacheName);
+		}
+		cache = manager.getCache(cacheName);
+		
+		// Add Listener
+		NodeListener listener = new NodeListener();
+		cache.addListener(listener);
+		manager.addListener(listener);
+		
 	}
 
 	public static void main(String[] args) {
 		String defaultCacheName = "dis";
-		String defaultCfgFile = "generic-test-cfg.xml";
-
+		String defaultCfgFile = "generic-test-cfg.xml";		
+		
 		try {
 			switch (args.length) {
 			case 1:
