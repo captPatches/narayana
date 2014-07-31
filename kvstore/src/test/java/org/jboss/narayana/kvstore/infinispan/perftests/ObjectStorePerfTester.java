@@ -23,7 +23,7 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 public abstract class ObjectStorePerfTester {
 
 	private String message = "Default Message";
-	private final int transCount = 500000000;
+	private final int transCount = 500000;
 	private final int threadsNum = 200;
 	private int batchSize = 1;
 	private TransactionManager tm = getTransManager();

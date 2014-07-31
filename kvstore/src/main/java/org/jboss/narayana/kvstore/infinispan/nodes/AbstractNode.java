@@ -15,7 +15,7 @@ public abstract class AbstractNode {
 		manager = new DefaultCacheManager(cfgFile);
 		// Check the node will be using a Cache that has been defined
 		// and that other nodes will know about
-		if( ! manager.cacheExists(cacheName)) {
+		if( ! manager.getCacheNames().contains(cacheName)) {
 			System.out.printf("Unknown Cache: %s Has Been Requested%n", cacheName);
 			System.exit(1);
 		}
