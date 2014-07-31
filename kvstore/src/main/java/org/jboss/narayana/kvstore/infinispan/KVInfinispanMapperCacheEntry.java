@@ -17,33 +17,12 @@ import com.arjuna.ats.internal.arjuna.objectstore.kvstore.IntermediateStore;
 
 public class KVInfinispanMapperCacheEntry implements IntermediateStore {
 
-	private class CacheEntry {
-		
-		private String typeName;
-		private byte[] txData;
-		
-		public CacheEntry(String typeName, byte[] txData) {
-			this.typeName = typeName;
-			this.txData = txData;
-		}
-		
-		public String getType() {
-			return typeName;
-		}
-		
-		public byte[] getTxData() {
-			return txData;
-		}
-	}
-	
 	private DefaultCacheManager manager;
 	private Cache<Uid, CacheEntry> objectStore;
 	
-	
-	
 	public KVInfinispanMapperCacheEntry() throws IOException {
-		manager = new DefaultCacheManager("multi-cache-cfg.xml");
-		objectStore = manager.getCache("distribution");
+		manager = new DefaultCacheManager("generic-test-cfg.xml");
+		objectStore = manager.getCache("dis");
 	}
 	
 	@Override

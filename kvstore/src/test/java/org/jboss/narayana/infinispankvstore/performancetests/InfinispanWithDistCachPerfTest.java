@@ -22,6 +22,8 @@ public class InfinispanWithDistCachPerfTest {
 	@Before
 	public void setup() {
 
+		System.setProperty("java.net.preferIPv4Stack", "true");
+		
 		// Set System properties to use infinispanKVStore
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
