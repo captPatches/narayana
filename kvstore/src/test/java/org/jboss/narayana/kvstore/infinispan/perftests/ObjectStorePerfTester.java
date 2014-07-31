@@ -9,6 +9,7 @@ import io.narayana.perf.WorkerWorkload;
 import java.math.BigInteger;
 
 import javax.transaction.TransactionManager;
+import javax.transaction.xa.XAResource;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,8 +23,8 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 public abstract class ObjectStorePerfTester {
 
 	private String message = "Default Message";
-	private final int transCount = 5000000;
-	private final int threadsNum = 400;
+	private final int transCount = 500000000;
+	private final int threadsNum = 200;
 	private int batchSize = 1;
 	private TransactionManager tm = getTransManager();
 
@@ -61,7 +62,6 @@ public abstract class ObjectStorePerfTester {
 	}
 
 	@Test
-	@Ignore
 	public void perfTest() {
 
 		// This sets the thread pool to the number of requested threads
@@ -78,10 +78,11 @@ public abstract class ObjectStorePerfTester {
 				try {
 					tm.begin();
 
-					tm.getTransaction().enlistResource(
-							new DummyXAResourceImpl());
-					tm.getTransaction().enlistResource(
-							new DummyXAResourceImpl());
+					
+					XAResource xa1 = new DummyXAResourceImpl();
+					XAResource xa2 = new DummyXAResourceImpl();
+					tm.getTransaction().enlistResource(xa1);
+					tm.getTransaction().enlistResource(xa2);
 
 					tm.commit();
 
@@ -105,6 +106,7 @@ public abstract class ObjectStorePerfTester {
 	}
 
 	@Test
+	@Ignore
 	public void seperateWorkerWorkloadTest() {
 
 		

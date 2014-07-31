@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.infinispan.Cache;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
-import org.infinispan.context.Flag;
 import org.infinispan.manager.CacheContainer;
 import org.infinispan.manager.DefaultCacheManager;
 
@@ -129,8 +128,7 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		// No need to explicitly search for exceptions on put
 		// as the calling class will collect exceptions and then throw
 		// them up as an ObjectStoreException.
-		objectStore.getAdvancedCache().withFlags(Flag.SKIP_CACHE_LOAD)
-				.put(scopePrefix + id, data);
+		objectStore.put(scopePrefix + id, data);
 	}
 
 	@Override

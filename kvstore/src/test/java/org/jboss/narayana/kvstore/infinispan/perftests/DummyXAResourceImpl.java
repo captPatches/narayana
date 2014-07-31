@@ -62,11 +62,11 @@ public class DummyXAResourceImpl implements XAResource {
 
 	@Override
 	public void rollback(Xid xid) throws XAException {
-		System.out.println("XAResourceImpl.rollback(Xid="+xid+")");
+		System.out.println("DummyXAResourceImpl.rollback(Xid="+xid+")");
         if(!xid.equals(currentXid)) {
             System.out.println("XAResourceImpl.rollback - wrong Xid!");
         }
-        currentXid = null;
+        throw new XAException("Transactions should not roll back");
 	}
 
 	@Override
