@@ -67,6 +67,7 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		objectStore = manager.getCache(cacheName);
 		scopePrefix = manager.getNodeAddress() + "_";
 		this.manager = manager;
+		System.out.printf("Testing Cluster Size: %d%n", manager.getClusterSize());
 	}
 
 	public InfinispanKVStoreAbstract(ConfigurationBuilder cb, String cacheName,
@@ -80,6 +81,7 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 			objectStore = manager.getCache(cacheName);
 			scopePrefix = manager.getNodeAddress();
 			this.manager = manager;
+			System.out.printf("Testing Cluster Size: %d%n", manager.getClusterSize());
 		} catch (Exception e) {
 			throw new RuntimeException("Invalid ConfigFile");
 		}
