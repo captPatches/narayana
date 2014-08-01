@@ -18,10 +18,10 @@ import org.infinispan.notifications.cachemanagerlistener.event.ViewChangedEvent;
 public class NodeForTestingVerbose {
 
 	/*
-	 * Unfortunately it seems when a class extends another class that starts a cache,
-	 * it fails to keep the cache running indefinitely.
+	 * Unfortunately it seems when a class extends another class that starts a
+	 * cache, it fails to keep the cache running indefinitely.
 	 */
-	
+
 	@Listener
 	private class NodeListener {
 
@@ -38,40 +38,49 @@ public class NodeForTestingVerbose {
 					.size());
 		}
 	}
-	
+
 	private final DefaultCacheManager manager;
 	private final Cache<String, byte[]> cache;
 
 	private NodeForTestingVerbose(String cacheName, String cfgFile)
 			throws Exception {
-		
+
+		System.setProperty("java.net.preferIPv4Stack", "true");
+
 		manager = new DefaultCacheManager(cfgFile);
-		if( ! manager.getCacheNames().contains(cacheName)) {
+		if (!manager.getCacheNames().contains(cacheName)) {
 			System.out.printf("Invalid Cache \"%s\" requested", cacheName);
 		}
 		cache = manager.getCache(cacheName);
-		
+
 		// Add Listener
 		NodeListener listener = new NodeListener();
 		cache.addListener(listener);
 		manager.addListener(listener);
-		
+
+	}
+
+	public void go() {
+		System.out.printf("Startup Cluster Size: %d%n",
+				manager.getClusterSize());
+		System.out.printf("Cache: [%s] on Node: [%s] started Successfully%n",
+				cache.getName(), manager.getNodeAddress());
 	}
 
 	public static void main(String[] args) {
 		String defaultCacheName = "dis";
-		String defaultCfgFile = "generic-test-cfg.xml";		
-		
+		String defaultCfgFile = "generic-test-cfg.xml";
+
 		try {
 			switch (args.length) {
 			case 1:
-				new NodeForTestingVerbose(args[0], defaultCfgFile);
+				new NodeForTestingVerbose(args[0], defaultCfgFile).go();
 				break;
 			case 2:
-				new NodeForTestingVerbose(args[0], args[1]);
+				new NodeForTestingVerbose(args[0], args[1]).go();
 				break;
 			default:
-				new NodeForTestingVerbose(defaultCacheName, defaultCfgFile);
+				new NodeForTestingVerbose(defaultCacheName, defaultCfgFile).go();
 				break;
 			}
 		} catch (Exception e) {
