@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.infinispan.Cache;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
+import org.infinispan.context.Flag;
 import org.infinispan.manager.CacheContainer;
 import org.infinispan.manager.DefaultCacheManager;
 
@@ -18,7 +19,8 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 	private final Cache<String, byte[]> objectStore;
 	private final CacheContainer manager;
 
-	// Size must be immutable
+	private Flag[] flags = { Flag.SKIP_CACHE_LOAD, Flag.SKIP_REMOTE_LOOKUP };
+
 	private final int SIZE;
 	private final String scopePrefix;
 	private AtomicBoolean[] ids;
@@ -67,7 +69,8 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		objectStore = manager.getCache(cacheName);
 		scopePrefix = manager.getNodeAddress() + "_";
 		this.manager = manager;
-		System.out.printf("Testing Cluster Size: %d%n", manager.getClusterSize());
+		System.out.printf("Testing Cluster Size: %d%n",
+				manager.getClusterSize());
 	}
 
 	public InfinispanKVStoreAbstract(ConfigurationBuilder cb, String cacheName,
@@ -81,7 +84,8 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 			objectStore = manager.getCache(cacheName);
 			scopePrefix = manager.getNodeAddress();
 			this.manager = manager;
-			System.out.printf("Testing Cluster Size: %d%n", manager.getClusterSize());
+			System.out.printf("Testing Cluster Size: %d%n",
+					manager.getClusterSize());
 		} catch (Exception e) {
 			throw new RuntimeException("Invalid ConfigFile");
 		}
@@ -116,13 +120,13 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 	public void delete(long id) throws Exception {
 		if (id < 0)
 			throw new Exception("cannot delete: invalid id");
-		if(ids[(int) id].compareAndSet(true, false)) {
+		if (ids[(int) id].compareAndSet(true, false)) {
 			objectStore.remove(scopePrefix + id);
 			return;
 		}
 		throw new Exception("Index Corrupted");
 	}
-	
+
 	@Override
 	public void add(long id, byte[] data) throws Exception {
 		if (id < 0)
@@ -130,14 +134,16 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		// No need to explicitly search for exceptions on put
 		// as the calling class will collect exceptions and then throw
 		// them up as an ObjectStoreException.
-		objectStore.put(scopePrefix + id, data);
+		objectStore.getAdvancedCache().withFlags(flags)
+				.put(scopePrefix + id, data);
 	}
 
 	@Override
 	public void update(long id, byte[] data) throws Exception {
 		if (id < 0)
 			throw new Exception("cannot replace: invalid id");
-		objectStore.replace(scopePrefix + id, data);
+		objectStore.getAdvancedCache().withFlags(flags)
+				.replace(scopePrefix + id, data);
 	}
 
 	@Override
@@ -164,7 +170,7 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 
 	@Override
 	public long allocateId() throws Exception {
-		for (int i=0; i<SIZE; i++) {
+		for (int i = 0; i < SIZE; i++) {
 			if (ids[i].compareAndSet(false, true)) {
 				return (long) i;
 			}
@@ -180,11 +186,9 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 	 * @return
 	 */
 	public int getIdMax() {
-		// Use defensive copying to ensure SIZE cannot be tampered with
-		int max = SIZE;
-		return max;
+		return SIZE;
 	}
-	
+
 	public String getPrefix() {
 		return scopePrefix.substring(0, scopePrefix.lastIndexOf('_'));
 	}
@@ -192,15 +196,15 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 	protected CacheContainer getManager() {
 		return manager;
 	}
-	
+
 	public boolean objectStoreEmpty() {
 		return objectStore.isEmpty();
 	}
-	
+
 	public boolean objectStoreContains(String key) {
 		return objectStore.containsKey(key);
 	}
-	
+
 	public byte[] getFromStore(String key) {
 		return objectStore.get(key);
 	}
