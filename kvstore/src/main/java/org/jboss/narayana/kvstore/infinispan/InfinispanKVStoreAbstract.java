@@ -10,8 +10,11 @@ import org.infinispan.context.Flag;
 import org.infinispan.manager.CacheContainer;
 import org.infinispan.manager.DefaultCacheManager;
 
+import com.arjuna.ats.arjuna.common.CoreEnvironmentBean;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
+import com.arjuna.ats.jta.common.JTAEnvironmentBean;
+import com.arjuna.common.internal.util.propertyservice.BeanPopulator;
 
 public abstract class InfinispanKVStoreAbstract implements KVStore {
 
@@ -22,14 +25,13 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 	private Flag[] flags = { Flag.SKIP_CACHE_LOAD, Flag.SKIP_REMOTE_LOOKUP };
 
 	private final int SIZE;
-	private final String scopePrefix;
+	private final String scopePrefix = BeanPopulator.getDefaultInstance(
+			CoreEnvironmentBean.class).getNodeIdentifier() + "_";
 	private AtomicBoolean[] ids;
 
 	/**
-	 * This constructor makes a best effort of the scope prefix that attempts to
-	 * find the host name of the box and appends a system time in millis to the
-	 * end. For complete control over the prefix provide it to the constructor
-	 * explicitly.
+	 * Constructors to allow different cache container and cache names to be
+	 * provided.
 	 * 
 	 * @param container
 	 * @param cacheName
@@ -39,22 +41,14 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		ids = new AtomicBoolean[SIZE];
 		manager = container;
 		objectStore = manager.getCache(cacheName);
-		String hostname;
-		try {
-			hostname = java.net.InetAddress.getLocalHost().getHostName();
-		} catch (Exception e) {
-			hostname = "default_host_name";
-		}
-		scopePrefix = hostname + System.currentTimeMillis() + "_";
 	}
 
 	public InfinispanKVStoreAbstract(CacheContainer container,
-			String cacheName, String scopePrefix) {
-		SIZE = 1024;
+			String cacheName, int size) {
+		SIZE = size;
 		ids = new AtomicBoolean[SIZE];
 		manager = container;
 		objectStore = manager.getCache(cacheName);
-		this.scopePrefix = scopePrefix;
 	}
 
 	public InfinispanKVStoreAbstract(String cacheName, String cfgFile) {
@@ -67,10 +61,10 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 			throw new RuntimeException("Invalid ConfigFile");
 		}
 		objectStore = manager.getCache(cacheName);
-		scopePrefix = manager.getNodeAddress() + "_";
 		this.manager = manager;
 		System.out.printf("Testing Cluster Size: %d%n",
 				manager.getClusterSize());
+		System.err.println("Prefix: " + scopePrefix);
 	}
 
 	public InfinispanKVStoreAbstract(ConfigurationBuilder cb, String cacheName,
@@ -82,7 +76,6 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 			DefaultCacheManager manager = new DefaultCacheManager(cfgFile);
 			manager.defineConfiguration(cacheName, cb.build());
 			objectStore = manager.getCache(cacheName);
-			scopePrefix = manager.getNodeAddress();
 			this.manager = manager;
 			System.out.printf("Testing Cluster Size: %d%n",
 					manager.getClusterSize());
@@ -148,19 +141,39 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 
 	@Override
 	/**
-	 * Returns the contents of the object store to memory on a local node
+	 * Returns the contents of the object store to memory on a local nodeSystem.getProperties()
 	 * should be overwritten if anything other than a fully replicated cache
 	 * is selected.
 	 */
 	public List<KVStoreEntry> load() throws Exception {
 		if (!objectStore.isEmpty()) {
 			LinkedList<KVStoreEntry> list = new LinkedList<KVStoreEntry>();
-			for (String key : objectStore.keySet()) {
-				// Hostname_ needs to be removed from key, the resulting number
-				// String
-				// parsed to find a usable Id
-				list.add(new KVStoreEntry(Long.parseLong(key.substring(key
-						.lastIndexOf('_') + 1)), objectStore.get(key)));
+			// Get Node IDs for proxy recovery
+			/*for(int i=0; i<SIZE; i++) {
+				String key = scopePrefix + i;
+				if (objectStore.containsKey(key)) {
+					list.add(new KVStoreEntry(i, objectStore.get(key)));
+				}
+			}*/
+			
+			List<String> prefixList = BeanPopulator.getDefaultInstance(
+					JTAEnvironmentBean.class).getXaRecoveryNodes();
+			for (String s: prefixList) {
+				System.err.printf("MMMOOOOOOO!!!!!!! %s%n", s);
+			}
+			if (prefixList.isEmpty()) {
+				return list;
+			}
+			for (String prefix : prefixList) {
+				String key;
+				for (int i = 0; i < SIZE; i++) {
+					key = prefix + "_" + i;
+					System.err.println(key);
+					if (objectStore.containsKey(key)) {
+						list.add(new KVStoreEntry(i, objectStore.get(key)));
+					}
+				}
+
 			}
 			return list;
 		}

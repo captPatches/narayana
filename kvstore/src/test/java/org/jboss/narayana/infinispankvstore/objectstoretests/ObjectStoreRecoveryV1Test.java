@@ -22,7 +22,7 @@ import com.arjuna.ats.internal.arjuna.common.UidHelper;
  * The object store is loaded with fake data, of which a random amount is
  * removed
  * 
- * It then checks to find out how much is in there to make sure it is thhe
+ * It then checks to find out how much is in there to make sure it is the
  * expected amount.
  * 
  * @author patches

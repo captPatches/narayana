@@ -4,12 +4,14 @@ import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.notifications.Listener;
 import org.infinispan.notifications.cachelistener.annotation.CacheEntryCreated;
+import org.infinispan.notifications.cachelistener.annotation.CacheEntryRemoved;
 import org.infinispan.notifications.cachelistener.event.CacheEntryCreatedEvent;
+import org.infinispan.notifications.cachelistener.event.CacheEntryRemovedEvent;
 import org.infinispan.notifications.cachemanagerlistener.annotation.ViewChanged;
 import org.infinispan.notifications.cachemanagerlistener.event.ViewChangedEvent;
 
 /**
- * This Node is useful for testing that the node is recieving the keys as
+ * This Node is useful for testing that the node is receiving the keys as
  * expected
  * 
  * @author patches
@@ -28,7 +30,14 @@ public class NodeForTestingVerbose {
 		@CacheEntryCreated
 		public void entryCreated(CacheEntryCreatedEvent<String, byte[]> event) {
 			if (!event.isPre()) {
-				System.out.println(event.getKey());
+				System.out.printf("Key %s entry created: %n", event.getKey());
+			}
+		}
+		
+		@CacheEntryRemoved
+		public void entryDeleted(CacheEntryRemovedEvent<String, byte[]> event) {
+			if ( ! event.isPre()) {
+				System.out.printf("key: %s removed from cache", event.getKey());
 			}
 		}
 

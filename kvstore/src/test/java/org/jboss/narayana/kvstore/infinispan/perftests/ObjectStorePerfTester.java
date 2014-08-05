@@ -12,7 +12,7 @@ import javax.transaction.TransactionManager;
 import javax.transaction.xa.XAResource;
 
 import org.junit.After;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -22,23 +22,23 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 @SuppressWarnings("deprecation")
 public abstract class ObjectStorePerfTester {
 
+	private TransactionManager tm = getTransManager();
 	private String message = "Default Message";
-	private final int transCount = 500000;
+	
+	private final int transCount = 50000;
 	private final int threadsNum = 200;
 	private int batchSize = 1;
-	private TransactionManager tm = getTransManager();
-
-	@Before
-	public void chooseIPStack() {
-		System.setProperty("java.net.preferIPv4Stack", "true");
+	
+	@BeforeClass
+	public static void classSetup() {
+		System.setProperty("java.net.preferIPv4Stack", "true");	 
 	}
 
-	/**
-	 * Gets an optimistic idea of what the cluster size is: This variable is a
-	 * best effort and will only work if the cluster remains up for the duration
-	 * of the test.
-	 */
 
+	/*
+	 * Deprecated Methods left in here for academic reasons, when all problems have chased down,
+	 * These will be removed.
+	 */
 	@Deprecated
 	@Test
 	@Ignore
@@ -75,20 +75,22 @@ public abstract class ObjectStorePerfTester {
 			@Override
 			public Void doWork(Void context, int batchSize, Result<Void> measure) {
 
-				try {
-					tm.begin();
+				for(int i=0; i<batchSize; i++) {
+					try {
+						tm.begin();
 
-					
-					XAResource xa1 = new DummyXAResourceImpl();
-					XAResource xa2 = new DummyXAResourceImpl();
-					tm.getTransaction().enlistResource(xa1);
-					tm.getTransaction().enlistResource(xa2);
 
-					tm.commit();
+						XAResource xa1 = new DummyXAResourceImpl();
+						XAResource xa2 = new DummyXAResourceImpl();
+						tm.getTransaction().enlistResource(xa1);
+						tm.getTransaction().enlistResource(xa2);
 
-				} catch (Exception e) {
-					throw new RuntimeException(
-							"There was an error, test failed");
+						tm.commit();
+
+					} catch (Exception e) {
+						throw new RuntimeException(
+								"There was an error, test failed");
+					}
 				}
 				/*
 				 * i++; if(i%1000 == 0) { System.out.println(i); }

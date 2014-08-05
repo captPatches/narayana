@@ -20,7 +20,7 @@
 	<namedCache name="dis">
 		<clustering mode="distribution">
 			<sync />
-			<hash numOwners="5"/>
+			<hash numOwners="3"/>
 			<stateTransfer chunkSize="0"
 				fetchInMemoryState="true"
 				timeout="240000" />

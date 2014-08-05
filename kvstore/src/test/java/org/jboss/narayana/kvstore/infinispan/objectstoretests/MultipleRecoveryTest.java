@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Random;
 
 import org.junit.After;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.arjuna.ats.arjuna.common.Uid;
@@ -30,22 +30,22 @@ import com.arjuna.ats.internal.arjuna.common.UidHelper;
  */
 public class MultipleRecoveryTest {
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 
 		// Ensure use of IP4
 		System.setProperty("java.net.preferIPv4Stack", "true");		
 		
-		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
-				"org.jboss.narayana.kvstore.infinispan.InfinispanStoreAdapter");
+	/*	System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
+				"org.jboss.narayana.kvstore.infinispan.InfinispanStoreAdapter");*/
 		
-		/*System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
+		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
 				"org.jboss.narayana.kvstore.infinispan.DistributedStore");
-*/
+
 		// emptyObjectStore();
 	}
 

@@ -1,5 +1,8 @@
 package org.jboss.narayana.kvstore.infinispan.objectstoretests;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -8,24 +11,42 @@ import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.arjuna.ats.arjuna.common.CoreEnvironmentBean;
+import com.arjuna.ats.arjuna.common.CoreEnvironmentBeanException;
 import com.arjuna.ats.arjuna.recovery.RecoveryManager;
+import com.arjuna.ats.jta.common.JTAEnvironmentBean;
+import com.arjuna.common.internal.util.propertyservice.BeanPopulator;
 
 public class LocalRepDummyRecoveryTest {
 
+	private final static String NODE_ID = "rec_node";
+	
 	private TransactionManager tm;
 	private RecoveryManager rm;
 	
-	@Before
-	public void setup() {
+	@BeforeClass
+	public static void propertySetup() throws CoreEnvironmentBeanException, RuntimeException {
+
+		System.setProperty("java.net.preferIPv4Stack", "true");
 		
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.kvstore.infinispan.ReplicatedStore");
+				"org.jboss.narayana.kvstore.infinispan.DistributedStore");
+		
+		List<String> xaRecoveryNodes = new LinkedList<String>();
+		xaRecoveryNodes.add(NODE_ID);
+		BeanPopulator.getDefaultInstance(JTAEnvironmentBean.class).setXaRecoveryNodes(xaRecoveryNodes);
+		BeanPopulator.getDefaultInstance(CoreEnvironmentBean.class).setNodeIdentifier(NODE_ID);
+	}
+	
+	@Before
+	public void setup() {		
 	
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 		rm = RecoveryManager.manager();
@@ -45,7 +66,6 @@ public class LocalRepDummyRecoveryTest {
 	public void recoveryTest() throws NotSupportedException, SystemException, IllegalStateException, RollbackException, SecurityException, HeuristicMixedException, HeuristicRollbackException {
 		
 		if(txRecovered() ) {
-	//		Util.emptyObjectStore();
 			System.out.println("Recovery Successfully Performed");
 			return;
 		}
