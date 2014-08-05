@@ -116,6 +116,10 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		if (ids[(int) id].compareAndSet(true, false)) {
 			objectStore.remove(scopePrefix + id);
 			return;
+		} 
+		else if (noIdsSet()) {
+				objectStore.remove(scopePrefix + id);
+				return;
 		}
 		throw new Exception("Index Corrupted");
 	}
@@ -149,31 +153,11 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		if (!objectStore.isEmpty()) {
 			LinkedList<KVStoreEntry> list = new LinkedList<KVStoreEntry>();
 			// Get Node IDs for proxy recovery
-			/*for(int i=0; i<SIZE; i++) {
+			for(int i=0; i<SIZE; i++) {
 				String key = scopePrefix + i;
 				if (objectStore.containsKey(key)) {
 					list.add(new KVStoreEntry(i, objectStore.get(key)));
 				}
-			}*/
-			
-			List<String> prefixList = BeanPopulator.getDefaultInstance(
-					JTAEnvironmentBean.class).getXaRecoveryNodes();
-			for (String s: prefixList) {
-				System.err.printf("MMMOOOOOOO!!!!!!! %s%n", s);
-			}
-			if (prefixList.isEmpty()) {
-				return list;
-			}
-			for (String prefix : prefixList) {
-				String key;
-				for (int i = 0; i < SIZE; i++) {
-					key = prefix + "_" + i;
-					System.err.println(key);
-					if (objectStore.containsKey(key)) {
-						list.add(new KVStoreEntry(i, objectStore.get(key)));
-					}
-				}
-
 			}
 			return list;
 		}
@@ -193,34 +177,18 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 
 	// /////////////////
 
-	/**
-	 * Provides the total number of IDs availble to the store.
-	 * 
-	 * @return
+	/*
+	 * Iterates through the ids array and returns true if
+	 * there are none being used. Used to throw an exception
+	 * if a key thought to be in use is tried to be deleted by
+	 * mistake
 	 */
-	public int getIdMax() {
-		return SIZE;
+	private boolean noIdsSet() {
+		for(AtomicBoolean b : ids) {
+			if(b.get()) return false;
+		}
+		return true;
 	}
-
-	public String getPrefix() {
-		return scopePrefix.substring(0, scopePrefix.lastIndexOf('_'));
-	}
-
-	protected CacheContainer getManager() {
-		return manager;
-	}
-
-	public boolean objectStoreEmpty() {
-		return objectStore.isEmpty();
-	}
-
-	public boolean objectStoreContains(String key) {
-		return objectStore.containsKey(key);
-	}
-
-	public byte[] getFromStore(String key) {
-		return objectStore.get(key);
-	}
-
+	
 	// /////////////////////
 }
