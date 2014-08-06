@@ -25,8 +25,8 @@ public abstract class ObjectStorePerfTester {
 	private TransactionManager tm = getTransManager();
 	private String message = "Default Message";
 	
-	private final int transCount = 50000;
-	private final int threadsNum = 200;
+	private final int transCount = 8000000;
+	private final int threadsNum = 20;
 	private int batchSize = 1;
 	
 	@BeforeClass

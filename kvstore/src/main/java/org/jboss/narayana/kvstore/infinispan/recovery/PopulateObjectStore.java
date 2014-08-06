@@ -25,7 +25,7 @@ public class PopulateObjectStore {
 				"KVStoreEnvironmentBean.storeImplementationClassName",
 				"org.jboss.narayana.kvstore.infinispan.DistributedStore");
 
-		System.setProperty("com.arjuna.ats.arjuna.nodeIdentifier",
+		System.setProperty("com.arjuna.ats.arjuna.common.CoreEnvironmentBean.nodeIdentifier",
 				"capt_patches_node");
 		System.err.printf("Node Id: %s%n",
 				BeanPopulator.getDefaultInstance(CoreEnvironmentBean.class)

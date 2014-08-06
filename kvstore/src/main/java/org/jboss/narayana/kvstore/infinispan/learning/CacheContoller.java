@@ -117,4 +117,12 @@ public class CacheContoller {
 			System.err.println(e);
 		}
 	}
+	
+	public void co() {
+		if (manager.isCoordinator()) {
+			System.out.println("it's me");
+		} else {
+			System.out.println("It' not me");
+		}
+	}
 }

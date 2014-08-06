@@ -50,6 +50,10 @@ public class BehaviourTester {
 			case "get":
 				controller.get(in);
 				break;
+			case "co":
+				// Provide output describing whether or not this node is the current co-orindator.
+				controller.co();
+				break;
 			default:
 			}
 		}

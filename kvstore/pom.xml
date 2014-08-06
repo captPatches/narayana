@@ -232,6 +232,13 @@
 			<version>2.10.6</version>
 		</dependency>
 
+		<!-- JMH Testing Harness -->
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-core</artifactId>
+			<version>0.1</version>
+		</dependency>
+
 		<!-- javax.transaction API -->
 		<dependency>
 			<groupId>org.jboss.spec.javax.transaction</groupId>
