@@ -9,17 +9,18 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
 
-public class JMHTestRunner {
+public class LocalJMH {
 	public static void main(String[] ars) throws RunnerException {		
 		
-		TimeValue runTime = new TimeValue(10, TimeUnit.SECONDS);
+		TimeValue runTime = new TimeValue(10, TimeUnit.MINUTES);
 		Options opt = new OptionsBuilder()
-				.include(".*DistributedStoreJMH.*")
-				//.exclude(".*Infinispan.*")
+				.include(".*Shadow*.*")
+				.include(".*HornetQ*.*")
+				.include(".*Volatile*.*")
 				.forks(1)
-				.measurementIterations(4)
+				.measurementIterations(5)
 				.measurementTime(runTime)
-				.warmupIterations(5)
+				.warmupIterations(10)
 				.timeUnit(TimeUnit.SECONDS)
 				.threads(200)
 				.build();
