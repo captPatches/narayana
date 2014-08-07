@@ -9,14 +9,14 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
+import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.GenerateMicroBenchmark;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.openjdk.jmh.runner.parameters.TimeValue;
+import org.openjdk.jmh.runner.options.TimeValue;
 
 public class HelloWorld {
 
@@ -28,7 +28,7 @@ public class HelloWorld {
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
 	
-	@GenerateMicroBenchmark
+	@Benchmark
 	@BenchmarkMode(Mode.Throughput)
 	public void volatileWorker() throws NotSupportedException, SystemException, IllegalStateException, RollbackException, SecurityException, HeuristicMixedException, HeuristicRollbackException {
 				
@@ -48,7 +48,7 @@ public class HelloWorld {
 	
 	public static void main(String[]ars) throws RunnerException {
 		
-			TimeValue tv = new TimeValue(20, TimeUnit.SECONDS);
+		TimeValue tv = new TimeValue(20, TimeUnit.SECONDS);
 		
 		Options opt = new OptionsBuilder().
 				include(".*" + HelloWorld.class.getSimpleName() + ".*").

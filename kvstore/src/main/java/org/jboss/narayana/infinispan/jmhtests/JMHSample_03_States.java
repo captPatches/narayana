@@ -8,7 +8,7 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-public class Sample_03_States {
+public class JMHSample_03_States {
 
     /*
      * Most of the time, you need to maintain some of the state while
@@ -86,7 +86,7 @@ public class Sample_03_States {
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(".*" + Sample_03_States.class.getSimpleName() + ".*")
+                .include(".*" + JMHSample_03_States.class.getSimpleName() + ".*")
                 .warmupIterations(5)
                 .measurementIterations(5)
                 .threads(4)
