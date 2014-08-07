@@ -15,6 +15,8 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 
+import com.arjuna.ats.arjuna.objectstore.StoreManager;
+
 @State(Scope.Benchmark)
 public class VolatileStoreJMH {
 
@@ -32,9 +34,7 @@ public class VolatileStoreJMH {
 	public void volatileWorker() throws NotSupportedException, SystemException,
 			IllegalStateException, RollbackException, SecurityException,
 			HeuristicMixedException, HeuristicRollbackException {
-			if(dummy) {
-					return;
-			}
+			
 			tm.begin();
 			tm.getTransaction().enlistResource(new DummyXAResourceImpl());
 			tm.getTransaction().enlistResource(new DummyXAResourceImpl());
@@ -43,8 +43,7 @@ public class VolatileStoreJMH {
 
 	@TearDown(Level.Trial)
 	public void tearDown() throws InterruptedException {
-		System.err.println("mOOOoooOOOoooOOO!!!");
-		dummy = true;
+		StoreManager.shutdown();
 	}
 
 }

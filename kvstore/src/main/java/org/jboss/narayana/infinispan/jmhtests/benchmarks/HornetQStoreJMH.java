@@ -1,7 +1,5 @@
 package org.jboss.narayana.infinispan.jmhtests.benchmarks;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -11,13 +9,15 @@ import javax.transaction.TransactionManager;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.runner.Runner;
-import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
-import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.openjdk.jmh.runner.options.TimeValue;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.TearDown;
 
+import com.arjuna.ats.arjuna.objectstore.StoreManager;
+
+@State(Scope.Benchmark)
 public class HornetQStoreJMH extends MillEnv {
 
 	private static TransactionManager tm;
@@ -52,19 +52,8 @@ public class HornetQStoreJMH extends MillEnv {
 
 	}
 	
-	public static void main(String[] ars) throws RunnerException {		
-		
-		TimeValue runTime = new TimeValue(2, TimeUnit.SECONDS);
-		Options opt = new OptionsBuilder()
-				.include(".*" + HornetQStoreJMH.class.getSimpleName() +".*")
-				.forks(1)
-				.measurementIterations(1)
-				.measurementTime(runTime)
-				.warmupIterations(2)
-				.timeUnit(TimeUnit.SECONDS)
-				.threads(200)
-				.build();
-
-		new Runner(opt).run();
+	@TearDown(Level.Trial)
+	public void tearDown() {
+		StoreManager.shutdown();
 	}
 }

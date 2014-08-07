@@ -9,8 +9,15 @@ import javax.transaction.TransactionManager;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.TearDown;
 
+import com.arjuna.ats.arjuna.objectstore.StoreManager;
+
+@State(Scope.Benchmark)
 public class InfinispanReplicatedStoreJMH {
 	private static TransactionManager tm;
 
@@ -36,5 +43,10 @@ public class InfinispanReplicatedStoreJMH {
 		tm.getTransaction().enlistResource(new DummyXAResourceImpl());
 		tm.commit();
 
+	}
+	
+	@TearDown(Level.Trial)
+	public void tearDown() {
+		StoreManager.shutdown();
 	}
 }

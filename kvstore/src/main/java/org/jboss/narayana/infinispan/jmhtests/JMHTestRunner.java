@@ -12,15 +12,16 @@ import org.openjdk.jmh.runner.options.TimeValue;
 public class JMHTestRunner {
 	public static void main(String[] ars) throws RunnerException {		
 		
-		TimeValue runTime = new TimeValue(2, TimeUnit.SECONDS);
+		TimeValue runTime = new TimeValue(10, TimeUnit.SECONDS);
 		Options opt = new OptionsBuilder()
-				.include(".*VolatileStoreJMH.*")
+				.include(".*DistributedStoreJMH.*")
+				//.exclude(".*Infinispan.*")
 				.forks(1)
 				.measurementIterations(4)
 				.measurementTime(runTime)
 				.warmupIterations(5)
 				.timeUnit(TimeUnit.SECONDS)
-				.threads(1)
+				.threads(200)
 				.build();
 
 		new Runner(opt).run();

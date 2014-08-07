@@ -42,9 +42,9 @@ public class InfinispanDistributedStoreJMH {
 			IllegalStateException, RollbackException, SecurityException,
 			HeuristicMixedException, HeuristicRollbackException {
 
-		if(finalRun.get()) {
-			return;
-		}
+		//if(finalRun.get()) {
+		//	return;
+		//}
 		tm.begin();
 		tm.getTransaction().enlistResource(new DummyXAResourceImpl());
 		tm.getTransaction().enlistResource(new DummyXAResourceImpl());

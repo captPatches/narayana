@@ -10,7 +10,13 @@ import javax.transaction.TransactionManager;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.TearDown;
 
+import com.arjuna.ats.arjuna.objectstore.StoreManager;
+
+@State(Scope.Benchmark)
 public class InfinispanDirectStroreJMH {
 
 	private static TransactionManager tm;
@@ -33,6 +39,11 @@ public class InfinispanDirectStroreJMH {
 		tm.getTransaction().enlistResource(new DummyXAResourceImpl());
 		tm.commit();
 	
+	}
+	
+	@TearDown
+	public void tearDown() {
+		StoreManager.shutdown();
 	}
 
 }
