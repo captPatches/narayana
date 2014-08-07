@@ -14,13 +14,13 @@ public class JMHTestRunner {
 		
 		TimeValue runTime = new TimeValue(2, TimeUnit.SECONDS);
 		Options opt = new OptionsBuilder()
-				.include(".*InfinispanDistributedStoreJMH.*")
+				.include(".*VolatileStoreJMH.*")
 				.forks(1)
-				.measurementIterations(1)
+				.measurementIterations(4)
 				.measurementTime(runTime)
-				.warmupIterations(2)
+				.warmupIterations(5)
 				.timeUnit(TimeUnit.SECONDS)
-				.threads(200)
+				.threads(1)
 				.build();
 
 		new Runner(opt).run();

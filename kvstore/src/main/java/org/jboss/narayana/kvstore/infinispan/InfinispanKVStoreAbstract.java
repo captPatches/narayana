@@ -63,14 +63,13 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		this.manager = manager;
 		System.out.printf("Testing Cluster Size: %d%n",
 				manager.getClusterSize());
-		System.err.println("Prefix: " + scopePrefix);
 	}
 
 	public InfinispanKVStoreAbstract(ConfigurationBuilder cb, String cacheName,
 			String cfgFile) {
 		SIZE = 1024;
 		ids = new AtomicBoolean[SIZE];
-
+	
 		try {
 			DefaultCacheManager manager = new DefaultCacheManager(cfgFile);
 			manager.defineConfiguration(cacheName, cb.build());
