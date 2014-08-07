@@ -13,7 +13,6 @@ import org.infinispan.manager.DefaultCacheManager;
 import com.arjuna.ats.arjuna.common.CoreEnvironmentBean;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStoreEntry;
-import com.arjuna.ats.jta.common.JTAEnvironmentBean;
 import com.arjuna.common.internal.util.propertyservice.BeanPopulator;
 
 public abstract class InfinispanKVStoreAbstract implements KVStore {
@@ -101,6 +100,10 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 	 */
 	@Override
 	public void stop() throws Exception {
+		
+	//	System.exit(0);
+		System.out.println("Stop Called");
+		objectStore.stop();
 		manager.stop();
 	}
 

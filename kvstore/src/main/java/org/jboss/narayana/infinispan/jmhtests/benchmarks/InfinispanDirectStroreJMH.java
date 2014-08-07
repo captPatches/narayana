@@ -11,26 +11,28 @@ import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Mode;
 
-public class VolatileStoreJMH {
+public class InfinispanDirectStroreJMH {
 
-	private	static TransactionManager tm;
-	
-	public VolatileStoreJMH() {
+	private static TransactionManager tm;
+
+	public InfinispanDirectStroreJMH() {
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
-				"com.arjuna.ats.internal.arjuna.objectstore.VolatileStore");
+				"org.jboss.narayana.kvstore.infinispan.InfinispanStoreAdapter");
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
-	
+
 	@Benchmark
 	@BenchmarkMode(Mode.Throughput)
-	public void volatileWorker() throws NotSupportedException, SystemException, IllegalStateException, RollbackException, SecurityException, HeuristicMixedException, HeuristicRollbackException {
-				
+	public void infinispanReplicatedStoreWorker() throws NotSupportedException,
+			SystemException, IllegalStateException, RollbackException,
+			SecurityException, HeuristicMixedException,
+			HeuristicRollbackException {
+
 		tm.begin();
 		tm.getTransaction().enlistResource(new DummyXAResourceImpl());
 		tm.getTransaction().enlistResource(new DummyXAResourceImpl());
 		tm.commit();
-		
+	
 	}
 
 }
-
