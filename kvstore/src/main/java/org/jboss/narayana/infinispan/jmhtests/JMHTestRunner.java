@@ -2,7 +2,6 @@ package org.jboss.narayana.infinispan.jmhtests;
 
 import java.util.concurrent.TimeUnit;
 
-import org.jboss.narayana.infinispan.jmhtests.benchmarks.HornetQStoreJMH;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -15,7 +14,7 @@ public class JMHTestRunner {
 		
 		TimeValue runTime = new TimeValue(2, TimeUnit.SECONDS);
 		Options opt = new OptionsBuilder()
-				.include(".*" + HornetQStoreJMH.class.getSimpleName() +".*")
+				.include(".*InfinispanDistributedStoreJMH.*")
 				.forks(1)
 				.measurementIterations(1)
 				.measurementTime(runTime)
