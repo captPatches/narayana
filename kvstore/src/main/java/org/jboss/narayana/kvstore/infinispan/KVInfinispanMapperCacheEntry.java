@@ -23,6 +23,7 @@ public class KVInfinispanMapperCacheEntry implements IntermediateStore {
 	public KVInfinispanMapperCacheEntry() throws IOException {
 		manager = new DefaultCacheManager("generic-test-cfg.xml");
 		objectStore = manager.getCache("dis");
+		System.out.printf("Test Cluster Size: %d%n", manager.getClusterSize());
 	}
 	
 	@Override
