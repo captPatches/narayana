@@ -22,6 +22,8 @@ public class InfinispanReplicatedStoreJMH {
 	private static TransactionManager tm;
 
 	public InfinispanReplicatedStoreJMH() {
+		System.setProperty("java.net.preferIPv4Stack", "true");
+		
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 

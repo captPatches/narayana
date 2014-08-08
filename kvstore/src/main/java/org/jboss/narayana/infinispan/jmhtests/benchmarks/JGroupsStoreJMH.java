@@ -23,6 +23,8 @@ public class JGroupsStoreJMH {
 	private static TransactionManager tm;
 
 	public JGroupsStoreJMH() {
+		System.setProperty("java.net.preferIPv4Stack", "true");
+		
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 

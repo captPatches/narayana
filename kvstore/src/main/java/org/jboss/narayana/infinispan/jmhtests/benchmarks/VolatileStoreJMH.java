@@ -21,8 +21,7 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 public class VolatileStoreJMH {
 
 	private static TransactionManager tm;
-	private static boolean dummy = false;
-	
+		
 	public VolatileStoreJMH() {
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.VolatileStore");

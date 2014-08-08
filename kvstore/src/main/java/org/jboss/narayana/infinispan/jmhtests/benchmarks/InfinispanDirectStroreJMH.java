@@ -22,6 +22,8 @@ public class InfinispanDirectStroreJMH {
 	private static TransactionManager tm;
 
 	public InfinispanDirectStroreJMH() {
+		System.setProperty("java.net.preferIPv4Stack", "true");
+		
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"org.jboss.narayana.kvstore.infinispan.InfinispanStoreAdapter");
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();

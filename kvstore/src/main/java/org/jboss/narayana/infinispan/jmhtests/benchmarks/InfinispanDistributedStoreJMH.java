@@ -1,7 +1,5 @@
 package org.jboss.narayana.infinispan.jmhtests.benchmarks;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -23,9 +21,10 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 public class InfinispanDistributedStoreJMH {
 
 	private static TransactionManager tm;
-	private static AtomicBoolean finalRun = new AtomicBoolean(false);
-	
+		
 	public InfinispanDistributedStoreJMH() {
+		System.setProperty("java.net.preferIPv4Stack", "true");
+		
 		System.setProperty("ObjectStoreEnvironmentBean.objectStoreType",
 				"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 
@@ -42,9 +41,6 @@ public class InfinispanDistributedStoreJMH {
 			IllegalStateException, RollbackException, SecurityException,
 			HeuristicMixedException, HeuristicRollbackException {
 
-		//if(finalRun.get()) {
-		//	return;
-		//}
 		tm.begin();
 		tm.getTransaction().enlistResource(new DummyXAResourceImpl());
 		tm.getTransaction().enlistResource(new DummyXAResourceImpl());
@@ -54,8 +50,6 @@ public class InfinispanDistributedStoreJMH {
 	
 	@TearDown(Level.Trial)
 	public void tearDown() throws SystemException {
-		if(finalRun.compareAndSet(false, true)) {
 			StoreManager.shutdown();
-		}
 	}
 }
