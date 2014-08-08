@@ -12,7 +12,7 @@ public class DisJMH {
 	public static void main(String[] args) throws RunnerException {
 		Options opt = new OptionsBuilder()
 				.include(".*Distributed.*")
-				.include(".*Direct*.*")
+			//	.include(".*Direct*.*")
 				.forks(Opts.f())
 				.measurementIterations(Opts.i())
 				.measurementTime(Opts.r())
