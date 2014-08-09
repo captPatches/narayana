@@ -19,7 +19,7 @@ import com.arjuna.ats.internal.arjuna.objectstore.kvstore.IntermediateStore;
 public class InfinispanDirectStore implements IntermediateStore {
 
 	private DefaultCacheManager manager;
-	private Cache<Uid, byte[]> objectStore;
+	private Cache<String, byte[]> objectStore;
 
 	public InfinispanDirectStore() throws IOException {
 		manager = new DefaultCacheManager("generic-test-cfg.xml");
@@ -46,7 +46,7 @@ public class InfinispanDirectStore implements IntermediateStore {
 	public boolean remove_committed(Uid uid, String typeName)
 			throws ObjectStoreException {
 
-		objectStore.remove(uid);
+		objectStore.remove(uid.toString());
 		return true;
 	}
 
@@ -59,7 +59,7 @@ public class InfinispanDirectStore implements IntermediateStore {
 			oBuffer.packBytes(txData.buffer());
 			objectStore.getAdvancedCache()
 					.withFlags(Flag.SKIP_REMOTE_LOOKUP, Flag.SKIP_CACHE_LOAD)
-					.put(uid, oBuffer.buffer());
+					.put(uid.toString(), oBuffer.buffer());
 			return true;
 		} catch (IOException e) {
 			throw new ObjectStoreException("WRITE COMMIT FAILED");
@@ -87,8 +87,10 @@ public class InfinispanDirectStore implements IntermediateStore {
 
 	@Override
 	public Uid[] getUidsForType(String typeName) {
-		Set<Uid> uids = objectStore.keySet();
-		for (Uid uid : uids) {
+		//Set<Uid> uids = objectStore.keySet();
+		Set<String> uids = objectStore.keySet();
+		//for (Uid uid : uids) {
+		for (String uid : uids) {
 			byte[] txdata = objectStore.get(uid);
 			InputBuffer ibuffer = new InputBuffer(txdata);
 			String name;
@@ -107,10 +109,10 @@ public class InfinispanDirectStore implements IntermediateStore {
 	@Override
 	public String[] getKnownTypes() {
 
-		Set<Uid> keySet = objectStore.keySet();
+		Set<String> keySet = objectStore.keySet();
 		Set<String> typeSet = new HashSet<String>();
 		byte[] txdata;
-		for (Uid key : keySet) {
+		for (String key : keySet) {
 			txdata = objectStore.get(key);
 			InputBuffer buffer = new InputBuffer(txdata);
 			String name;
