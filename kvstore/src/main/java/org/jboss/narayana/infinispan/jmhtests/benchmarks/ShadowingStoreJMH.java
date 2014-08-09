@@ -24,8 +24,8 @@ private	static TransactionManager tm;
 	
 	public ShadowingStoreJMH() {
 		if (runOnMill()) {
-			System.setProperty("HornetqJournalEnvironmentBean.storeDir",
-					"/work/b3048933/hornetQ");
+			System.setProperty("ObjectStoreEnvironmentBean.objectStoreDir",
+				"/work/b3048933/shadowingStore");
 		}
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}

@@ -3,13 +3,12 @@ package org.jboss.narayana.kvstore.infinispan.nodes;
 import java.io.IOException;
 
 import org.infinispan.Cache;
-import org.infinispan.container.entries.CacheEntry;
 import org.infinispan.manager.DefaultCacheManager;
 
 public class NodeForDirectStoreTesting {
 
 	private final DefaultCacheManager manager;
-	private final Cache<String, CacheEntry> cache;
+	private final Cache<String, byte[]> cache;
 	
 	private NodeForDirectStoreTesting(String cacheName, String cfgFile) throws IOException {
 		
