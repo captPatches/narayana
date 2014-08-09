@@ -1,7 +1,13 @@
 package org.jboss.narayana.kvstore.infinispan;
 
-public class CacheEntry {
+import java.io.Serializable;
+
+public class CacheEntry implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1181404079252863239L;
 	private final String typeName;
 	private final byte[] txData;
 	

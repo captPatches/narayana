@@ -141,22 +141,6 @@ public class MultipleRecoveryTest {
 	}
 
 	/**
-	 * Clear the object store from the Infinispan Cache
-	 * 
-	 * @return true on success and false on failure
-	 */
-	public boolean emptyObjectStore() {
-
-		// TODO
-
-		// probably not needed as shutting down the store manager should have a
-		// similar
-		// effect.
-
-		return true;
-	}
-
-	/**
 	 * Hide functionalilty for generating psudeo random num, not useful for main
 	 * test method
 	 * 

@@ -13,6 +13,7 @@ public class RepJMH {
 
 		Options opt = new OptionsBuilder()
 		.include(".*Replicated*.*")
+		.exclude(".*Direct*.*")
 		.forks(Opts.f())
 		.measurementIterations(Opts.i())
 		.measurementTime(Opts.r())

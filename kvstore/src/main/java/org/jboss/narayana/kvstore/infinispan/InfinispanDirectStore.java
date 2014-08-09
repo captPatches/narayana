@@ -2,7 +2,6 @@ package org.jboss.narayana.kvstore.infinispan;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 import org.infinispan.Cache;
@@ -11,25 +10,28 @@ import org.infinispan.manager.DefaultCacheManager;
 
 import com.arjuna.ats.arjuna.common.Uid;
 import com.arjuna.ats.arjuna.exceptions.ObjectStoreException;
+import com.arjuna.ats.arjuna.state.InputBuffer;
 import com.arjuna.ats.arjuna.state.InputObjectState;
+import com.arjuna.ats.arjuna.state.OutputBuffer;
 import com.arjuna.ats.arjuna.state.OutputObjectState;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.IntermediateStore;
 
-public class KVInfinispanMapperCacheEntry implements IntermediateStore {
+public class InfinispanDirectStore implements IntermediateStore {
 
 	private DefaultCacheManager manager;
-	private Cache<Uid, CacheEntry> objectStore;
-	
-	public KVInfinispanMapperCacheEntry() throws IOException {
+	private Cache<Uid, byte[]> objectStore;
+
+	public InfinispanDirectStore() throws IOException {
 		manager = new DefaultCacheManager("generic-test-cfg.xml");
 		objectStore = manager.getCache("dis");
 		System.out.printf("Test Cluster Size: %d%n", manager.getClusterSize());
+		System.out.println(this.getStoreName());
 	}
-	
-	@Override
-	public void start() throws Exception {}
 
-	
+	@Override
+	public void start() throws Exception {
+	}
+
 	@Override
 	public void stop() throws Exception {
 		manager.stop();
@@ -43,7 +45,7 @@ public class KVInfinispanMapperCacheEntry implements IntermediateStore {
 	@Override
 	public boolean remove_committed(Uid uid, String typeName)
 			throws ObjectStoreException {
-		
+
 		objectStore.remove(uid);
 		return true;
 	}
@@ -51,29 +53,50 @@ public class KVInfinispanMapperCacheEntry implements IntermediateStore {
 	@Override
 	public boolean write_committed(Uid uid, String typeName,
 			OutputObjectState txData) throws ObjectStoreException {
-		
-		objectStore.getAdvancedCache().withFlags(Flag.SKIP_REMOTE_LOOKUP, Flag.SKIP_CACHE_LOAD).put(uid, new CacheEntry(typeName, txData.buffer()));
-		return true;
+		try {
+			OutputBuffer oBuffer = new OutputBuffer();
+			oBuffer.packString(typeName);
+			oBuffer.packBytes(txData.buffer());
+			objectStore.getAdvancedCache()
+					.withFlags(Flag.SKIP_REMOTE_LOOKUP, Flag.SKIP_CACHE_LOAD)
+					.put(uid, oBuffer.buffer());
+			return true;
+		} catch (IOException e) {
+			throw new ObjectStoreException(e);
+		}
 	}
 
 	@Override
 	public InputObjectState read_committed(Uid uid, String typeName)
 			throws ObjectStoreException {
-		
-		CacheEntry entry = objectStore.get(uid);
-		if( ! entry.getType().equals(typeName) ) {
-			throw new ObjectStoreException("Incorrect Type Associated With Uid");
+
+		try {
+			InputBuffer inputBuffer = new InputBuffer(objectStore.get(uid));
+			String retrievedTypeName = inputBuffer.unpackString();
+			// Make sure everything make sense
+			if (!typeName.equals(retrievedTypeName)) {
+				throw new ObjectStoreException("Incorrect Typename Requested");
+			}
+			byte[] txData = inputBuffer.unpackBytes();
+			return new InputObjectState(uid, typeName, txData);
+		} catch (IOException e) {
+			throw new ObjectStoreException(e);
 		}
-		byte[] buffer = entry.getTxData();
-		return new InputObjectState(uid, typeName, buffer);
 	}
 
 	@Override
 	public Uid[] getUidsForType(String typeName) {
-		LinkedList<Uid> uids = new LinkedList<Uid>();
-		for(Uid uid : objectStore.keySet()) {
-			if(objectStore.get(uid).getType().equals(typeName)) {
-				uids.add(uid);
+		Set<Uid> uids = objectStore.keySet();
+		for (Uid uid : uids) {
+			InputBuffer ibuffer = new InputBuffer(objectStore.get(uid));
+			String name;
+			try {
+				name = ibuffer.unpackString();
+			} catch (IOException ioe) {
+				name = null;
+			}
+			if (!name.equals(typeName)) {
+				uids.remove(uid);
 			}
 		}
 		return uids.toArray(new Uid[uids.size()]);
@@ -81,11 +104,20 @@ public class KVInfinispanMapperCacheEntry implements IntermediateStore {
 
 	@Override
 	public String[] getKnownTypes() {
-		
+
 		Set<Uid> keySet = objectStore.keySet();
 		Set<String> typeSet = new HashSet<String>();
-		for(Uid key : keySet) {
-			typeSet.add(objectStore.get(key).getType());
+		for (Uid key : keySet) {
+			InputBuffer buffer = new InputBuffer(objectStore.get(key));
+			String name;
+			try {
+				name = buffer.unpackString();
+			} catch (IOException e) {
+				throw new RuntimeException("get known types fail");
+			}
+			if (name != null) {
+				typeSet.add(name);
+			}
 		}
 		return typeSet.toArray(new String[typeSet.size()]);
 	}
@@ -95,5 +127,3 @@ public class KVInfinispanMapperCacheEntry implements IntermediateStore {
 		return objectStore.containsKey(uid);
 	}
 }
-
-

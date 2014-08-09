@@ -20,11 +20,10 @@
 	<namedCache name="dis">
 		<clustering mode="distribution">
 			<sync />
-			<hash numOwners="3"/>
-			<stateTransfer chunkSize="0"
-				fetchInMemoryState="true"
-				timeout="240000" />
-		</clustering>
+			<hash numOwners="3"
+					numSegments="3"/>
+			<stateTransfer fetchInMemoryState="true"/>
+			</clustering>
 	</namedCache>
 	<namedCache name="rep">
 		<clustering mode="replication">

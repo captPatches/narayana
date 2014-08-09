@@ -52,5 +52,4 @@ public class JGroupsStoreJMH {
 	public void tearDown() {
 		StoreManager.shutdown();
 	}
-	
 }

@@ -63,6 +63,7 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		this.manager = manager;
 		System.out.printf("Testing Cluster Size: %d%n",
 				manager.getClusterSize());
+		System.out.println(this.getStoreName());
 	}
 
 	public InfinispanKVStoreAbstract(ConfigurationBuilder cb, String cacheName,

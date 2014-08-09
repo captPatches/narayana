@@ -20,7 +20,7 @@ public class InfinispanStoreAdapter implements ObjectStoreAPI {
 
     public InfinispanStoreAdapter() throws IOException {
       
-        store = new KVInfinispanMapperCacheEntry();
+        store = new InfinispanDirectStore();
     }
 
     @Override

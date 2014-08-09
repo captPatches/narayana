@@ -27,9 +27,10 @@
 	<description>Prototype code for Key/Value ObjectStore</description>
 
 	<url>http://www.jboss.org/jbosstm/</url>
-	<!-- <properties> <exclude.tests>**/infinispankvstore/**,**/kvstorecore/**</exclude.tests> 
-		</properties> -->
-
+	<properties> 
+		<exclude.tests>*.*</exclude.tests> 
+	</properties>
+	
 	<profiles>
 		<profile>
 			<id>perfOnly</id>
