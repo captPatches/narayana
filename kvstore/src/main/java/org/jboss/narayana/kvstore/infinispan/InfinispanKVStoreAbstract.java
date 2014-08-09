@@ -21,7 +21,7 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 	private final Cache<String, byte[]> objectStore;
 	private final CacheContainer manager;
 
-	private Flag[] flags = { Flag.SKIP_CACHE_LOAD, Flag.SKIP_REMOTE_LOOKUP };
+	protected Flag[] flags = { Flag.SKIP_CACHE_LOAD, Flag.SKIP_REMOTE_LOOKUP };
 
 	private final int SIZE;
 	private final String scopePrefix = BeanPopulator.getDefaultInstance(
@@ -191,6 +191,14 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 			if(b.get()) return false;
 		}
 		return true;
+	}
+	
+	protected Cache<String, byte[]> getStore() {
+		return objectStore;
+	}
+	
+	protected String getPrefix() {
+		return scopePrefix;
 	}
 	
 	// /////////////////////

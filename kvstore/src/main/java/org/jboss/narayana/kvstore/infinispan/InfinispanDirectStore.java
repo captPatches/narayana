@@ -62,7 +62,7 @@ public class InfinispanDirectStore implements IntermediateStore {
 					.put(uid, oBuffer.buffer());
 			return true;
 		} catch (IOException e) {
-			throw new ObjectStoreException(e);
+			throw new ObjectStoreException("WRITE COMMIT FAILED");
 		}
 	}
 
@@ -71,7 +71,8 @@ public class InfinispanDirectStore implements IntermediateStore {
 			throws ObjectStoreException {
 
 		try {
-			InputBuffer inputBuffer = new InputBuffer(objectStore.get(uid));
+			byte[] txdata = objectStore.get(uid);
+			InputBuffer inputBuffer = new InputBuffer(txdata);
 			String retrievedTypeName = inputBuffer.unpackString();
 			// Make sure everything make sense
 			if (!typeName.equals(retrievedTypeName)) {
@@ -88,7 +89,8 @@ public class InfinispanDirectStore implements IntermediateStore {
 	public Uid[] getUidsForType(String typeName) {
 		Set<Uid> uids = objectStore.keySet();
 		for (Uid uid : uids) {
-			InputBuffer ibuffer = new InputBuffer(objectStore.get(uid));
+			byte[] txdata = objectStore.get(uid);
+			InputBuffer ibuffer = new InputBuffer(txdata);
 			String name;
 			try {
 				name = ibuffer.unpackString();
@@ -107,8 +109,10 @@ public class InfinispanDirectStore implements IntermediateStore {
 
 		Set<Uid> keySet = objectStore.keySet();
 		Set<String> typeSet = new HashSet<String>();
+		byte[] txdata;
 		for (Uid key : keySet) {
-			InputBuffer buffer = new InputBuffer(objectStore.get(key));
+			txdata = objectStore.get(key);
+			InputBuffer buffer = new InputBuffer(txdata);
 			String name;
 			try {
 				name = buffer.unpackString();
