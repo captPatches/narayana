@@ -1,8 +1,5 @@
 package org.jboss.narayana.kvstore.infinispan.nodes;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import org.jgroups.JChannel;
 import org.jgroups.View;
 import org.jgroups.blocks.ReplicatedHashMap;
@@ -25,17 +22,17 @@ public class JGroupsNode {
 	}
 	
 	private void eventLoop() {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+	//	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		while(true) {
-			try {
+			/*try {
 				System.out.println("$: "); System.out.flush();
 				String line = in.readLine().toLowerCase();
 				if(line.startsWith("quit") || line.startsWith("exit")) {
-					break;
+					break; 
 				}
 			} catch (Exception e) {
 				//IGNORE
-			}
+			}*/
 		}
 	}
 	
