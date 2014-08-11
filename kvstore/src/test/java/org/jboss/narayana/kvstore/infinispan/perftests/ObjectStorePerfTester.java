@@ -25,8 +25,8 @@ public abstract class ObjectStorePerfTester {
 	private TransactionManager tm = getTransManager();
 	private String message = "Default Message";
 	
-	private final int transCount = 8000;
-	private final int threadsNum = 20;
+	private final int transCount = 30000000;
+	private final int threadsNum = 200;
 	private int batchSize = 1;
 	
 	@BeforeClass
@@ -105,6 +105,7 @@ public abstract class ObjectStorePerfTester {
 		System.out.printf("\nRESULTS: " + message
 				+ ": %d Txs / second (total time: %d)\n",
 				measurement.getThroughput(), measurement.getTotalMillis());
+		System.out.printf("For %d jobs", transCount);
 	}
 
 	@Test

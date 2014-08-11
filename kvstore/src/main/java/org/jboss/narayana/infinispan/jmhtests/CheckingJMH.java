@@ -11,7 +11,7 @@ public class CheckingJMH {
 
 	public static void main(String[] args) throws RunnerException {
 		Options opt = new OptionsBuilder()
-				.include(".*Check.*")
+				.include(".*Checking.*")
 			//	.include(".*Direct*.*")
 				.forks(Opts.f())
 				.measurementIterations(Opts.i())

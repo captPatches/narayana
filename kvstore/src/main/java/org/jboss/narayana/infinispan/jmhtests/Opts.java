@@ -21,7 +21,7 @@ public class Opts {
 	private static int wi = 10;
 	
 	// Measurement Run time
-	private static TimeValue r = new TimeValue(10, TimeUnit.MINUTES);
+	private static TimeValue r = new TimeValue(20, TimeUnit.SECONDS);
 
 	// threads
 	private static int t = 200;

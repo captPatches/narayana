@@ -30,7 +30,7 @@ public class JGroupsStoreJMH {
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.kvstore.ReplCacheStore");
+				"org.jboss.narayana.kvstore.jgroups.JGroupsReplHashMapStore");
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
 
