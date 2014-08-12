@@ -134,8 +134,22 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		// No need to explicitly search for exceptions on put
 		// as the calling class will collect exceptions and then throw
 		// them up as an ObjectStoreException.
-		objectStore.getAdvancedCache().withFlags(flags)
+		
+		// Time Out of 5s
+		long timeInterval = System.currentTimeMillis() + 5000;
+		boolean timedOut = false;
+		do {
+			objectStore.getAdvancedCache().withFlags(flags)
 				.put(scopePrefix + id, data);
+			if (System.currentTimeMillis() >= timeInterval) {
+				timedOut = true;
+			}
+		} while(getStore().getAdvancedCache().getDistributionManager()
+				.locate(scopePrefix + id).size() < 3 && ! timedOut);
+		if( timedOut ) {
+			delete(id);
+			throw new Exception("Not enough Replicas Created");
+		}
 	}
 
 	@Override
