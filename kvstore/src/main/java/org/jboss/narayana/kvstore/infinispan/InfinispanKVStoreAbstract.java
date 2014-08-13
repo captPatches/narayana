@@ -136,7 +136,10 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		// them up as an ObjectStoreException.
 		
 		// Time Out of 5s
-		long timeInterval = System.currentTimeMillis() + 5000;
+		objectStore.getAdvancedCache().withFlags(flags)
+		.put(scopePrefix + id, data);
+		
+		/*long timeInterval = System.currentTimeMillis() + 5000;
 		boolean timedOut = false;
 		do {
 			objectStore.getAdvancedCache().withFlags(flags)
@@ -149,7 +152,7 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		if( timedOut ) {
 			delete(id);
 			throw new Exception("Not enough Replicas Created");
-		}
+		}*/
 	}
 
 	@Override
@@ -172,8 +175,10 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 			// Get Node IDs for proxy recovery
 			for(int i=0; i<SIZE; i++) {
 				String key = scopePrefix + i;
-				if (objectStore.containsKey(key)) {
-					list.add(new KVStoreEntry(i, objectStore.get(key)));
+				byte[] txdata;
+				// Attempt get objectStore and only place in list if you get something
+				if ((txdata = objectStore.get(key)) != null) {
+					list.add(new KVStoreEntry(i, txdata));
 				}
 			}
 			return list;
