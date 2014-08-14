@@ -40,6 +40,9 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		ids = new AtomicBoolean[SIZE];
 		manager = container;
 		objectStore = manager.getCache(cacheName);
+		for (int i = 0; i < SIZE; i++) {
+			ids[i] = new AtomicBoolean(false);
+		}
 	}
 
 	public InfinispanKVStoreAbstract(CacheContainer container,
@@ -64,6 +67,9 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		System.out.printf("Testing Cluster Size: %d%n",
 				manager.getClusterSize());
 		System.out.println(this.getStoreName());
+		for (int i = 0; i < SIZE; i++) {
+			ids[i] = new AtomicBoolean(false);
+		}
 	}
 
 	public InfinispanKVStoreAbstract(ConfigurationBuilder cb, String cacheName,
@@ -81,6 +87,9 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		} catch (Exception e) {
 			throw new RuntimeException("Invalid ConfigFile");
 		}
+		for (int i = 0; i < SIZE; i++) {
+			ids[i] = new AtomicBoolean(false);
+		}
 	}
 
 	// KVStore Methods
@@ -88,10 +97,9 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 
 	@Override
 	public void start() throws Exception {
-		// when starting, assume no keys exist.
-		for (int i = 0; i < SIZE; i++) {
-			ids[i] = new AtomicBoolean(false);
-		}
+		// Method left intentionally blank
+		// Functionality moved to constructor
+	
 	}
 
 	/**
@@ -102,8 +110,8 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 	public void stop() throws Exception {
 		
 	//	System.exit(0);
-		System.out.println("Stop Called");
-		objectStore.stop();
+	//	System.out.println("Stop Called");
+	//	objectStore.stop();
 		manager.stop();
 	}
 
@@ -179,6 +187,7 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 				// Attempt get objectStore and only place in list if you get something
 				if ((txdata = objectStore.get(key)) != null) {
 					list.add(new KVStoreEntry(i, txdata));
+					ids[i].set(true);
 				}
 			}
 			return list;

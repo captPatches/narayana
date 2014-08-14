@@ -31,7 +31,7 @@ public class InfinispanDirectStroreJMH {
 
 	@Benchmark
 	@BenchmarkMode(Mode.Throughput)
-	public void infinispanReplicatedStoreWorker() throws NotSupportedException,
+	public void infinispanDirectStoreWorker() throws NotSupportedException,
 			SystemException, IllegalStateException, RollbackException,
 			SecurityException, HeuristicMixedException,
 			HeuristicRollbackException {

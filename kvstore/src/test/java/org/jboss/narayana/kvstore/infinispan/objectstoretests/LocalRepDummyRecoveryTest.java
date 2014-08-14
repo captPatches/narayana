@@ -37,7 +37,7 @@ public class LocalRepDummyRecoveryTest {
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.kvstore.infinispan.DistributedStore");
+				"org.jboss.narayana.kvstore.jgroups.JGroupsReplHashMapStore");
 		
 		List<String> xaRecoveryNodes = new LinkedList<String>();
 		xaRecoveryNodes.add(NODE_ID);

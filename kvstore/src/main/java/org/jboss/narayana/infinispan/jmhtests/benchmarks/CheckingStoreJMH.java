@@ -35,7 +35,7 @@ public class CheckingStoreJMH {
 
 	@Benchmark
 	@BenchmarkMode(Mode.Throughput)
-	public void infinispanReplicatedStoreWorker() throws NotSupportedException,
+	public void infinispanCheckingStoreWorker() throws NotSupportedException,
 			SystemException, IllegalStateException, RollbackException,
 			SecurityException, HeuristicMixedException,
 			HeuristicRollbackException {
