@@ -8,7 +8,24 @@ import com.arjuna.ats.arjuna.objectstore.StoreManager;
 import com.arjuna.common.internal.util.propertyservice.BeanPopulator;
 
 public class BusyNode {
+	
+	private class Worker implements Runnable {
 
+		@Override
+		public void run() {
+		while (true) {
+				try {
+					tm.begin();
+					tm.getTransaction().enlistResource(new DummyXAResourceImpl());
+					tm.getTransaction().enlistResource(new DummyXAResourceImpl());
+					tm.commit();
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		
+	}
 	private TransactionManager tm;
 	private String nodeId;
 
@@ -33,20 +50,18 @@ public class BusyNode {
 
 	private void go() {
 
-		while (true) {
-			try {
-				tm.begin();
-				tm.getTransaction().enlistResource(new DummyXAResourceImpl());
-				tm.getTransaction().enlistResource(new DummyXAResourceImpl());
-				tm.commit();
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
+		for(int i=0; i<200; i++) {
+			System.out.println("Starting thread: " + i);
+			Runnable worker = new Worker();
+			Thread thread = new Thread(worker);
+			thread.setName(String.valueOf(i));
+			thread.start();
 		}
 		
 	}
 	
 	public static void main(String[]args) throws CoreEnvironmentBeanException, RuntimeException {
+		System.out.println("Started: ");
 		new BusyNode().go();
 		StoreManager.shutdown();
 		System.out.println("Finished");
