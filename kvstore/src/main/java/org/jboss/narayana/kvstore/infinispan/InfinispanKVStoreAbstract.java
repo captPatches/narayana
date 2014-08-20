@@ -9,6 +9,7 @@ import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.context.Flag;
 import org.infinispan.manager.CacheContainer;
 import org.infinispan.manager.DefaultCacheManager;
+import org.infinispan.statetransfer.OutdatedTopologyException;
 
 import com.arjuna.ats.arjuna.common.CoreEnvironmentBean;
 import com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVStore;
@@ -144,8 +145,14 @@ public abstract class InfinispanKVStoreAbstract implements KVStore {
 		// them up as an ObjectStoreException.
 		
 		// Time Out of 5s
-		objectStore.getAdvancedCache().withFlags(flags)
-		.put(scopePrefix + id, data);
+		try {
+			objectStore.getAdvancedCache().withFlags(flags)
+			.put(scopePrefix + id, data);
+		} catch (OutdatedTopologyException e) {
+			objectStore.getAdvancedCache().withFlags(flags)
+			.put(scopePrefix + id, data);
+		}
+		
 		
 		/*long timeInterval = System.currentTimeMillis() + 5000;
 		boolean timedOut = false;

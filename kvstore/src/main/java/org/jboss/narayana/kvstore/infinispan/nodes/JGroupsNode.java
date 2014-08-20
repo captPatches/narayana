@@ -19,6 +19,7 @@ public class JGroupsNode {
 			}
 		};
 		channel.connect("130489331-ObjectStoreCluster");
+		map.start(3000);
 	}
 	
 	private void eventLoop() {

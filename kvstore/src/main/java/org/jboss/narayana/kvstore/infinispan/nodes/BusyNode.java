@@ -37,7 +37,7 @@ public class BusyNode {
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.kvstore.infinispan.DistributedStore");
+				"org.jboss.narayana.kvstore.infinispan.ReplicatedStore");
 		try {
 			nodeId = java.net.InetAddress.getLocalHost().getHostName();
 		} catch (Exception e) {

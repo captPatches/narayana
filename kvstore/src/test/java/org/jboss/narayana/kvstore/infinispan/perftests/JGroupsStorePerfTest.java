@@ -11,8 +11,8 @@ public class JGroupsStorePerfTest extends ObjectStorePerfTester {
 					"com.arjuna.ats.internal.arjuna.objectstore.kvstore.KVObjectStoreAdaptor");
 		
 		System.setProperty("KVStoreEnvironmentBean.storeImplementationClassName", 
-				"org.jboss.narayana.kvstore.ReplCacheStore");
-		
+				"org.jboss.narayana.kvstore.jgroups.JGroupsReplHashMapStore");
+		//		"org.jboss.narayana.kvstore.ReplCacheStore");
 		setMessage("JGroups ReplMap Cache Store");
 		
 		return com.arjuna.ats.jta.TransactionManager.transactionManager();

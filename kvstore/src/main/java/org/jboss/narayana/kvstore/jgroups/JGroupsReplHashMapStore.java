@@ -64,7 +64,22 @@ public class JGroupsReplHashMapStore implements KVStore {
 
 	@Override
 	public List<KVStoreEntry> load() throws Exception {
-		return new LinkedList<KVStoreEntry>();
+		if (!storeMap.isEmpty()) {
+			LinkedList<KVStoreEntry> list = new LinkedList<KVStoreEntry>();
+			// Get Node IDs for proxy recovery
+			for(int i=0; i<SIZE; i++) {
+				String key = prefix + i;
+				byte[] txdata;
+				// Attempt get objectStore and only place in list if you get something
+				if ((txdata = storeMap.get(key)) != null) {
+					list.add(new KVStoreEntry(i, txdata));
+					slots[i].set(true);
+				}
+			}
+			return list;
+		}
+		// Return null if objectstore is empty
+		return null;
 	}
 
 	@Override
