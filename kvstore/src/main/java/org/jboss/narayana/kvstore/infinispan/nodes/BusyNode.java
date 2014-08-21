@@ -13,12 +13,18 @@ public class BusyNode {
 
 		@Override
 		public void run() {
-		while (true) {
+			int cnt = 0;
+			while (true) {
 				try {
 					tm.begin();
 					tm.getTransaction().enlistResource(new DummyXAResourceImpl());
 					tm.getTransaction().enlistResource(new DummyXAResourceImpl());
 					tm.commit();
+					cnt++;
+					if(cnt == 1000) {
+						System.out.println("transaction still going");
+						cnt=0;
+					}
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
@@ -37,7 +43,7 @@ public class BusyNode {
 
 		System.setProperty(
 				"KVStoreEnvironmentBean.storeImplementationClassName",
-				"org.jboss.narayana.kvstore.infinispan.ReplicatedStore");
+				"org.jboss.narayana.kvstore.infinispan.DistributedStore");
 		try {
 			nodeId = java.net.InetAddress.getLocalHost().getHostName();
 		} catch (Exception e) {
@@ -46,11 +52,12 @@ public class BusyNode {
 		
 		BeanPopulator.getDefaultInstance(CoreEnvironmentBean.class).setNodeIdentifier(nodeId);
 		tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+	
 	}
 
 	private void go() {
 
-		for(int i=0; i<200; i++) {
+		for(int i=0; i<50; i++) {
 			System.out.println("Starting thread: " + i);
 			Runnable worker = new Worker();
 			Thread thread = new Thread(worker);

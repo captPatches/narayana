@@ -1,6 +1,7 @@
 package org.jboss.narayana.kvstore.infinispan.recovery;
 
 import com.arjuna.ats.arjuna.common.CoreEnvironmentBean;
+import com.arjuna.ats.arjuna.objectstore.StoreManager;
 import com.arjuna.ats.arjuna.recovery.RecoveryManager;
 import com.arjuna.common.internal.util.propertyservice.BeanPopulator;
 
@@ -18,7 +19,7 @@ public class RecoverTransaction {
 				"KVStoreEnvironmentBean.storeImplementationClassName",
 				"org.jboss.narayana.kvstore.infinispan.DistributedStore");
 
-		System.setProperty("com.arjuna.ats.arjuna.nodeIdentifier",
+		System.setProperty("com.arjuna.ats.arjuna.common.CoreEnvironmentBean.nodeIdentifier",
 				"capt_patches_node");
 		System.err.printf("Node Id: %s%n",
 				BeanPopulator.getDefaultInstance(CoreEnvironmentBean.class)
@@ -55,5 +56,6 @@ public class RecoverTransaction {
 	
 	public static void main(String[]args) {
 		new RecoverTransaction().go();
+		StoreManager.shutdown();
 	}
 }
