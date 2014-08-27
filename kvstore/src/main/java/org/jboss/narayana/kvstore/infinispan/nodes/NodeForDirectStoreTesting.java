@@ -5,10 +5,12 @@ import java.io.IOException;
 import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;
 
+import com.arjuna.ats.arjuna.common.Uid;
+
 public class NodeForDirectStoreTesting {
 
 	private final DefaultCacheManager manager;
-	private final Cache<String, byte[]> cache;
+	private final Cache<Uid, byte[]> cache;
 	
 	private NodeForDirectStoreTesting(String cacheName, String cfgFile) throws IOException {
 		
